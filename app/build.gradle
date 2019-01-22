@@ -46,4 +46,5 @@ dependencies {
     }
     implementation 'com.yanzhenjie:recyclerview-swipe:1.2.0'
     implementation 'liji.library.dev:citypickerview:1.1.0'
+    implementation 'me.jessyan:autosize:0.9.5'
 }

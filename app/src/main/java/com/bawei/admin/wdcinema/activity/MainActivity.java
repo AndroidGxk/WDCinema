@@ -8,7 +8,9 @@ import android.widget.Toast;
 
 import com.bawei.admin.wdcinema.R;
 
-public class MainActivity extends AppCompatActivity {
+import me.jessyan.autosize.internal.CustomAdapt;
+
+public class MainActivity extends AppCompatActivity implements CustomAdapt {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,4 +24,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 720;
+    }
 }

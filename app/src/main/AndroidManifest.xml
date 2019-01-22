@@ -17,6 +17,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.Main2Activity"></activity>
+        <meta-data
+            android:name="design_width_in_dp"
+            android:value="720"/>
+        <meta-data
+            android:name="design_height_in_dp"
+            android:value="1280"/>
     </application>
 
 </manifest>
