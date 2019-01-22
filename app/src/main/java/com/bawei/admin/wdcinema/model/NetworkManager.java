@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkManager {
     private static NetworkManager network;
-    private final Retrofit retrofit;
+    private Retrofit retrofit;
 
     public static NetworkManager network() {
         if (network == null) {
@@ -20,6 +20,10 @@ public class NetworkManager {
     }
 
     private NetworkManager() {
+        init();
+    }
+
+    private void init() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient httpClient = new OkHttpClient.Builder()
