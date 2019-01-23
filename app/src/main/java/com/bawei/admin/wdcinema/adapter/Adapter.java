@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bawei.admin.wdcinema.R;
 import com.bumptech.glide.Glide;
+import com.bw.movie.R;
 
 /**
  * Created by chenxiaoping on 2017/3/28.

@@ -15,11 +15,11 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.RadioGroup;
 
-import com.bawei.admin.wdcinema.R;
 import com.bawei.admin.wdcinema.activity.fragment.Fragment_Bootpage_four;
 import com.bawei.admin.wdcinema.activity.fragment.Fragment_Bootpage_one;
 import com.bawei.admin.wdcinema.activity.fragment.Fragment_Bootpage_three;
 import com.bawei.admin.wdcinema.activity.fragment.Fragment_Bootpage_two;
+import com.bw.movie.R;
 
 import java.util.ArrayList;
 import java.util.List;

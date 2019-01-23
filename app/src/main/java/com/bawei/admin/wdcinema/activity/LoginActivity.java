@@ -7,13 +7,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bawei.admin.wdcinema.R;
 import com.bawei.admin.wdcinema.bean.LoginBean;
 import com.bawei.admin.wdcinema.bean.LoginSubBean;
 import com.bawei.admin.wdcinema.bean.Result;
 import com.bawei.admin.wdcinema.core.ResultInfe;
 import com.bawei.admin.wdcinema.core.utils.EncryptUtil;
 import com.bawei.admin.wdcinema.presenter.LoginPresenter;
+import com.bw.movie.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.bawei.admin.wdcinema.R;
 import com.bawei.admin.wdcinema.activity.LoginActivity;
 import com.bawei.admin.wdcinema.activity.second_activity.MyMessage_Activity;
+import com.bw.movie.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

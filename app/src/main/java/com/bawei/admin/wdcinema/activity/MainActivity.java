@@ -1,15 +1,14 @@
 package com.bawei.admin.wdcinema.activity;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.RadioGroup;
 
-import com.bawei.admin.wdcinema.R;
 import com.bawei.admin.wdcinema.activity.fragment.Fragment_Page_one;
 import com.bawei.admin.wdcinema.activity.fragment.Fragment_Page_three;
 import com.bawei.admin.wdcinema.activity.fragment.Fragment_Page_two;
+import com.bw.movie.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

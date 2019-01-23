@@ -4,7 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import com.bawei.admin.wdcinema.R;
+
+import com.bw.movie.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

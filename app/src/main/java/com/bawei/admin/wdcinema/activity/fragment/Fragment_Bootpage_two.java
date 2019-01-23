@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bawei.admin.wdcinema.R;
+import com.bw.movie.R;
 
 public class Fragment_Bootpage_two extends Fragment {
     @Nullable
