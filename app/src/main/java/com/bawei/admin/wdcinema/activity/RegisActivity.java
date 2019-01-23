@@ -1,6 +1,8 @@
 package com.bawei.admin.wdcinema.activity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -30,7 +32,7 @@ public class RegisActivity extends AppCompatActivity implements CustomAdapt, Res
     @BindView(R.id.my_regis_name)
     EditText my_regis_name;
     @BindView(R.id.my_regis_sex)
-    EditText my_regis_sex;
+    TextView my_regis_sex;
     @BindView(R.id.my_regis_date)
     TextView my_regis_date;
     @BindView(R.id.my_regis_phone)
@@ -41,6 +43,7 @@ public class RegisActivity extends AppCompatActivity implements CustomAdapt, Res
     EditText my_regis_pwd;
     private RegisPresenter regisPresenter;
     int sexint;
+    private String[] sexArry = new String[]{"男", "女"};// 性别选择
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,15 @@ public class RegisActivity extends AppCompatActivity implements CustomAdapt, Res
         setContentView(R.layout.activity_reg);
         ButterKnife.bind(this);
         regisPresenter = new RegisPresenter(this);
+    }
+
+    /**
+     * 选择性别
+     */
+
+    @OnClick(R.id.my_regis_sex)
+    public void my_regis_sex() {
+        showSexChooseDialog();
     }
 
     /**
@@ -122,8 +134,29 @@ public class RegisActivity extends AppCompatActivity implements CustomAdapt, Res
         regisPresenter.unBind();
     }
 
+    /**
+     * 日期转换
+     *
+     * @param date
+     * @return
+     */
     private String getTime(Date date) {//可根据需要自行截取数据显示
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(date);
+    }
+
+    /**
+     * 性别选择
+     */
+    private void showSexChooseDialog() {
+        AlertDialog.Builder builder3 = new AlertDialog.Builder(this);// 自定义对话框
+        builder3.setSingleChoiceItems(sexArry, 0, new DialogInterface.OnClickListener() {// 2默认的选中
+            @Override
+            public void onClick(DialogInterface dialog, int which) {// which是被选中的位置
+                my_regis_sex.setText(sexArry[which]);
+                dialog.dismiss();// 随便点击一个item消失对话框，不用点击确认取消
+            }
+        });
+        builder3.show();// 让弹出框显示
     }
 }
