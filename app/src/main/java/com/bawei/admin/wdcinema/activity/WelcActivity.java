@@ -54,10 +54,20 @@ public class WelcActivity extends AppCompatActivity implements CustomAdapt {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         sp = getSharedPreferences("sp", MODE_PRIVATE);
         boolean judge = sp.getBoolean("judge", false);
         if (judge) {
             setContentView(R.layout.activity_welc);
+            slipToMain();
+            if (judge) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        handler.sendEmptyMessageDelayed(1, 1000);
+                    }
+                }).start();
+            }
         } else {
             setContentView(R.layout.activity_guidance);
             slipToMain();
@@ -113,19 +123,11 @@ public class WelcActivity extends AppCompatActivity implements CustomAdapt {
                     return fragments.size();
                 }
             });
+
         }
         SharedPreferences.Editor edit = sp.edit();
         edit.putBoolean("judge", true);
         edit.commit();
-        if (judge) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    handler.sendEmptyMessageDelayed(1, 1000);
-                }
-            }).start();
-        }
-
     }
 
     @Override
@@ -175,5 +177,4 @@ public class WelcActivity extends AppCompatActivity implements CustomAdapt {
         }
         return super.dispatchTouchEvent(event);
     }
-
 }
