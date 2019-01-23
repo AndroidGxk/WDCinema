@@ -12,7 +12,10 @@ import com.bawei.admin.wdcinema.R;
 import com.bawei.admin.wdcinema.adapter.Adapter;
 import com.example.coverflow.RecyclerCoverFlow;
 
-public class Fragment_Page_one extends Fragment implements Adapter.onItemClick{
+import me.jessyan.autosize.AutoSizeConfig;
+import me.jessyan.autosize.internal.CustomAdapt;
+
+public class Fragment_Page_one extends Fragment implements Adapter.onItemClick,CustomAdapt {
 
     private RecyclerCoverFlow mList;
 
@@ -26,11 +29,24 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick{
 //        mList.setGreyItem(true); //设置灰度渐变
 //        mList.setAlphaItem(true); //设置半透渐变
         mList.setAdapter(new Adapter(getContext(), this));
+
+        AutoSizeConfig.getInstance().setCustomFragment(true);
+
         return view;
     }
 
     @Override
     public void clickItem(int pos) {
         mList.smoothScrollToPosition(pos);
+    }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 720;
     }
 }
