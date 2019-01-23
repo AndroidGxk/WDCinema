@@ -97,6 +97,7 @@ public class LoginActivity extends AppCompatActivity implements CustomAdapt, Res
         LoginBean loginBean = (LoginBean) result.getResult();
         LoginSubBean userInfo = loginBean.getUserInfo();
         SharedPreferences.Editor edit = sp.edit();
+        //添加Sp
         edit.putString("sessionId", loginBean.getSessionId());
         edit.putInt("userId", loginBean.getUserId());
         edit.commit();
