@@ -24,6 +24,10 @@ public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt
         ButterKnife.bind(this);
     }
 
+    @OnClick(R.id.go_updapwd)
+    public void go_updapwd(){
+
+    }
     @OnClick(R.id.back_image)
     public void back_image() {
         finish();
