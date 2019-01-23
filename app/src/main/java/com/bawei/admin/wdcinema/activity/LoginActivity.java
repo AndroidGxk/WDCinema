@@ -1,11 +1,8 @@
 package com.bawei.admin.wdcinema.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +21,7 @@ import butterknife.OnClick;
 import me.jessyan.autosize.internal.CustomAdapt;
 
 public class LoginActivity extends AppCompatActivity implements CustomAdapt, ResultInfe {
-    boolean canSee = false;
+
     @BindView(R.id.regis_btn)
     TextView regis_btn;
     @BindView(R.id.my_login_phone)
@@ -32,7 +29,6 @@ public class LoginActivity extends AppCompatActivity implements CustomAdapt, Res
     @BindView(R.id.my_login_pwd)
     EditText my_login_pwd;
     private LoginPresenter loginPresenter;
-    private SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +36,6 @@ public class LoginActivity extends AppCompatActivity implements CustomAdapt, Res
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         loginPresenter = new LoginPresenter(this);
-        sp = getSharedPreferences("login", MODE_PRIVATE);
     }
 
     @OnClick(R.id.my_login_btn)
@@ -49,22 +44,6 @@ public class LoginActivity extends AppCompatActivity implements CustomAdapt, Res
         String pwd = my_login_pwd.getText().toString();
         String pwds = EncryptUtil.encrypt(pwd);
         loginPresenter.request(name, pwds);
-    }
-
-    /**
-     * 查看密码
-     */
-    @OnClick(R.id.mIv_eye)
-    public void mIv_eye() {
-        if (canSee == false) {
-            //如果是不能看到密码的情况下，
-            my_login_pwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-            canSee = true;
-        } else {
-            //如果是能看到密码的状态下
-            my_login_pwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            canSee = false;
-        }
     }
 
     /**
@@ -96,12 +75,7 @@ public class LoginActivity extends AppCompatActivity implements CustomAdapt, Res
         Result result = (Result) data;
         LoginBean loginBean = (LoginBean) result.getResult();
         LoginSubBean userInfo = loginBean.getUserInfo();
-        SharedPreferences.Editor edit = sp.edit();
-        //添加Sp
-        edit.putString("sessionId", loginBean.getSessionId());
-        edit.putInt("userId", loginBean.getUserId());
-        edit.commit();
-        Toast.makeText(this, "" + result.getMessage() + userInfo.getNickName(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "" + result.getMessage()+userInfo.getNickName(), Toast.LENGTH_SHORT).show();
         if (result.getStatus().equals("0000")) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
