@@ -2,6 +2,7 @@ package com.bawei.admin.wdcinema.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -9,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -24,7 +24,6 @@ import com.bawei.admin.wdcinema.activity.fragment.Fragment_Bootpage_two;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
 import me.jessyan.autosize.internal.CustomAdapt;
 
 public class WelcActivity extends AppCompatActivity implements CustomAdapt {
@@ -35,7 +34,7 @@ public class WelcActivity extends AppCompatActivity implements CustomAdapt {
             super.handleMessage(msg);
             if (msg.what == 1) {
                 if (timecount == 0) {
-                    startActivity(new Intent(WelcActivity.this, MainActivity.class));
+                    startActivity(new Intent(WelcActivity.this, LoginActivity.class));
                     finish();
                 }
                 timecount--;
@@ -152,7 +151,7 @@ public class WelcActivity extends AppCompatActivity implements CustomAdapt {
 
                                 Intent intent = new Intent(
                                         WelcActivity.this,
-                                        MainActivity.class);
+                                        LoginActivity.class);
                                 startActivity(intent);
                                 finish();
                                 return true;

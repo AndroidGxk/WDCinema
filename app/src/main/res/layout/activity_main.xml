@@ -16,29 +16,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="12dp"
         android:orientation="horizontal">
 
         <RadioButton
-            android:layout_width="65dp"
-            android:layout_height="65dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/one"
             android:layout_weight="1"
             android:button="@null"
-            android:drawableTop="@drawable/radio_one_sel"
-            android:paddingBottom="10dp" />
+            android:drawableTop="@drawable/radio_one_sel" />
 
         <RadioButton
-            android:layout_width="65dp"
-            android:layout_height="65dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
             android:id="@+id/two"
             android:drawableTop="@drawable/radio_two_sel" />
 
         <RadioButton
-            android:layout_width="65dp"
-            android:layout_height="65dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/three"
             android:button="@null"

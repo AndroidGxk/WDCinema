@@ -14,7 +14,6 @@ public class Fragment_Page_two extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View view = View.inflate(getContext(), R.layout.fragment_page_two, null);
         return view;
     }

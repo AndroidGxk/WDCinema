@@ -13,7 +13,7 @@
 
     <TextView
         android:id="@+id/bootpagetextviewfour"
-        android:text="八维一定通信学院作品"
+        android:text="八维移动通信学院作品"
         android:textSize="14sp"
         android:textColor="#333333"
         android:layout_marginTop="60dp"

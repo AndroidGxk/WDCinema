@@ -38,4 +38,8 @@ public abstract class BasePresenter {
             }
         });
     }
+
+    public void unBind() {
+        resultInfe = null;
+    }
 }

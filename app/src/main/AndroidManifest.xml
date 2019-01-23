@@ -30,6 +30,9 @@
             android:value="1280" />
 
         <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.second_activity.MyMessage_Activity" />
+        <activity android:name=".activity.LoginActivity"></activity>
+        <activity android:name=".activity.RegisActivity" />
     </application>
 
 </manifest>

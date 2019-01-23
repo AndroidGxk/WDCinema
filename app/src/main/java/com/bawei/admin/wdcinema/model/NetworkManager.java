@@ -34,7 +34,7 @@ public class NetworkManager {
                 .build();
         retrofit = new Retrofit.Builder()
                 .client(httpClient)
-                .baseUrl("http://172.17.8.100/movieApi")
+                .baseUrl("http://mobile.bwstudent.com/movieApi/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
