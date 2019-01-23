@@ -1,12 +1,18 @@
 package com.bawei.admin.wdcinema.core;
 
+import com.bawei.admin.wdcinema.bean.HotMovieBean;
 import com.bawei.admin.wdcinema.bean.LoginBean;
 import com.bawei.admin.wdcinema.bean.Result;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface ICoreInfe {
     /**
@@ -26,4 +32,8 @@ public interface ICoreInfe {
     @POST("user/v1/login")
     Observable<Result<LoginBean>> login(@Field("phone") String phone,
                                         @Field("pwd") String pwd);
+
+    @GET("movie/v1/findHotMovieList")
+    Observable<Result<List<HotMovieBean>>> hotmovie(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                                    @Query("page") int page, @Query("count") int count);
 }
