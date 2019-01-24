@@ -4,9 +4,12 @@ import com.bawei.admin.wdcinema.bean.HotMovieBean;
 import com.bawei.admin.wdcinema.bean.LoginBean;
 import com.bawei.admin.wdcinema.bean.Result;
 
+import java.io.File;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -43,8 +46,16 @@ public interface ICoreInfe {
     /**
      * 修改密码
      */
+    @FormUrlEncoded
     @POST("user/v1/verify/modifyUserPwd")
     Observable<Result> modifyUserPwd(@Header("userId") int userId, @Header("sessionId") String sessionId,
-                                     @Query("oldPwd") String oldPwd, @Query("newPwd") String newPwd,
-                                     @Query("newPwd2") String newPwd2);
+                                     @Field("oldPwd") String oldPwd, @Field("newPwd") String newPwd,
+                                     @Field("newPwd2") String newPwd2);
+
+    /**
+     * 修改用户头像
+     */
+    @FormUrlEncoded
+    @POST("user/v1/verify/uploadHeadPic")
+    Observable<Result> uploadHeadPic(@Field("image") File image);
 }

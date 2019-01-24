@@ -1,33 +1,72 @@
 package com.bawei.admin.wdcinema.activity.second_activity;
 
+import android.Manifest;
+import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-
+import com.bawei.admin.wdcinema.bean.Result;
+import com.bawei.admin.wdcinema.core.ResultInfe;
+import com.bawei.admin.wdcinema.core.utils.Constant;
+import com.bawei.admin.wdcinema.presenter.UpdateHeadPresenter;
+import com.bawei.admin.wdcinema.presenter.UpdatePwdPresenter;
 import com.bw.movie.R;
+import com.facebook.drawee.view.SimpleDraweeView;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.jessyan.autosize.internal.CustomAdapt;
 
-public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt {
-
+public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt, View.OnClickListener, ResultInfe {
     @BindView(R.id.back_image)
     ImageView back_image;
+    @BindView(R.id.myheader)
+    SimpleDraweeView myheader;
+    private int SELECT_PICTURE = 1; // 从图库中选择图片
+    private int SELECT_CAMER = 0; // 用相机拍摄照片
+    private Bitmap bmp;
+    private UpdateHeadPresenter updateHeadPresenter;
+    private File file;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_message_);
         ButterKnife.bind(this);
+        findViewById(R.id.update_name).setOnClickListener(this);
+        findViewById(R.id.update_mail).setOnClickListener(this);
+        findViewById(R.id.update_sex).setOnClickListener(this);
+        updateHeadPresenter = new UpdateHeadPresenter(this);
+    }
+
+    @OnClick(R.id.myheader)
+    public void myheader() {
+        showChoosePhotoDialog();
     }
 
     @OnClick(R.id.go_updapwd)
     public void go_updapwd() {
         startActivity(new Intent(MyMessage_Activity.this, UpdatePwdActivity.class));
+
     }
 
     @OnClick(R.id.back_image)
@@ -43,5 +82,105 @@ public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt
     @Override
     public float getSizeInDp() {
         return 720;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            Bitmap bitmap = data.getParcelableExtra("data");
+            Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null, null));
+            myheader.setImageURI(uri);
+            file = new File(uri.toString());
+            updateHeadPresenter.request(file);
+            return;
+        }
+        if (resultCode == RESULT_OK) {
+            Uri uri = data.getData();
+            ContentResolver cr = this.getContentResolver();
+            try {
+                if (bmp != null) {
+                    bmp.recycle();
+                    bmp = BitmapFactory.decodeStream(cr.openInputStream(uri));
+                    updateHeadPresenter.request(uri);
+                }
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            myheader.setImageURI(uri);
+        } else {
+            Toast.makeText(MyMessage_Activity.this, "选择图片失败,请重新选择", Toast.LENGTH_SHORT)
+                    .show();
+        }
+    }
+
+    /**
+     * 相机相册选择照片弹框
+     */
+    private void showChoosePhotoDialog() {
+        CharSequence[] items = {"相册", "相机"};
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("选择图片来源")
+                .setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+                        if (which == SELECT_PICTURE) {
+                            if (ContextCompat.checkSelfPermission(MyMessage_Activity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                                    ContextCompat.checkSelfPermission(MyMessage_Activity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                                    ) {
+                                // 申请权限
+                                ActivityCompat.requestPermissions(MyMessage_Activity.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constant.REQ_PERM_CAMERA);
+                                return;
+                            }
+                            Intent intent = new Intent(
+                                    MediaStore.ACTION_IMAGE_CAPTURE);
+                            intent.addCategory("android.intent.category.DEFAULT");
+                            startActivityForResult(intent, SELECT_CAMER);
+                        } else {
+                            Intent intent = new Intent(
+                                    Intent.ACTION_GET_CONTENT);
+                            intent.addCategory(Intent.CATEGORY_OPENABLE);
+                            intent.setType("image/*");
+                            startActivityForResult(intent, SELECT_PICTURE);
+                        }
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+                        dialog.cancel();
+                    }
+                }).create();
+        dialog.show();
+    }
+
+    /**
+     * 修改信息跳转
+     *
+     * @param v
+     */
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.update_name:
+
+                break;
+        }
+    }
+
+    @Override
+    public void success(Object data) {
+        Result result = (Result) data;
+        Toast.makeText(this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void errors(Throwable throwable) {
+
     }
 }

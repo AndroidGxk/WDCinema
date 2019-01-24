@@ -9,6 +9,15 @@ public class Result<T> {
     private T result;
     private String message;
     private String status;
+    private String headPath;
+
+    public String getHeadPath() {
+        return headPath;
+    }
+
+    public void setHeadPath(String headPath) {
+        this.headPath = headPath;
+    }
 
     public T getResult() {
         return result;
