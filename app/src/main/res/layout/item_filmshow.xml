@@ -18,7 +18,13 @@
             android:layout_height="123dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
-            android:background="@drawable/filmbg" />
+            android:background="@drawable/filmbg"
+            app:roundBottomLeft="true"
+            app:roundBottomRight="true"
+            app:roundTopLeft="true"
+            app:roundTopRight="true"
+            app:roundedCornerRadius="8dp"
+            android:adjustViewBounds="true"/>
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/filmshow_sim"
@@ -26,6 +32,12 @@
             android:layout_height="129dp"
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="10dp"
+            app:roundBottomLeft="true"
+            app:roundBottomRight="true"
+            app:roundTopLeft="true"
+            app:roundTopRight="true"
+            app:roundedCornerRadius="8dp"
+            android:adjustViewBounds="true"
             android:background="@drawable/baobeier" />
 
 

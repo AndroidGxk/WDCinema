@@ -161,17 +161,23 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
     //点击事件
     @OnClick(R.id.hot)
     public void hot() {
-        startActivity(new Intent(getActivity(), FilmShowActivity.class));
+        Intent intent = new Intent(getActivity(), FilmShowActivity.class);
+        intent.putExtra("select", "1");
+        startActivity(intent);
     }
 
     @OnClick(R.id.release)
     public void release() {
-        startActivity(new Intent(getActivity(), FilmShowActivity.class));
+        Intent intent = new Intent(getActivity(), FilmShowActivity.class);
+        intent.putExtra("select", "2");
+        startActivity(intent);
     }
 
     @OnClick(R.id.comingSoon)
     public void comingSoon() {
-        startActivity(new Intent(getActivity(), FilmShowActivity.class));
+        Intent intent = new Intent(getActivity(), FilmShowActivity.class);
+        intent.putExtra("select", "3");
+        startActivity(intent);
     }
 
     //定位

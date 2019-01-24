@@ -1,5 +1,6 @@
 package com.bawei.admin.wdcinema.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -57,6 +58,9 @@ public class FilmShowActivity extends AppCompatActivity implements CustomAdapt, 
         sessionId = sp.getString("sessionId", "1");
         userId = sp.getInt("userId", 1);
 
+        Intent intent = getIntent();
+        String select = intent.getStringExtra("select");
+
         hotMoviePresenter = new HotMoviePresenter(new Hot());
         releaseMoviePresenter = new ReleaseMoviePresenter(new Release());
         comingSoonMoviePresenter = new ComingSoonMoviePresenter(new ComingSoon());
@@ -69,7 +73,25 @@ public class FilmShowActivity extends AppCompatActivity implements CustomAdapt, 
         filmshow_recycler.setLayoutManager(manager);
         filmshow_recycler.setAdapter(filmShowAdapter);
 
-        hotMoviePresenter.request(userId, sessionId, page, 5);
+        if (select.equals("1")){
+            hot.setBackgroundResource(R.drawable.btn_gradient);
+            release.setBackgroundResource(R.drawable.btn_false);
+            comingSoon.setBackgroundResource(R.drawable.btn_false);
+            filmShowAdapter.remove();
+            hotMoviePresenter.request(userId, sessionId, page, 5);
+        }else if (select.equals("2")){
+            release.setBackgroundResource(R.drawable.btn_gradient);
+            hot.setBackgroundResource(R.drawable.btn_false);
+            comingSoon.setBackgroundResource(R.drawable.btn_false);
+            filmShowAdapter.remove();
+            releaseMoviePresenter.request(userId, sessionId, page, 5);
+        }else {
+            comingSoon.setBackgroundResource(R.drawable.btn_gradient);
+            hot.setBackgroundResource(R.drawable.btn_false);
+            release.setBackgroundResource(R.drawable.btn_false);
+            filmShowAdapter.remove();
+            comingSoonMoviePresenter.request(userId, sessionId, page, 5);
+        }
     }
 
     //点击事件
