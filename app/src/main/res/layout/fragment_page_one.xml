@@ -46,6 +46,43 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/viewbg_shape" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp">
+
+                <TextView
+                    android:id="@+id/hot_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="正在热映"
+                    android:textColor="#6666"
+                    android:textSize="16sp" />
+
+                <View
+                    android:id="@+id/hot_view"
+                    android:layout_width="30dp"
+                    android:layout_height="3dp"
+                    android:layout_below="@id/hot_name"
+                    android:layout_gravity="center"
+                    android:background="@drawable/re_shape" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/com_icon_next_default" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/hot_recycler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/hot_view"
+                    android:layout_marginTop="20dp"></android.support.v7.widget.RecyclerView>
+            </RelativeLayout>
+
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
