@@ -81,4 +81,10 @@ public class UpdatePwdActivity extends AppCompatActivity implements CustomAdapt,
     public void errors(Throwable throwable) {
 
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        updatePwdPresenter.unBind();
+    }
 }

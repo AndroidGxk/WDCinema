@@ -12,6 +12,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public abstract class BasePresenter {
     ResultInfe resultInfe;
+    public boolean isOper;
 
     public BasePresenter(ResultInfe resultInfe) {
         this.resultInfe = resultInfe;
@@ -20,6 +21,10 @@ public abstract class BasePresenter {
     protected abstract Observable observable(Object... args);
 
     public void request(Object... args) {
+        if (isOper) {
+            return;
+        }
+        isOper = true;
         observable(args).compose(new ObservableTransformer() {
             @Override
             public ObservableSource apply(Observable upstream) {
@@ -29,11 +34,13 @@ public abstract class BasePresenter {
         }).subscribe(new Consumer<Result>() {
             @Override
             public void accept(Result result) throws Exception {
+                isOper=false;
                 resultInfe.success(result);
             }
         }, new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
+                isOper=false;
                 resultInfe.errors(throwable);
             }
         });

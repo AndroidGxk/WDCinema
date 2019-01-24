@@ -48,13 +48,20 @@
             android:enabled="true"
             android:process=":remote" />
 
-        <activity android:name="com.bawei.admin.wdcinema.activity.MainActivity" />
-        <activity android:name="com.bawei.admin.wdcinema.activity.second_activity.MyMessage_Activity" />
-        <activity android:name="com.bawei.admin.wdcinema.activity.LoginActivity" />
-        <activity android:name="com.bawei.admin.wdcinema.activity.RegisActivity" />
-        <activity android:name="com.bawei.admin.wdcinema.activity.second_activity.UpdatePwdActivity" />
-        <activity android:name="com.bawei.admin.wdcinema.activity.thirdly_activity.UpdateNameActivity" />
-        <activity android:name="com.bawei.admin.wdcinema.activity.FilmShowActivity"></activity>
+        <activity android:name="com.bawei.admin.wdcinema.activity.MainActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name="com.bawei.admin.wdcinema.activity.second_activity.MyMessage_Activity"
+            android:launchMode="singleTask"/>
+        <activity android:name="com.bawei.admin.wdcinema.activity.LoginActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name="com.bawei.admin.wdcinema.activity.RegisActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name="com.bawei.admin.wdcinema.activity.second_activity.UpdatePwdActivity"
+            android:launchMode="singleTask" />
+        <activity android:name="com.bawei.admin.wdcinema.activity.thirdly_activity.UpdateNameActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name="com.bawei.admin.wdcinema.activity.FilmShowActivity"
+            android:launchMode="singleTask"></activity>
     </application>
 
 </manifest>

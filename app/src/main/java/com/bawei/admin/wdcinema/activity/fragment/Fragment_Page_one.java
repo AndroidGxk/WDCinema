@@ -278,4 +278,12 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
 
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        hotMoviePresenter.unBind();
+        releaseMoviePresenter.unBind();
+        comingSoonMoviePresenter.unBind();
+    }
 }
