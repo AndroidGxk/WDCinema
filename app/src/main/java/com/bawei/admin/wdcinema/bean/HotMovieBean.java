@@ -1,7 +1,5 @@
 package com.bawei.admin.wdcinema.bean;
 
-import java.util.List;
-
 public class HotMovieBean {
     /**
      * followMovie : 2
