@@ -95,13 +95,11 @@ public class LoginActivity extends AppCompatActivity implements CustomAdapt, Res
     public void success(Object data) {
         Result result = (Result) data;
         LoginBean loginBean = (LoginBean) result.getResult();
-        LoginSubBean userInfo = loginBean.getUserInfo();
         SharedPreferences.Editor edit = sp.edit();
         //添加Sp添加
         edit.putString("sessionId", loginBean.getSessionId());
         edit.putInt("userId", loginBean.getUserId());
         edit.commit();
-        Toast.makeText(this, "" + result.getMessage() + userInfo.getNickName(), Toast.LENGTH_SHORT).show();
         if (result.getStatus().equals("0000")) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();

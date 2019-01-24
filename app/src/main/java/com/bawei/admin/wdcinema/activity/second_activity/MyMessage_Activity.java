@@ -1,5 +1,6 @@
 package com.bawei.admin.wdcinema.activity.second_activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -25,9 +26,10 @@ public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt
     }
 
     @OnClick(R.id.go_updapwd)
-    public void go_updapwd(){
-
+    public void go_updapwd() {
+        startActivity(new Intent(MyMessage_Activity.this, UpdatePwdActivity.class));
     }
+
     @OnClick(R.id.back_image)
     public void back_image() {
         finish();

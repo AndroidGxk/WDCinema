@@ -33,7 +33,18 @@ public interface ICoreInfe {
     Observable<Result<LoginBean>> login(@Field("phone") String phone,
                                         @Field("pwd") String pwd);
 
+    /**
+     * 查询热门电影
+     */
     @GET("movie/v1/findHotMovieList")
     Observable<Result<List<HotMovieBean>>> hotmovie(@Header("userId") int userId, @Header("sessionId") String sessionId,
                                                     @Query("page") int page, @Query("count") int count);
+
+    /**
+     * 修改密码
+     */
+    @POST("user/v1/verify/modifyUserPwd")
+    Observable<Result> modifyUserPwd(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                     @Query("oldPwd") String oldPwd, @Query("newPwd") String newPwd,
+                                     @Query("newPwd2") String newPwd2);
 }

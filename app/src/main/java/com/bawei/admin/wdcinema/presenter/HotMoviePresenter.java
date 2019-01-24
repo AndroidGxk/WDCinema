@@ -10,7 +10,6 @@ public class HotMoviePresenter extends BasePresenter {
     public HotMoviePresenter(ResultInfe resultInfe) {
         super(resultInfe);
     }
-
     @Override
     protected Observable observable(Object... args) {
         ICoreInfe iCoreInfe = NetworkManager.network().create(ICoreInfe.class);

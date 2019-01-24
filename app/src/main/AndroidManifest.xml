@@ -31,8 +31,9 @@
 
         <activity android:name="com.bawei.admin.wdcinema.activity.MainActivity" />
         <activity android:name="com.bawei.admin.wdcinema.activity.second_activity.MyMessage_Activity" />
-        <activity android:name="com.bawei.admin.wdcinema.activity.LoginActivity"></activity>
+        <activity android:name="com.bawei.admin.wdcinema.activity.LoginActivity" />
         <activity android:name="com.bawei.admin.wdcinema.activity.RegisActivity" />
+        <activity android:name="com.bawei.admin.wdcinema.activity.second_activity.UpdatePwdActivity"></activity>
     </application>
 
 </manifest>
