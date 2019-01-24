@@ -200,4 +200,9 @@ public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        updateHeadPresenter.unBind();
+    }
 }

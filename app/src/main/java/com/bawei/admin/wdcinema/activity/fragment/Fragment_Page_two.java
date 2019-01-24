@@ -227,4 +227,11 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
     public float getSizeInDp() {
         return 720;
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        nearMoviePresenter.unBind();
+        recomMoviePresenter.unBind();
+    }
 }

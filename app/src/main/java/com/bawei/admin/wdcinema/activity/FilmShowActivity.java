@@ -201,4 +201,12 @@ public class FilmShowActivity extends AppCompatActivity implements CustomAdapt, 
 
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        releaseMoviePresenter.unBind();
+        hotMoviePresenter.unBind();
+        comingSoonMoviePresenter.unBind();
+    }
 }

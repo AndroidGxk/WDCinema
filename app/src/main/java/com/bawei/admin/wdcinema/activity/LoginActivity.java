@@ -129,6 +129,7 @@ public class LoginActivity extends AppCompatActivity implements CustomAdapt, Res
             login.setUserId(loginBean.getUserId());
             String pwd = my_login_pwd.getText().toString();
             login.setPwd(pwd);
+            finish();
             try {
                 int i = dbManager.deleteStudentAll((List<LoginBean>) loginBean);
             } catch (SQLException e) {
@@ -139,7 +140,6 @@ public class LoginActivity extends AppCompatActivity implements CustomAdapt, Res
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            finish();
         }
     }
 
@@ -157,5 +157,11 @@ public class LoginActivity extends AppCompatActivity implements CustomAdapt, Res
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        loginPresenter.unBind();
     }
 }
