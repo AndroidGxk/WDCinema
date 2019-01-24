@@ -58,4 +58,18 @@ public interface ICoreInfe {
     @FormUrlEncoded
     @POST("user/v1/verify/uploadHeadPic")
     Observable<Result> uploadHeadPic(@Header("userId") int userId, @Header("sessionId") String sessionId, @Field("image") File image);
+
+    /**
+     * z正在上映
+     */
+    @GET("movie/v1/findReleaseMovieList")
+    Observable<Result<List<HotMovieBean>>> releaseMovie(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                                        @Query("page") int page, @Query("count") int count);
+
+    /**
+     * 即将上映
+     */
+    @GET("movie/v1/findComingSoonMovieList")
+    Observable<Result<List<HotMovieBean>>> comingSoonMovie(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                                           @Query("page") int page, @Query("count") int count);
 }

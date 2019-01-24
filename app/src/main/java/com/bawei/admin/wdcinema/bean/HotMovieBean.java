@@ -1,5 +1,9 @@
 package com.bawei.admin.wdcinema.bean;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 public class HotMovieBean {
     /**
      * followMovie : 2
@@ -15,6 +19,8 @@ public class HotMovieBean {
     private String imageUrl;
     private String name;
     private int rank;
+    private long releaseTime;
+    private String releaseTimeShow;
     private String summary;
 
     public int getFollowMovie() {
@@ -55,6 +61,22 @@ public class HotMovieBean {
 
     public void setRank(int rank) {
         this.rank = rank;
+    }
+
+    public long getReleaseTime() {
+        return releaseTime;
+    }
+
+    public void setReleaseTime(long releaseTime) {
+        this.releaseTime = releaseTime;
+    }
+
+    public String getReleaseTimeShow() {
+        return releaseTimeShow;
+    }
+
+    public void setReleaseTimeShow(String releaseTimeShow) {
+        this.releaseTimeShow = releaseTimeShow;
     }
 
     public String getSummary() {

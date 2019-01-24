@@ -57,7 +57,7 @@
                     android:id="@+id/hot_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="正在热映"
+                    android:text="热门电影"
                     android:textColor="#6666"
                     android:textSize="16sp" />
 
@@ -80,6 +80,80 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/hot_view"
+                    android:layout_marginTop="20dp"></android.support.v7.widget.RecyclerView>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp">
+
+                <TextView
+                    android:id="@+id/release_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="正在热映"
+                    android:textColor="#6666"
+                    android:textSize="16sp" />
+
+                <View
+                    android:id="@+id/release_view"
+                    android:layout_width="30dp"
+                    android:layout_height="3dp"
+                    android:layout_below="@id/release_name"
+                    android:layout_gravity="center"
+                    android:background="@drawable/re_shape" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/com_icon_next_default" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/release_recycler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/release_view"
+                    android:layout_marginTop="20dp"></android.support.v7.widget.RecyclerView>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp">
+
+                <TextView
+                    android:id="@+id/comingSoon_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="即将上映"
+                    android:textColor="#6666"
+                    android:textSize="16sp" />
+
+                <View
+                    android:id="@+id/comingSoon_view"
+                    android:layout_width="30dp"
+                    android:layout_height="3dp"
+                    android:layout_below="@id/comingSoon_name"
+                    android:layout_gravity="center"
+                    android:background="@drawable/re_shape" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/com_icon_next_default" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/comingSoon_recycler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/comingSoon_view"
                     android:layout_marginTop="20dp"></android.support.v7.widget.RecyclerView>
             </RelativeLayout>
 
