@@ -32,7 +32,7 @@ public class ComingSoonMovieAdapter extends RecyclerView.Adapter<ComingSoonMovie
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         viewHolder.textView.setBackgroundColor(0x55000000);
         viewHolder.textView.setText(list.get(i).getName());
         viewHolder.imageView.setImageURI(Uri.parse(list.get(i).getImageUrl()));
@@ -57,6 +57,8 @@ public class ComingSoonMovieAdapter extends RecyclerView.Adapter<ComingSoonMovie
             super(itemView);
             imageView = itemView.findViewById(R.id.img);
             textView = itemView.findViewById(R.id.tv);
+
         }
     }
+
 }

@@ -18,6 +18,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +41,7 @@ import com.bawei.admin.wdcinema.presenter.ComingSoonMoviePresenter;
 import com.bawei.admin.wdcinema.presenter.HotMoviePresenter;
 import com.bawei.admin.wdcinema.presenter.ReleaseMoviePresenter;
 import com.bw.movie.R;
+import com.example.coverflow.CoverFlowLayoutManger;
 import com.example.coverflow.RecyclerCoverFlow;
 
 import java.util.List;
@@ -67,6 +70,20 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
     RecyclerView comingSoon_recycler;
     @BindView(R.id.location_tv)
     TextView textView;
+    @BindView(R.id.home_radio_group)
+    RadioGroup home_radio_group;
+    @BindView(R.id.home_radio_1)
+    RadioButton home_radio_1;
+    @BindView(R.id.home_radio_2)
+    RadioButton home_radio_2;
+    @BindView(R.id.home_radio_3)
+    RadioButton home_radio_3;
+    @BindView(R.id.home_radio_4)
+    RadioButton home_radio_4;
+    @BindView(R.id.home_radio_5)
+    RadioButton home_radio_5;
+    @BindView(R.id.home_radio_6)
+    RadioButton home_radio_6;
     private ReleaseMovieAdapter releaseMovieAdapter;
     private ComingSoonMovieAdapter comingSoonMovieAdapter;
     private ReleaseMoviePresenter releaseMoviePresenter;
@@ -117,6 +134,12 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
         hotMoviePresenter.request(userId, sessionId, 1, 10);
         releaseMoviePresenter.request(userId, sessionId, 1, 10);
         comingSoonMoviePresenter.request(userId, sessionId, 1, 10);
+        mList.setOnItemSelectedListener(new CoverFlowLayoutManger.OnSelected() {
+            @Override
+            public void onItemSelected(int position) {
+                home_radio_group.check(home_radio_group.getChildAt(position).getId());
+            }
+        });
         return view;
     }
 
@@ -177,6 +200,27 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
     @Override
     public void clickItem(int pos) {
         mList.smoothScrollToPosition(pos);
+        switch (pos) {
+            case 0:
+                home_radio_1.setChecked(true);
+                break;
+            case 1:
+                home_radio_2.setChecked(true);
+                break;
+            case 2:
+                home_radio_3.setChecked(true);
+                break;
+            case 3:
+                home_radio_4.setChecked(true);
+                break;
+            case 4:
+                home_radio_5.setChecked(true);
+                break;
+            case 5:
+                home_radio_6.setChecked(true);
+                break;
+        }
+
     }
 
     @Override

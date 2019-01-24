@@ -5,4 +5,5 @@
     <color name="colorAccent">#D81B60</color>
     <color name="radiof">#d8d8d8</color>
     <color name="radiot">#333333</color>
+    <color name="hyperlink">#AE00AE</color>
 </resources>
