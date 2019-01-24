@@ -1,34 +1,25 @@
 package com.bawei.admin.wdcinema.activity.fragment;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.bawei.admin.wdcinema.activity.FilmShowActivity;
-import com.bawei.admin.wdcinema.activity.second_activity.MyMessage_Activity;
 import com.bawei.admin.wdcinema.adapter.Adapter;
 import com.bawei.admin.wdcinema.adapter.ComingSoonMovieAdapter;
 import com.bawei.admin.wdcinema.adapter.HotMovieAdapter;
@@ -36,7 +27,6 @@ import com.bawei.admin.wdcinema.adapter.ReleaseMovieAdapter;
 import com.bawei.admin.wdcinema.bean.HotMovieBean;
 import com.bawei.admin.wdcinema.bean.Result;
 import com.bawei.admin.wdcinema.core.ResultInfe;
-import com.bawei.admin.wdcinema.core.utils.Constant;
 import com.bawei.admin.wdcinema.presenter.ComingSoonMoviePresenter;
 import com.bawei.admin.wdcinema.presenter.HotMoviePresenter;
 import com.bawei.admin.wdcinema.presenter.ReleaseMoviePresenter;
@@ -192,6 +182,9 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
             double latitude = location.getLatitude();    //获取纬度信息
             double longitude = location.getLongitude();    //获取经度信息
             String locationDescribe = location.getLocationDescribe();    //获取位置描述信息
+            if (!location.equals("")) {
+                mLocationClient.stop();
+            }
             String addr = location.getAddrStr();    //获取详细地址信息
             textView.setText(locationDescribe + addr);
         }

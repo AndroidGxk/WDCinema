@@ -39,11 +39,12 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt {
     }
 
     @OnClick(R.id.back_btn)
-    public void back_btn(){
+    public void back_btn() {
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
+
     @Override
     public boolean isBaseOnWidth() {
         return false;

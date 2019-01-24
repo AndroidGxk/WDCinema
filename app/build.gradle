@@ -65,4 +65,7 @@ dependencies {
     implementation project(':coverflow')
     implementation 'com.contrarywind:Android-PickerView:3.2.6'
     implementation files('libs/BaiduLBS_Android.jar')
+    implementation 'com.j256.ormlite:ormlite-android:5.1'
+    implementation 'com.j256.ormlite:ormlite-core:5.1'
+
 }

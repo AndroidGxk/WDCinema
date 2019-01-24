@@ -1,5 +1,6 @@
 package com.bawei.admin.wdcinema.activity.fragment;
 
+import android.animation.ObjectAnimator;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,22 +12,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.bawei.admin.wdcinema.adapter.ComingSoonMovieAdapter;
-import com.bawei.admin.wdcinema.adapter.ReleaseMovieAdapter;
 import com.bawei.admin.wdcinema.adapter.TuiMovieRecycleAdapter;
 import com.bawei.admin.wdcinema.bean.RecommBean;
 import com.bawei.admin.wdcinema.bean.Result;
 import com.bawei.admin.wdcinema.core.ResultInfe;
-import com.bawei.admin.wdcinema.presenter.ComingSoonMoviePresenter;
 import com.bawei.admin.wdcinema.presenter.NearMoviePresenter;
 import com.bawei.admin.wdcinema.presenter.RecomMoviePresenter;
-import com.bawei.admin.wdcinema.presenter.ReleaseMoviePresenter;
 import com.bw.movie.R;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -40,11 +38,13 @@ import me.jessyan.autosize.internal.CustomAdapt;
 import static android.content.Context.MODE_PRIVATE;
 
 
-public class Fragment_Page_two extends Fragment implements ResultInfe, XRecyclerView.LoadingListener,CustomAdapt {
+public class Fragment_Page_two extends Fragment implements ResultInfe, XRecyclerView.LoadingListener, CustomAdapt {
     @BindView(R.id.recommend)
     Button recommend;
     @BindView(R.id.nearby)
     Button nearby;
+    @BindView(R.id.cimema_text)
+    TextView cimema_text;
     @BindView(R.id.cinemarecycleview)
     XRecyclerView cinemarecycleview;
     private boolean recommcheck = true;
@@ -61,6 +61,8 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
     MyLocationListener myListener = new MyLocationListener();
     private double latitude;
     private double longitude;
+    @BindView(R.id.seacrch_linear2)
+    LinearLayout seacrch_linear2;
 
     @Nullable
     @Override
@@ -82,10 +84,25 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
         cinemarecycleview.setLayoutManager(manager);
         cinemarecycleview.setAdapter(tuiMovieRecycleAdapter);
         location();
+        ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 30f, 500f);
+        animator.setDuration(0);
+        animator.start();
         return view;
     }
 
+    @OnClick(R.id.imageView)
+    public void seacrch_linear2() {
+        ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 500f, 30f);
+        animator.setDuration(1500);
+        animator.start();
+    }
 
+    @OnClick(R.id.seacrch_text)
+    public void seacrch_text() {
+        ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 30f, 500f);
+        animator.setDuration(1500);
+        animator.start();
+    }
 
     //定位
     public class MyLocationListener implements BDLocationListener {
@@ -98,6 +115,10 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
             latitude = location.getLatitude();
             //获取经度信息
             longitude = location.getLongitude();
+            if(!location.getCity().equals("")){
+                cimema_text.setText(location.getCity());
+                mLocationClient.stop();
+            }
         }
     }
 
@@ -196,6 +217,7 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
         mLocationClient.setLocOption(option);
         mLocationClient.start();
     }
+
     @Override
     public boolean isBaseOnWidth() {
         return false;

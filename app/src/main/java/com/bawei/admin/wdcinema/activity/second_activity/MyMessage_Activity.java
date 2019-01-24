@@ -16,24 +16,20 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bawei.admin.wdcinema.bean.Result;
+import com.bawei.admin.wdcinema.activity.thirdly_activity.UpdateNameActivity;
 import com.bawei.admin.wdcinema.core.ResultInfe;
 import com.bawei.admin.wdcinema.core.utils.Constant;
 import com.bawei.admin.wdcinema.core.utils.GetRealPath;
 import com.bawei.admin.wdcinema.presenter.UpdateHeadPresenter;
-import com.bawei.admin.wdcinema.presenter.UpdatePwdPresenter;
 import com.bw.movie.R;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -189,7 +185,7 @@ public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.update_name:
-
+                startActivity(new Intent(MyMessage_Activity.this, UpdateNameActivity.class));
                 break;
         }
     }

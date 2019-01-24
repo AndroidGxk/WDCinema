@@ -1,18 +1,13 @@
 package com.bawei.admin.wdcinema.activity;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.RadioGroup;
 
 import com.bawei.admin.wdcinema.activity.fragment.Fragment_Page_one;
 import com.bawei.admin.wdcinema.activity.fragment.Fragment_Page_three;
 import com.bawei.admin.wdcinema.activity.fragment.Fragment_Page_two;
-import com.bawei.admin.wdcinema.core.utils.Constant;
 import com.bw.movie.R;
 
 import butterknife.BindView;
