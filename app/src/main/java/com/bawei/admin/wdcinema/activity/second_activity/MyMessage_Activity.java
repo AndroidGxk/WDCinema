@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -46,6 +47,7 @@ public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt
     private Bitmap bmp;
     private UpdateHeadPresenter updateHeadPresenter;
     private File file;
+    private SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,7 @@ public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt
         findViewById(R.id.update_mail).setOnClickListener(this);
         findViewById(R.id.update_sex).setOnClickListener(this);
         updateHeadPresenter = new UpdateHeadPresenter(this);
+        sp = getSharedPreferences("login", MODE_PRIVATE);
     }
 
     @OnClick(R.id.myheader)
@@ -93,7 +96,9 @@ public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt
             Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null, null));
             myheader.setImageURI(uri);
             file = new File(uri.toString());
-            updateHeadPresenter.request(file);
+            String seesionId = sp.getString("seesionId", "");
+            int userId = sp.getInt("userId", 0);
+            updateHeadPresenter.request(userId, seesionId, file);
             return;
         }
         if (resultCode == RESULT_OK) {
@@ -103,7 +108,10 @@ public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt
                 if (bmp != null) {
                     bmp.recycle();
                     bmp = BitmapFactory.decodeStream(cr.openInputStream(uri));
-                    updateHeadPresenter.request(uri);
+                    file = new File(uri.toString());
+                    String seesionId = sp.getString("seesionId", "");
+                    int userId = sp.getInt("userId", 0);
+                    updateHeadPresenter.request(userId, seesionId, file);
                 }
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block

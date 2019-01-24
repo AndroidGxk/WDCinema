@@ -26,6 +26,6 @@ public class UpdateHeadPresenter extends BasePresenter {
     @Override
     protected Observable observable(Object... args) {
         ICoreInfe iCoreInfe = NetworkManager.network().create(ICoreInfe.class);
-        return iCoreInfe.uploadHeadPic((File) args[0]);
+        return iCoreInfe.uploadHeadPic((int) args[0], (String) args[1], (File) args[2]);
     }
 }

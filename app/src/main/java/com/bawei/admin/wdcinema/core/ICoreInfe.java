@@ -57,5 +57,5 @@ public interface ICoreInfe {
      */
     @FormUrlEncoded
     @POST("user/v1/verify/uploadHeadPic")
-    Observable<Result> uploadHeadPic(@Field("image") File image);
+    Observable<Result> uploadHeadPic(@Header("userId") int userId, @Header("sessionId") String sessionId, @Field("image") File image);
 }
