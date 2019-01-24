@@ -1,5 +1,6 @@
 package com.bawei.admin.wdcinema.activity.fragment;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,6 +18,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.bawei.admin.wdcinema.activity.FilmShowActivity;
 import com.bawei.admin.wdcinema.adapter.Adapter;
 import com.bawei.admin.wdcinema.adapter.ComingSoonMovieAdapter;
 import com.bawei.admin.wdcinema.adapter.HotMovieAdapter;
@@ -34,6 +36,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.internal.CustomAdapt;
 
@@ -127,6 +130,23 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
         comingSoonMoviePresenter.request(userId, sessionId, 1, 10);
         return view;
     }
+
+    //点击事件
+    @OnClick(R.id.hot)
+    public void hot() {
+        startActivity(new Intent(getActivity(), FilmShowActivity.class));
+    }
+
+    @OnClick(R.id.release)
+    public void release() {
+        startActivity(new Intent(getActivity(), FilmShowActivity.class));
+    }
+
+    @OnClick(R.id.comingSoon)
+    public void comingSoon() {
+        startActivity(new Intent(getActivity(), FilmShowActivity.class));
+    }
+
     //定位
     public class MyLocationListener implements BDLocationListener {
         @Override
@@ -139,7 +159,6 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
             String locationDescribe = location.getLocationDescribe();    //获取位置描述信息
             String addr = location.getAddrStr();    //获取详细地址信息
             textView.setText(locationDescribe + addr);
-
         }
     }
 
