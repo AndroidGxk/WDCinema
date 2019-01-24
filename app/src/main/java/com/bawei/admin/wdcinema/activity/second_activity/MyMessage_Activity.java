@@ -37,7 +37,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.jessyan.autosize.internal.CustomAdapt;
 
-public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt, View.OnClickListener, ResultInfe {
+public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt, View.OnClickListener,ResultInfe {
     @BindView(R.id.back_image)
     ImageView back_image;
     @BindView(R.id.myheader)
@@ -96,7 +96,7 @@ public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt
             Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null, null));
             myheader.setImageURI(uri);
             file = new File(uri.toString());
-            String seesionId = sp.getString("seesionId", "");
+            String seesionId = sp.getString("sessionId", "");
             int userId = sp.getInt("userId", 0);
             updateHeadPresenter.request(userId, seesionId, file);
             return;
@@ -183,8 +183,7 @@ public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt
 
     @Override
     public void success(Object data) {
-        Result result = (Result) data;
-        Toast.makeText(this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "chengg", Toast.LENGTH_SHORT).show();
     }
 
     @Override
