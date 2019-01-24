@@ -37,6 +37,7 @@ public class NetworkManager {
                 .baseUrl("http://mobile.bwstudent.com/movieApi/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+
                 .build();
     }
 

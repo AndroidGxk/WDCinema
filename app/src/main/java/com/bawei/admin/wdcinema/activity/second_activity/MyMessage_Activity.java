@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 import com.bawei.admin.wdcinema.bean.Result;
 import com.bawei.admin.wdcinema.core.ResultInfe;
 import com.bawei.admin.wdcinema.core.utils.Constant;
+import com.bawei.admin.wdcinema.core.utils.GetRealPath;
 import com.bawei.admin.wdcinema.presenter.UpdateHeadPresenter;
 import com.bawei.admin.wdcinema.presenter.UpdatePwdPresenter;
 import com.bw.movie.R;
@@ -37,7 +40,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.jessyan.autosize.internal.CustomAdapt;
 
-public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt, View.OnClickListener,ResultInfe {
+public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt, View.OnClickListener, ResultInfe {
     @BindView(R.id.back_image)
     ImageView back_image;
     @BindView(R.id.myheader)
@@ -95,10 +98,21 @@ public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt
             Bitmap bitmap = data.getParcelableExtra("data");
             Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null, null));
             myheader.setImageURI(uri);
-            file = new File(uri.toString());
+            String realPathFromUri = GetRealPath.getRealPathFromUri(MyMessage_Activity.this, uri);
+            file = new File(realPathFromUri);
             String seesionId = sp.getString("sessionId", "");
             int userId = sp.getInt("userId", 0);
-            updateHeadPresenter.request(userId, seesionId, file);
+            File file = null;
+            String[] proj = {MediaStore.Images.Media.DATA};
+            Cursor cursor = this.managedQuery(uri, proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            String filepath = cursor.getString(column_index);
+            file = new File(filepath);
+            String absolutePath = file.getAbsolutePath();
+            Log.i("GT", "-----------" +absolutePath);
+            // TODO: 2019/1/24 上传头像
+            updateHeadPresenter.request(userId, seesionId, "http://mobile.bwstudent.com/images/movie/head_pic/2019-01-24/20190124132033.jpg");
             return;
         }
         if (resultCode == RESULT_OK) {
@@ -190,4 +204,5 @@ public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt
     public void errors(Throwable throwable) {
 
     }
+
 }

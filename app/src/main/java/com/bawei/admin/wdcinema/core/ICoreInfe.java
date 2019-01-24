@@ -2,6 +2,7 @@ package com.bawei.admin.wdcinema.core;
 
 import com.bawei.admin.wdcinema.bean.HotMovieBean;
 import com.bawei.admin.wdcinema.bean.LoginBean;
+import com.bawei.admin.wdcinema.bean.RecommBean;
 import com.bawei.admin.wdcinema.bean.Result;
 
 import java.io.File;
@@ -57,10 +58,10 @@ public interface ICoreInfe {
      */
     @FormUrlEncoded
     @POST("user/v1/verify/uploadHeadPic")
-    Observable<Result> uploadHeadPic(@Header("userId") int userId, @Header("sessionId") String sessionId, @Field("image") File image);
+    Observable<Result> uploadHeadPic(@Header("userId") int userId, @Header("sessionId") String sessionId, @Field("image") String image);
 
     /**
-     * z正在上映
+     * 正在上映
      */
     @GET("movie/v1/findReleaseMovieList")
     Observable<Result<List<HotMovieBean>>> releaseMovie(@Header("userId") int userId, @Header("sessionId") String sessionId,
@@ -72,4 +73,11 @@ public interface ICoreInfe {
     @GET("movie/v1/findComingSoonMovieList")
     Observable<Result<List<HotMovieBean>>> comingSoonMovie(@Header("userId") int userId, @Header("sessionId") String sessionId,
                                                            @Query("page") int page, @Query("count") int count);
+
+    /**
+     * 推荐影院
+     */
+    @GET("cinema/v1/findRecommendCinemas")
+    Observable<Result<List<RecommBean>>> findRecommendCinemas(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                                              @Query("page") int page, @Query("count") int count);
 }
