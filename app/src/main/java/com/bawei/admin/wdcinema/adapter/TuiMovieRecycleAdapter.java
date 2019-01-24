@@ -24,11 +24,13 @@ public class TuiMovieRecycleAdapter extends RecyclerView.Adapter<TuiMovieRecycle
     public void addAll(List<RecommBean> recommList) {
         if (recommList != null) {
             this.recommList.addAll(recommList);
+            notifyDataSetChanged();
         }
     }
 
     public void removeAll() {
         recommList.clear();
+        notifyDataSetChanged();
     }
 
     class Vh extends RecyclerView.ViewHolder {
