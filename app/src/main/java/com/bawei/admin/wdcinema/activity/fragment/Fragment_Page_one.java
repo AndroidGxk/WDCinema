@@ -1,11 +1,17 @@
 package com.bawei.admin.wdcinema.activity.fragment;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,12 +19,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.bawei.admin.wdcinema.activity.FilmShowActivity;
+import com.bawei.admin.wdcinema.activity.second_activity.MyMessage_Activity;
 import com.bawei.admin.wdcinema.adapter.Adapter;
 import com.bawei.admin.wdcinema.adapter.ComingSoonMovieAdapter;
 import com.bawei.admin.wdcinema.adapter.HotMovieAdapter;
@@ -26,6 +34,7 @@ import com.bawei.admin.wdcinema.adapter.ReleaseMovieAdapter;
 import com.bawei.admin.wdcinema.bean.HotMovieBean;
 import com.bawei.admin.wdcinema.bean.Result;
 import com.bawei.admin.wdcinema.core.ResultInfe;
+import com.bawei.admin.wdcinema.core.utils.Constant;
 import com.bawei.admin.wdcinema.presenter.ComingSoonMoviePresenter;
 import com.bawei.admin.wdcinema.presenter.HotMoviePresenter;
 import com.bawei.admin.wdcinema.presenter.ReleaseMoviePresenter;
@@ -70,6 +79,7 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = View.inflate(getContext(), R.layout.fragment_page_one, null);
         ButterKnife.bind(this, view);
+
         //调用sp，获取userID和sessionid
         sp = getActivity().getSharedPreferences("login", MODE_PRIVATE);
 
@@ -99,13 +109,20 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
         release_recycler.setLayoutManager(linearLayoutManager2);
         releaseMovieAdapter = new ReleaseMovieAdapter(getContext());
         release_recycler.setAdapter(releaseMovieAdapter);
-
         LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(getContext());
         linearLayoutManager3.setOrientation(LinearLayoutManager.HORIZONTAL);
         comingSoon_recycler.setLayoutManager(linearLayoutManager3);
         comingSoonMovieAdapter = new ComingSoonMovieAdapter(getContext());
         comingSoon_recycler.setAdapter(comingSoonMovieAdapter);
+        hotMoviePresenter.request(userId, sessionId, 1, 10);
+        releaseMoviePresenter.request(userId, sessionId, 1, 10);
+        comingSoonMoviePresenter.request(userId, sessionId, 1, 10);
+        return view;
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
         //百度定位
         mLocationClient = new LocationClient(getActivity().getApplicationContext());
         //声明LocationClient类
@@ -121,14 +138,9 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
         //可选，默认false,设置是否使用gps
         option.setOpenGps(true);
         //可选，默认false，设置是否当GPS有效时按照1S/1次频率输出GPS结果
-        option.setLocationNotify(true);
+        option.setLocationNotify(false);
         mLocationClient.setLocOption(option);
         mLocationClient.start();
-
-        hotMoviePresenter.request(userId, sessionId, 1, 10);
-        releaseMoviePresenter.request(userId, sessionId, 1, 10);
-        comingSoonMoviePresenter.request(userId, sessionId, 1, 10);
-        return view;
     }
 
     //点击事件

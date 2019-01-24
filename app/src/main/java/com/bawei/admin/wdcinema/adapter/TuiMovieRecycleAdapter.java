@@ -64,7 +64,7 @@ public class TuiMovieRecycleAdapter extends RecyclerView.Adapter<TuiMovieRecycle
         vh.cinematextviewone.setText(recommBean.getName());
         vh.simpleDraweeView.setImageURI(recommBean.getLogo());
         vh.cinematextviewtwo.setText(recommBean.getAddress());
-        vh.cinematextviewthree.setText(recommBean.getDistance() + "km");
+        vh.cinematextviewthree.setText(recommBean.getDistance() + "m");
     }
 
     @Override
