@@ -109,8 +109,6 @@ public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt
             cursor.moveToFirst();
             String filepath = cursor.getString(column_index);
             file = new File(filepath);
-            String absolutePath = file.getAbsolutePath();
-            Log.i("GT", "-----------" +absolutePath);
             // TODO: 2019/1/24 上传头像
             updateHeadPresenter.request(userId, seesionId, "http://mobile.bwstudent.com/images/movie/head_pic/2019-01-24/20190124132033.jpg");
             return;

@@ -2,7 +2,6 @@ package com.bawei.admin.wdcinema.bean;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
 
 public class HotMovieBean {
     /**

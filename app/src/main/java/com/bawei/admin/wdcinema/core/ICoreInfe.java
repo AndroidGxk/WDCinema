@@ -80,4 +80,12 @@ public interface ICoreInfe {
     @GET("cinema/v1/findRecommendCinemas")
     Observable<Result<List<RecommBean>>> findRecommendCinemas(@Header("userId") int userId, @Header("sessionId") String sessionId,
                                                               @Query("page") int page, @Query("count") int count);
+
+    /**
+     * 附近影院
+     */
+    @GET("cinema/v1/findNearbyCinemas")
+    Observable<Result<List<RecommBean>>> findNearbyCinemas(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                                           @Query("longitude") String longitude, @Query("latitude") String latitude,
+                                                           @Query("page") int page, @Query("count") int count);
 }
