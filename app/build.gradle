@@ -24,6 +24,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main {
+            jni.srcDirs=[]
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 dependencies {
@@ -58,4 +64,5 @@ dependencies {
     implementation 'com.android.support:cardview-v7:28.0.0'
     implementation project(':coverflow')
     implementation 'com.contrarywind:Android-PickerView:3.2.6'
+    implementation files('libs/BaiduLBS_Android.jar')
 }

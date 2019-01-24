@@ -25,10 +25,19 @@
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/location"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="6dp"
                     android:src="@drawable/com_icon_loc_white_default" />
+
+                <TextView
+                    android:id="@+id/location_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_toRightOf="@id/location"
+                    android:gravity="center"
+                    android:textColor="#fff"/>
 
                 <com.example.coverflow.RecyclerCoverFlow
                     android:id="@+id/list"
