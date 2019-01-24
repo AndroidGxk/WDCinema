@@ -116,11 +116,13 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
         release_recycler.setLayoutManager(linearLayoutManager2);
         releaseMovieAdapter = new ReleaseMovieAdapter(getContext());
         release_recycler.setAdapter(releaseMovieAdapter);
+
         LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(getContext());
         linearLayoutManager3.setOrientation(LinearLayoutManager.HORIZONTAL);
         comingSoon_recycler.setLayoutManager(linearLayoutManager3);
         comingSoonMovieAdapter = new ComingSoonMovieAdapter(getContext());
         comingSoon_recycler.setAdapter(comingSoonMovieAdapter);
+
         hotMoviePresenter.request(userId, sessionId, 1, 10);
         releaseMoviePresenter.request(userId, sessionId, 1, 10);
         comingSoonMoviePresenter.request(userId, sessionId, 1, 10);
@@ -185,8 +187,9 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
             if (!location.equals("")) {
                 mLocationClient.stop();
             }
-            String addr = location.getAddrStr();    //获取详细地址信息
-            textView.setText(locationDescribe + addr);
+//            String locationDescribe = location.getLocationDescribe();    //获取位置描述信息
+            String addr = location.getCity();    //获取详细地址信息
+            textView.setText(addr);
         }
     }
 
@@ -234,12 +237,6 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
             adapter.notifyDataSetChanged();
             hotMovieAdapter.addItem(result);
             hotMovieAdapter.notifyDataSetChanged();
-
-            releaseMovieAdapter.addItem(result);
-            releaseMovieAdapter.notifyDataSetChanged();
-
-            comingSoonMovieAdapter.addItem(result);
-            comingSoonMovieAdapter.notifyDataSetChanged();
         }
 
         @Override

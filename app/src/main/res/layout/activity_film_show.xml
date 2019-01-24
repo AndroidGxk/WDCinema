@@ -33,46 +33,49 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
         android:layout_marginTop="16dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginLeft="24dp">
+        android:layout_marginRight="24dp">
 
         <Button
+            android:id="@+id/hot_show"
             android:layout_width="83dp"
             android:layout_height="25dp"
-            android:text="推荐影院"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/btn_gradient"
+            android:text="热门电影"
             android:textColor="#333333"
-            android:textSize="14sp"
-            android:background="@drawable/btm_sel"
-            android:layout_alignParentLeft="true"/>
+            android:textSize="14sp" />
 
         <Button
+            android:id="@+id/release_show"
             android:layout_width="83dp"
             android:layout_height="25dp"
-            android:text="附近影院"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/btn_false"
+            android:text="正在热映"
             android:textColor="#333333"
-            android:textSize="14sp"
-            android:background="@drawable/btm_sel"
-            android:layout_centerHorizontal="true"/>
+            android:textSize="14sp" />
 
         <Button
+            android:id="@+id/comingSoon_show"
             android:layout_width="83dp"
             android:layout_height="25dp"
-            android:text="附近影院"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/btn_false"
+            android:text="即将上映"
             android:textColor="#333333"
-            android:textSize="14sp"
-            android:background="@drawable/btm_sel"
-            android:layout_alignParentRight="true"/>
+            android:textSize="14sp" />
 
 
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/cinemarecycleview"
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/filmshow_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="24dp"
-        android:layout_weight="1"></android.support.v7.widget.RecyclerView>
+        android:layout_weight="1"></com.jcodecraeer.xrecyclerview.XRecyclerView>
 </LinearLayout>

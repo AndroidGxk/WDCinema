@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bawei.admin.wdcinema.bean.HotMovieBean;
@@ -16,26 +17,26 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HotMovieAdapter extends RecyclerView.Adapter<HotMovieAdapter.ViewHolder> {
+public class FilmShowAdapter extends RecyclerView.Adapter<FilmShowAdapter.ViewHolder> {
     private Context context;
     List<HotMovieBean> list = new ArrayList<>();
 
-    public HotMovieAdapter(Context context) {
+    public FilmShowAdapter(Context context) {
         this.context = context;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_hotmovie, viewGroup, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_filmshow, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.textView.setBackgroundColor(0x55000000);
-        viewHolder.textView.setText(list.get(i).getName());
-        viewHolder.imageView.setImageURI(Uri.parse(list.get(i).getImageUrl()));
+        viewHolder.name.setText(list.get(i).getName());
+        viewHolder.summary.setText(list.get(i).getSummary());
+        viewHolder.simpleDraweeView.setImageURI(Uri.parse(list.get(i).getImageUrl()));
     }
 
     @Override
@@ -55,13 +56,17 @@ public class HotMovieAdapter extends RecyclerView.Adapter<HotMovieAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView imageView;
-        TextView textView;
+        SimpleDraweeView simpleDraweeView;
+        TextView name;
+        ImageView imageView;
+        TextView summary;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.img);
-            textView = itemView.findViewById(R.id.tv);
+            simpleDraweeView = itemView.findViewById(R.id.filmshow_sim);
+            name = itemView.findViewById(R.id.filmshow_name);
+            imageView = itemView.findViewById(R.id.filmshow_heart);
+            summary = itemView.findViewById(R.id.filmshow_summary);
         }
     }
 }

@@ -84,7 +84,7 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
         cinemarecycleview.setLayoutManager(manager);
         cinemarecycleview.setAdapter(tuiMovieRecycleAdapter);
         location();
-        ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 30f, 500f);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 30f, 510f);
         animator.setDuration(0);
         animator.start();
         return view;
@@ -92,14 +92,14 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
 
     @OnClick(R.id.imageView)
     public void seacrch_linear2() {
-        ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 500f, 30f);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 510f, 30f);
         animator.setDuration(1500);
         animator.start();
     }
 
     @OnClick(R.id.seacrch_text)
     public void seacrch_text() {
-        ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 30f, 500f);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 30f, 510f);
         animator.setDuration(1500);
         animator.start();
     }
