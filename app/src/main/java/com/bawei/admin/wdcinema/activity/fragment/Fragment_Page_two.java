@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.bawei.admin.wdcinema.adapter.TuiMovieRecycleAdapter;
 import com.bawei.admin.wdcinema.bean.RecommBean;
 import com.bawei.admin.wdcinema.bean.Result;
 import com.bawei.admin.wdcinema.core.ResultInfe;
@@ -27,7 +29,7 @@ import butterknife.OnClick;
 import static android.content.Context.MODE_PRIVATE;
 
 
-public class Fragment_Page_two extends Fragment implements ResultInfe {
+public class Fragment_Page_two extends Fragment implements ResultInfe, XRecyclerView.LoadingListener {
     @BindView(R.id.recommend)
     Button recommend;
     @BindView(R.id.nearby)
@@ -39,7 +41,10 @@ public class Fragment_Page_two extends Fragment implements ResultInfe {
     private RecomMoviePresenter recomMoviePresenter;
     private SharedPreferences sp;
     private int page = 1;
-    private final static int count = 10;
+    private final static int count = 5;
+    private TuiMovieRecycleAdapter tuiMovieRecycleAdapter;
+    private int userId;
+    private String sessionId;
 
     @Nullable
     @Override
@@ -49,9 +54,16 @@ public class Fragment_Page_two extends Fragment implements ResultInfe {
         recommend.setBackgroundResource(R.drawable.btn_gradient);
         recomMoviePresenter = new RecomMoviePresenter(this);
         sp = getActivity().getSharedPreferences("login", MODE_PRIVATE);
-        String sessionId = sp.getString("sessionId", "1");
-        int userId = sp.getInt("userId", 1);
+        sessionId = sp.getString("sessionId", "1");
+        userId = sp.getInt("userId", 1);
         recomMoviePresenter.request(userId, sessionId, page, count);
+        cinemarecycleview.setLoadingListener(this);
+        cinemarecycleview.setLoadingMoreEnabled(true);
+        cinemarecycleview.setPullRefreshEnabled(true);
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        tuiMovieRecycleAdapter = new TuiMovieRecycleAdapter();
+        cinemarecycleview.setLayoutManager(manager);
+        cinemarecycleview.setAdapter(tuiMovieRecycleAdapter);
         return view;
     }
 
@@ -84,10 +96,29 @@ public class Fragment_Page_two extends Fragment implements ResultInfe {
     public void success(Object data) {
         Result result = (Result) data;
         List<RecommBean> recommList = (List<RecommBean>) result.getResult();
+        tuiMovieRecycleAdapter.addAll(recommList);
+        cinemarecycleview.loadMoreComplete();
+        cinemarecycleview.refreshComplete();
     }
 
     @Override
     public void errors(Throwable throwable) {
 
+    }
+
+    /**
+     * 上拉下拉加载
+     */
+    @Override
+    public void onRefresh() {
+        page = 1;
+        tuiMovieRecycleAdapter.removeAll();
+        recomMoviePresenter.request(userId, sessionId, page, count);
+    }
+
+    @Override
+    public void onLoadMore() {
+        page++;
+        recomMoviePresenter.request(userId, sessionId, page, count);
     }
 }
