@@ -34,7 +34,7 @@ public class WelcActivity extends AppCompatActivity implements CustomAdapt {
             super.handleMessage(msg);
             if (msg.what == 1) {
                 if (timecount == 0) {
-                    startActivity(new Intent(WelcActivity.this, LoginActivity.class));
+                    startActivity(new Intent(WelcActivity.this, MainActivity.class));
                     finish();
                 }
                 timecount--;
@@ -151,7 +151,7 @@ public class WelcActivity extends AppCompatActivity implements CustomAdapt {
 
                                 Intent intent = new Intent(
                                         WelcActivity.this,
-                                        LoginActivity.class);
+                                        MainActivity.class);
                                 startActivity(intent);
                                 finish();
                                 return true;

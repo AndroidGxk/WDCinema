@@ -66,6 +66,14 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt, Result
         sp = getActivity().getSharedPreferences("login", MODE_PRIVATE);
         sessionId = sp.getString("sessionId", "1");
         userId = sp.getInt("userId", 1);
+
+
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         DaoSession daoSession = DaoMaster.newDevSession(getActivity(), LoginSubBeanDao.TABLENAME);
         loginSubBeanDao = daoSession.getLoginSubBeanDao();
         list = loginSubBeanDao.queryBuilder()
@@ -77,22 +85,45 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt, Result
             String headPic = loginSubBean.getHeadPic();
             myheader.setImageURI(headPic);
             myname.setText(nickName);
+        } else {
+            myname.setText("未登录");
+            myname.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (list.size() == 0) {
+                        startActivity(new Intent(getContext(), LoginActivity.class));
+                        return;
+                    }
+                }
+            });
         }
-        return view;
     }
 
     @OnClick(R.id.massge_linea)
     public void massge_linea() {
+        if (list.size() == 0) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            return;
+        }
         startActivity(new Intent(getContext(), MyMessage_Activity.class));
+
     }
 
     @OnClick(R.id.myyijian)
     public void myyijian() {
+        if (list.size() == 0) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            return;
+        }
         startActivity(new Intent(getContext(), OpinActivity.class));
     }
 
     @OnClick(R.id.back_btn)
     public void back_btn() {
+        if (list.size() == 0) {
+            Toast.makeText(getActivity(), "未登录", Toast.LENGTH_SHORT).show();
+            return;
+        }
         loginSubBeanDao.deleteAll();
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -106,6 +137,10 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt, Result
      */
     @OnClick(R.id.mylinear_two)
     public void mylinear_two() {
+        if (list.size() == 0) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            return;
+        }
         startActivity(new Intent(getContext(), ConcerActivity.class));
     }
 
@@ -121,6 +156,10 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt, Result
 
     @OnClick(R.id.usersigin)
     public void usersigin() {
+        if (list.size() == 0) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            return;
+        }
         if (usersigin.getText().toString().equals("已签到")) {
             return;
         }

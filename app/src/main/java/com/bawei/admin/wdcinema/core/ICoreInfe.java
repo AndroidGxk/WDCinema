@@ -1,5 +1,6 @@
 package com.bawei.admin.wdcinema.core;
 
+import com.bawei.admin.wdcinema.bean.CineamScheBean;
 import com.bawei.admin.wdcinema.bean.CinemaPageList;
 import com.bawei.admin.wdcinema.bean.HotMovieBean;
 import com.bawei.admin.wdcinema.bean.LoginBean;
@@ -129,4 +130,10 @@ public interface ICoreInfe {
      */
     @GET("user/v1/verify/userSignIn")
     Observable<Result> userSignIn(@Header("userId") int userId, @Header("sessionId") String sessionId);
+
+    /**
+     * 影院当前排期
+     */
+    @GET("movie/v1/findMovieListByCinemaId")
+    Observable<Result<List<CineamScheBean>>> findMovieListByCinemaId(@Query("cinemaId") int cinemaId);
 }

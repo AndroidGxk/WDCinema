@@ -68,7 +68,7 @@ public class TuiMovieRecycleAdapter extends RecyclerView.Adapter<TuiMovieRecycle
         vh.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickListener.onclick(recommBean.getId());
+                onClickListener.onclick(recommBean.getId(), recommBean.getLogo(), recommBean.getName(), recommBean.getAddress());
             }
         });
     }
@@ -86,6 +86,6 @@ public class TuiMovieRecycleAdapter extends RecyclerView.Adapter<TuiMovieRecycle
     }
 
     public interface OnClickListener {
-        void onclick(int id);
+        void onclick(int id, String img, String name, String address);
     }
 }
