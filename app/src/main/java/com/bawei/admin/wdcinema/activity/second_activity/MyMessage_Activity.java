@@ -18,18 +18,26 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bawei.admin.wdcinema.activity.thirdly_activity.UpdateNameActivity;
+import com.bawei.admin.wdcinema.bean.LoginSubBean;
 import com.bawei.admin.wdcinema.core.ResultInfe;
 import com.bawei.admin.wdcinema.core.utils.Constant;
 import com.bawei.admin.wdcinema.core.utils.GetRealPath;
+import com.bawei.admin.wdcinema.greendao.DaoMaster;
+import com.bawei.admin.wdcinema.greendao.DaoSession;
+import com.bawei.admin.wdcinema.greendao.LoginSubBeanDao;
 import com.bawei.admin.wdcinema.presenter.UpdateHeadPresenter;
 import com.bw.movie.R;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,6 +49,16 @@ public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt
     ImageView back_image;
     @BindView(R.id.myheader)
     SimpleDraweeView myheader;
+    @BindView(R.id.update_name)
+    TextView update_name;
+    @BindView(R.id.update_sex)
+    TextView update_sex;
+    @BindView(R.id.update_date)
+    TextView update_date;
+    @BindView(R.id.myphone)
+    TextView myphone;
+    @BindView(R.id.update_mail)
+    TextView update_mail;
     private int SELECT_PICTURE = 1; // 从图库中选择图片
     private int SELECT_CAMER = 0; // 用相机拍摄照片
     private Bitmap bmp;
@@ -53,6 +71,27 @@ public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_message_);
         ButterKnife.bind(this);
+        DaoSession daoSession = DaoMaster.newDevSession(MyMessage_Activity.this, LoginSubBeanDao.TABLENAME);
+        LoginSubBeanDao loginSubBeanDao = daoSession.getLoginSubBeanDao();
+        List<LoginSubBean> list = loginSubBeanDao.queryBuilder()
+                .where(LoginSubBeanDao.Properties.Statu.eq("1"))
+                .build().list();
+        if (list.size() > 0) {
+            LoginSubBean loginSubBean = list.get(0);
+            myheader.setImageURI(loginSubBean.getHeadPic());
+            update_name.setText(loginSubBean.getNickName());
+            if (loginSubBean.getSex() == 1) {
+                update_sex.setText("男");
+            } else {
+                update_sex.setText("女");
+            }
+            Date date = new Date();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            date.setTime(loginSubBean.getBirthday());
+            String Datetime = format.format(date);
+            update_date.setText(Datetime);
+            myphone.setText(loginSubBean.getPhone());
+        }
         findViewById(R.id.update_name).setOnClickListener(this);
         findViewById(R.id.update_mail).setOnClickListener(this);
         findViewById(R.id.update_sex).setOnClickListener(this);

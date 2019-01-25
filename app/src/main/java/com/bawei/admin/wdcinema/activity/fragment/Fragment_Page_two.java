@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -89,6 +90,12 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
         ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 30f, 510f);
         animator.setDuration(0);
         animator.start();
+        tuiMovieRecycleAdapter.setOnClickListener(new TuiMovieRecycleAdapter.OnClickListener() {
+            @Override
+            public void onclick(int id) {
+                Toast.makeText(getContext(), "" + id, Toast.LENGTH_SHORT).show();
+            }
+        });
         return view;
     }
 

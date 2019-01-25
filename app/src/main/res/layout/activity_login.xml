@@ -105,6 +105,7 @@
             android:orientation="horizontal">
 
             <CheckBox
+                android:id="@+id/rem_check"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:background="@drawable/item_checked"

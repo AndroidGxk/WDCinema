@@ -10,20 +10,23 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bawei.admin.wdcinema.bean.LoginBean;
+import com.bawei.admin.wdcinema.bean.LoginSubBean;
 import com.bawei.admin.wdcinema.bean.Result;
-import com.bawei.admin.wdcinema.bean.ormlite.DBManager;
 import com.bawei.admin.wdcinema.core.ResultInfe;
 import com.bawei.admin.wdcinema.core.utils.Constant;
 import com.bawei.admin.wdcinema.core.utils.EncryptUtil;
+import com.bawei.admin.wdcinema.greendao.DaoMaster;
+import com.bawei.admin.wdcinema.greendao.DaoSession;
+import com.bawei.admin.wdcinema.greendao.LoginSubBeanDao;
 import com.bawei.admin.wdcinema.presenter.LoginPresenter;
 import com.bw.movie.R;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -39,22 +42,17 @@ public class LoginActivity extends AppCompatActivity implements CustomAdapt, Res
     EditText my_login_phone;
     @BindView(R.id.my_login_pwd)
     EditText my_login_pwd;
+    @BindView(R.id.rem_check)
+    CheckBox rem_check;
     private LoginPresenter loginPresenter;
     private SharedPreferences sp;
-    private DBManager dbManager;
-    private List<LoginBean> loginBeans = new ArrayList<>();
+    private LoginSubBeanDao loginSubBeanDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        //初始化DBManager
-        try {
-            dbManager = new DBManager(this);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         loginPresenter = new LoginPresenter(this);
         sp = getSharedPreferences("login", MODE_PRIVATE);
         if (ContextCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -62,7 +60,12 @@ public class LoginActivity extends AppCompatActivity implements CustomAdapt, Res
             ActivityCompat.requestPermissions(LoginActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE}, Constant.REQ_PERM_CAMERA);
         }
-        queryStudent();
+        DaoSession daoSession = DaoMaster.newDevSession(LoginActivity.this, LoginSubBeanDao.TABLENAME);
+        loginSubBeanDao = daoSession.getLoginSubBeanDao();
+        List<LoginSubBean> loginSubBeans = loginSubBeanDao.loadAll();
+        if (loginSubBeans.size() >= 5) {
+            loginSubBeanDao.deleteAll();
+        }
     }
 
     @OnClick(R.id.my_login_btn)
@@ -119,46 +122,32 @@ public class LoginActivity extends AppCompatActivity implements CustomAdapt, Res
         LoginBean loginBean = (LoginBean) result.getResult();
         SharedPreferences.Editor edit = sp.edit();
         //添加Sp添加
+        LoginSubBean userInfo = loginBean.getUserInfo();
         edit.putString("sessionId", loginBean.getSessionId());
         edit.putInt("userId", loginBean.getUserId());
         edit.commit();
-        if (result.getStatus().equals("0000")) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            LoginBean login = new LoginBean();
-            login.setId(123);
-            login.setSessionId(loginBean.getSessionId());
-            login.setUserId(loginBean.getUserId());
-            login.setUserInfo(loginBean.getUserInfo());
-            String pwd = my_login_pwd.getText().toString();
-            login.setPwd(pwd);
-            try {
-                for (int i = 0; i < loginBeans.size(); i++) {
-                    if (loginBeans.get(i).getUserId() == loginBean.getId() && !(loginBeans.get(i).getSessionId().equals(loginBean.getSessionId()))) {
-                        dbManager.deleteStudent(loginBean);
-                        dbManager.insertStudent(login);
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            finish();
-        }
+        LoginSubBean loginSubBean = new LoginSubBean();
+        loginSubBean.setStatu(1);
+        loginSubBean.setPwd(my_login_pwd.getText().toString());
+        loginSubBean.setGid(0);
+        loginSubBean.setHeadPic(userInfo.getHeadPic());
+        loginSubBean.setBirthday(userInfo.getBirthday());
+        loginSubBean.setId(userInfo.getId());
+        loginSubBean.setLastLoginTime(userInfo.getLastLoginTime());
+        loginSubBean.setPhone(userInfo.getPhone());
+        loginSubBean.setSessionId(loginBean.getSessionId());
+        loginSubBean.setNickName(userInfo.getNickName());
+        loginSubBean.setSex(userInfo.getSex());
+        loginSubBean.setUserId(userInfo.getUserId());
+        loginSubBean.setMail(userInfo.getMail());
+        loginSubBeanDao.insertOrReplace(loginSubBean);
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        finish();
     }
 
     @Override
     public void errors(Throwable throwable) {
 
-    }
-
-    /**
-     * 查询所有的student
-     */
-    public void queryStudent() {
-        try {
-            loginBeans = dbManager.getStudent();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

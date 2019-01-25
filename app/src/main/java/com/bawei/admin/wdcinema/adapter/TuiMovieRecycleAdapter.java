@@ -60,11 +60,17 @@ public class TuiMovieRecycleAdapter extends RecyclerView.Adapter<TuiMovieRecycle
 
     @Override
     public void onBindViewHolder(@NonNull Vh vh, int i) {
-        RecommBean recommBean = recommList.get(i);
+        final RecommBean recommBean = recommList.get(i);
         vh.cinematextviewone.setText(recommBean.getName());
         vh.simpleDraweeView.setImageURI(recommBean.getLogo());
         vh.cinematextviewtwo.setText(recommBean.getAddress());
         vh.cinematextviewthree.setText(recommBean.getDistance() + "m");
+        vh.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickListener.onclick(recommBean.getId());
+            }
+        });
     }
 
     @Override
@@ -73,4 +79,13 @@ public class TuiMovieRecycleAdapter extends RecyclerView.Adapter<TuiMovieRecycle
     }
 
 
+    private OnClickListener onClickListener;
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
+    public interface OnClickListener {
+        void onclick(int id);
+    }
 }

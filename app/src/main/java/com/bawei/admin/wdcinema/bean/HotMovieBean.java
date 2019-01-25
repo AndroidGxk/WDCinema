@@ -1,8 +1,5 @@
 package com.bawei.admin.wdcinema.bean;
 
-import com.google.gson.annotations.SerializedName;
-
-
 public class HotMovieBean {
     /**
      * followMovie : 2
