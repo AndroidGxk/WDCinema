@@ -1,5 +1,6 @@
 package com.bawei.admin.wdcinema.bean;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -8,7 +9,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * 邮箱：1724959985@qq.com
  */
 
-@DatabaseTable(tableName = "user")
+@DatabaseTable(tableName = "users")
 public class LoginBean {
     /**
      * sessionId : 15320592619803
@@ -21,6 +22,7 @@ public class LoginBean {
     private String sessionId;
     @DatabaseField
     private int userId;
+    @DatabaseField(dataType = DataType.SERIALIZABLE)
     private LoginSubBean userInfo;
     @DatabaseField
     private String pwd;

@@ -23,6 +23,7 @@ import com.bawei.admin.wdcinema.presenter.LoginPresenter;
 import com.bw.movie.R;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -41,7 +42,7 @@ public class LoginActivity extends AppCompatActivity implements CustomAdapt, Res
     private LoginPresenter loginPresenter;
     private SharedPreferences sp;
     private DBManager dbManager;
-    private List<LoginBean> loginBean;
+    private List<LoginBean> loginBeans = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,19 +128,20 @@ public class LoginActivity extends AppCompatActivity implements CustomAdapt, Res
             login.setId(123);
             login.setSessionId(loginBean.getSessionId());
             login.setUserId(loginBean.getUserId());
+            login.setUserInfo(loginBean.getUserInfo());
             String pwd = my_login_pwd.getText().toString();
             login.setPwd(pwd);
+            try {
+                for (int i = 0; i < loginBeans.size(); i++) {
+                    if (loginBeans.get(i).getUserId() == loginBean.getId() && !(loginBeans.get(i).getSessionId().equals(loginBean.getSessionId()))) {
+                        dbManager.deleteStudent(loginBean);
+                        dbManager.insertStudent(login);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             finish();
-            try {
-                int i = dbManager.deleteStudentAll((List<LoginBean>) loginBean);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                dbManager.insertStudent(login);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -153,7 +155,7 @@ public class LoginActivity extends AppCompatActivity implements CustomAdapt, Res
      */
     public void queryStudent() {
         try {
-            loginBean = dbManager.getStudent();
+            loginBeans = dbManager.getStudent();
         } catch (SQLException e) {
             e.printStackTrace();
         }

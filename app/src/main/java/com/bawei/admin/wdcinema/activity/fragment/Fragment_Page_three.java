@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.bawei.admin.wdcinema.activity.LoginActivity;
+import com.bawei.admin.wdcinema.activity.second_activity.ConcerActivity;
 import com.bawei.admin.wdcinema.activity.second_activity.MyMessage_Activity;
+import com.bawei.admin.wdcinema.activity.second_activity.OpinActivity;
 import com.bw.movie.R;
 
 import butterknife.BindView;
@@ -38,6 +40,11 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt {
         startActivity(new Intent(getContext(), MyMessage_Activity.class));
     }
 
+    @OnClick(R.id.myyijian)
+    public void myyijian() {
+        startActivity(new Intent(getContext(), OpinActivity.class));
+    }
+
     @OnClick(R.id.back_btn)
     public void back_btn() {
         Intent intent = new Intent(getActivity(), LoginActivity.class);
@@ -47,12 +54,14 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt {
 
     /**
      * 我的关注
+     *
      * @return
      */
     @OnClick(R.id.mylinear_two)
-    public void mylinear_two(){
-
+    public void mylinear_two() {
+        startActivity(new Intent(getContext(), ConcerActivity.class));
     }
+
     @Override
     public boolean isBaseOnWidth() {
         return false;

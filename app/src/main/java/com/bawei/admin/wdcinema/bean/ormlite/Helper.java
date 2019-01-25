@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 public class Helper extends OrmLiteSqliteOpenHelper {
     public Helper(Context context ) {
-        super(context, "test", null, 1);
+        super(context, "userinfo", null, 1);
     }
  
     @Override

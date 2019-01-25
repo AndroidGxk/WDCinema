@@ -1,16 +1,27 @@
 package com.bawei.admin.wdcinema.bean;
 
+import com.j256.ormlite.field.DatabaseField;
+
+import java.io.Serializable;
+
 /**
  * 作者：admin on 2019/1/23 17:58
  * 邮箱：1724959985@qq.com
  */
-public class LoginSubBean {
+public class LoginSubBean implements Serializable {
+    @DatabaseField
     private long birthday;
+    @DatabaseField
     private int id;
+    @DatabaseField
     private long lastLoginTime;
+    @DatabaseField
     private String nickName;
+    @DatabaseField
     private String phone;
+    @DatabaseField
     private int sex;
+    @DatabaseField
     private String headPic;
 
     public long getBirthday() {

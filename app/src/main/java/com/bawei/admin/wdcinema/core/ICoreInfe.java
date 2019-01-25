@@ -1,5 +1,6 @@
 package com.bawei.admin.wdcinema.core;
 
+import com.bawei.admin.wdcinema.bean.CinemaPageList;
 import com.bawei.admin.wdcinema.bean.HotMovieBean;
 import com.bawei.admin.wdcinema.bean.LoginBean;
 import com.bawei.admin.wdcinema.bean.MovieListBean;
@@ -111,4 +112,16 @@ public interface ICoreInfe {
     @GET("movie/v1/findMoviesDetail")
     Observable<Result<MoviesDetail>> findMoviesDetail(@Header("userId") int userId, @Header("sessionId") String sessionId,
                                                       @Query("movieId") int movieId);
+    /**
+     * 关注影院列表
+     */
+    @GET("cinema/v1/verify/findCinemaPageList")
+    Observable<Result<List<CinemaPageList>>> findCinemaPageList(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                                                @Query("page") int page, @Query("count") int count);
+    /**
+     * App反馈
+     */
+    @POST("tool/v1/verify/recordFeedBack")
+    Observable<Result<List<CinemaPageList>>> recordFeedBack(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                                                 @Query("content") String content);
 }

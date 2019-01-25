@@ -69,6 +69,7 @@
         <activity
             android:name="com.bawei.admin.wdcinema.activity.FilmShowActivity"
             android:launchMode="singleTask" />
+        <activity android:name="com.bawei.admin.wdcinema.activity.second_activity.OpinActivity"></activity>
         <activity android:name="com.bawei.admin.wdcinema.activity.second_activity.ConcerActivity"></activity>
     </application>
 

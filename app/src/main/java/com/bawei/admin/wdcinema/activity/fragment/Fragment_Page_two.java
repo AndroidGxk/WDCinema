@@ -49,6 +49,8 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
     XRecyclerView cinemarecycleview;
     private boolean recommcheck = true;
     private boolean nearbycheck = false;
+    private boolean animatort = false;
+    private boolean animatorf = false;
     private RecomMoviePresenter recomMoviePresenter;
     private SharedPreferences sp;
     private int page = 1;
@@ -92,6 +94,11 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
 
     @OnClick(R.id.imageView)
     public void seacrch_linear2() {
+        if (animatort) {
+            return;
+        }
+        animatort = true;
+        animatorf = false;
         ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 510f, 30f);
         animator.setDuration(1500);
         animator.start();
@@ -99,6 +106,11 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
 
     @OnClick(R.id.seacrch_text)
     public void seacrch_text() {
+        if (animatorf) {
+            return;
+        }
+        animatorf = true;
+        animatort = false;
         ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 30f, 510f);
         animator.setDuration(1500);
         animator.start();
@@ -115,7 +127,7 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
             latitude = location.getLatitude();
             //获取经度信息
             longitude = location.getLongitude();
-            if(!location.getCity().equals("")){
+            if (!location.getCity().equals("")) {
                 cimema_text.setText(location.getCity());
                 mLocationClient.stop();
             }
@@ -124,6 +136,9 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
 
     @OnClick(R.id.recommend)
     public void recommend() {
+        if (recommcheck) {
+            return;
+        }
         recommcheck = true;
         page = 1;
         if (recommcheck) {
@@ -137,6 +152,9 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
 
     @OnClick(R.id.nearby)
     public void nearby() {
+        if (nearbycheck) {
+            return;
+        }
         nearbycheck = true;
         page = 1;
         if (nearbycheck) {

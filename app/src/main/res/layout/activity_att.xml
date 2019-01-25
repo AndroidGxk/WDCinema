@@ -15,7 +15,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/recommend"
+            android:id="@+id/movie_btn"
             android:layout_width="83dp"
             android:layout_height="25dp"
             android:layout_marginRight="32dp"
@@ -25,7 +25,7 @@
             android:textSize="14sp" />
 
         <Button
-            android:id="@+id/nearby"
+            android:id="@+id/cinema_btn"
             android:layout_width="83dp"
             android:layout_height="25dp"
             android:background="@drawable/btn_false"
@@ -36,12 +36,22 @@
     </LinearLayout>
 
     <com.jcodecraeer.xrecyclerview.XRecyclerView
-        android:id="@+id/cinemarecycleview"
+        android:id="@+id/concerrecycleview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="30dp"
         android:layout_marginRight="24dp"
         android:layout_weight="1"></com.jcodecraeer.xrecyclerview.XRecyclerView>
+
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/concerrecycleview2"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="24dp"
+        android:layout_weight="1" />
 
 </LinearLayout>

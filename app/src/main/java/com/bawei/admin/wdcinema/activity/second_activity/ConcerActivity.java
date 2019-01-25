@@ -3,29 +3,147 @@ package com.bawei.admin.wdcinema.activity.second_activity;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
+import com.bawei.admin.wdcinema.adapter.CineamaRecycleAdapter;
+import com.bawei.admin.wdcinema.adapter.ConcerRecycleAdapter;
+import com.bawei.admin.wdcinema.bean.CinemaPageList;
 import com.bawei.admin.wdcinema.bean.MovieListBean;
 import com.bawei.admin.wdcinema.bean.Result;
 import com.bawei.admin.wdcinema.core.ResultInfe;
+import com.bawei.admin.wdcinema.presenter.GuanCineamListPresenter;
 import com.bawei.admin.wdcinema.presenter.GuanMovieListPresenter;
 import com.bw.movie.R;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.List;
 
-public class ConcerActivity extends AppCompatActivity implements ResultInfe {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import me.jessyan.autosize.internal.CustomAdapt;
 
+public class ConcerActivity extends AppCompatActivity implements ResultInfe, CustomAdapt, XRecyclerView.LoadingListener {
+    private boolean recommcheck = true;
+    private boolean nearbycheck = false;
     private SharedPreferences sp;
+    @BindView(R.id.movie_btn)
+    Button movie_btn;
+    @BindView(R.id.cinema_btn)
+    Button cinema_btn;
+    @BindView(R.id.concerrecycleview)
+    XRecyclerView concerrecycleview;
+    @BindView(R.id.concerrecycleview2)
+    XRecyclerView concerrecycleview2;
+    private ConcerRecycleAdapter concerRecycleAdapter;
+    private int page = 1;
+    private static final int count = 5;
+    private GuanMovieListPresenter movieListPresenter;
+    private String seesionId;
+    private int userId;
+    private GuanCineamListPresenter cineamListPresenter;
+    private CineamaRecycleAdapter cineamaRecycleAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_att);
+        ButterKnife.bind(this);
+        movie_btn.setBackgroundResource(R.drawable.btn_gradient);
         sp = getSharedPreferences("login", MODE_PRIVATE);
-        String seesionId = sp.getString("sessionId", "");
-        int userId = sp.getInt("userId", 0);
-        GuanMovieListPresenter movieListPresenter = new GuanMovieListPresenter(this);
-        movieListPresenter.request(userId, seesionId, 1, 5);
+        seesionId = sp.getString("sessionId", "");
+        userId = sp.getInt("userId", 0);
+        movieListPresenter = new GuanMovieListPresenter(this);
+        cineamListPresenter = new GuanCineamListPresenter(new CineamaP());
+        movieListPresenter.request(userId, seesionId, page, count);
+        concerRecycleAdapter = new ConcerRecycleAdapter();
+        cineamaRecycleAdapter = new CineamaRecycleAdapter();
+        LinearLayoutManager manager = new LinearLayoutManager(ConcerActivity.this);
+        LinearLayoutManager manager2 = new LinearLayoutManager(ConcerActivity.this);
+        concerrecycleview.setLoadingListener(this);
+        concerrecycleview.setPullRefreshEnabled(true);
+        concerrecycleview.setLoadingMoreEnabled(true);
+        concerrecycleview.setLayoutManager(manager);
+        concerrecycleview.setAdapter(concerRecycleAdapter);
+        concerrecycleview2.setLoadingListener(new LoadingListener2());
+        concerrecycleview2.setLoadingMoreEnabled(true);
+        concerrecycleview2.setPullRefreshEnabled(true);
+        concerrecycleview2.setLayoutManager(manager2);
+        concerrecycleview2.setAdapter(cineamaRecycleAdapter);
+    }
+
+    class LoadingListener2 implements XRecyclerView.LoadingListener {
+
+        @Override
+        public void onRefresh() {
+            page = 1;
+            cineamaRecycleAdapter.removeAll();
+            cineamListPresenter.request(userId, seesionId, page, count);
+        }
+
+        @Override
+        public void onLoadMore() {
+            page++;
+            cineamListPresenter.request(userId, seesionId, page, count);
+        }
+    }
+
+    class CineamaP implements ResultInfe {
+
+        @Override
+        public void success(Object data) {
+            Result result = (Result) data;
+            List<CinemaPageList> pageLists = (List<CinemaPageList>) result.getResult();
+            cineamaRecycleAdapter.addAll(pageLists);
+            concerrecycleview2.refreshComplete();
+            concerrecycleview2.loadMoreComplete();
+        }
+
+        @Override
+        public void errors(Throwable throwable) {
+
+        }
+    }
+
+    @OnClick(R.id.movie_btn)
+    public void recommend() {
+        if (recommcheck) {
+            return;
+        }
+        recommcheck = true;
+        page = 1;
+        if (recommcheck) {
+            concerRecycleAdapter.removeAll();
+            cineamaRecycleAdapter.removeAll();
+            movieListPresenter.request(userId, seesionId, page, count);
+            movie_btn.setBackgroundResource(R.drawable.btn_gradient);
+            concerrecycleview2.setVisibility(View.GONE);
+            concerrecycleview.setVisibility(View.VISIBLE);
+            nearbycheck = false;
+            cinema_btn.setBackgroundResource(R.drawable.btn_false);
+        }
+    }
+
+    @OnClick(R.id.cinema_btn)
+    public void nearby() {
+        if (nearbycheck) {
+            return;
+        }
+        nearbycheck = true;
+        page = 1;
+        if (nearbycheck) {
+            concerRecycleAdapter.removeAll();
+            cineamaRecycleAdapter.removeAll();
+            concerrecycleview.setVisibility(View.GONE);
+            concerrecycleview2.setVisibility(View.VISIBLE);
+            cineamListPresenter.request(userId, seesionId, page, count);
+            cinema_btn.setBackgroundResource(R.drawable.btn_gradient);
+            recommcheck = false;
+            movie_btn.setBackgroundResource(R.drawable.btn_false);
+        }
     }
 
     /**
@@ -36,12 +154,46 @@ public class ConcerActivity extends AppCompatActivity implements ResultInfe {
     @Override
     public void success(Object data) {
         Result result = (Result) data;
-        List<MovieListBean> movieListBeans = (List<MovieListBean>) result.getResult();
-        Toast.makeText(this, "" + movieListBeans.get(0).getName(), Toast.LENGTH_SHORT).show();
+        List<MovieListBean> movieList = (List<MovieListBean>) result.getResult();
+        concerRecycleAdapter.addAll(movieList);
+        concerrecycleview.refreshComplete();
+        concerrecycleview.loadMoreComplete();
     }
 
     @Override
     public void errors(Throwable throwable) {
 
+    }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 720;
+    }
+
+    /**
+     * 上拉下拉刷新加载
+     */
+    @Override
+    public void onRefresh() {
+        page = 1;
+        concerRecycleAdapter.removeAll();
+        movieListPresenter.request(userId, seesionId, page, count);
+    }
+
+    @Override
+    public void onLoadMore() {
+        page++;
+        movieListPresenter.request(userId, seesionId, page, count);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        movieListPresenter.unBind();
     }
 }

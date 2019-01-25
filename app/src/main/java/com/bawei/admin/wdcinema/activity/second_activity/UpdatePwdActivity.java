@@ -70,11 +70,10 @@ public class UpdatePwdActivity extends AppCompatActivity implements CustomAdapt,
     @Override
     public void success(Object data) {
         Result result = (Result) data;
-        Toast.makeText(this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
         if (result.getStatus().equals("0000")) {
-            finish();
-
+            Toast.makeText(this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
         }
+        finish();
     }
 
     @Override
