@@ -2,6 +2,8 @@ package com.bawei.admin.wdcinema.core;
 
 import com.bawei.admin.wdcinema.bean.HotMovieBean;
 import com.bawei.admin.wdcinema.bean.LoginBean;
+import com.bawei.admin.wdcinema.bean.MovieListBean;
+import com.bawei.admin.wdcinema.bean.MoviesDetail;
 import com.bawei.admin.wdcinema.bean.RecommBean;
 import com.bawei.admin.wdcinema.bean.Result;
 
@@ -88,4 +90,25 @@ public interface ICoreInfe {
     Observable<Result<List<RecommBean>>> findNearbyCinemas(@Header("userId") int userId, @Header("sessionId") String sessionId,
                                                            @Query("longitude") String longitude, @Query("latitude") String latitude,
                                                            @Query("page") int page, @Query("count") int count);
+
+    /**
+     * 关注电影列表
+     */
+    @GET("movie/v1/verify/findMoviePageList")
+    Observable<Result<List<MovieListBean>>> findMoviePageList(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                                              @Query("page") int page, @Query("count") int count);
+
+    /**
+     * 根据电影ID查询电影信息
+     */
+    @GET("movie/v1/findMoviesById")
+    Observable<Result<MoviesDetail>> findMoviesById(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                                    @Query("movieId") int movieId);
+
+    /**
+     * 查看电影详情
+     */
+    @GET("movie/v1/findMoviesDetail")
+    Observable<Result<MoviesDetail>> findMoviesDetail(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                                      @Query("movieId") int movieId);
 }

@@ -45,6 +45,14 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt {
         startActivity(intent);
     }
 
+    /**
+     * 我的关注
+     * @return
+     */
+    @OnClick(R.id.mylinear_two)
+    public void mylinear_two(){
+
+    }
     @Override
     public boolean isBaseOnWidth() {
         return false;

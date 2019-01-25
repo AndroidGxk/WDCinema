@@ -48,20 +48,28 @@
             android:enabled="true"
             android:process=":remote" />
 
-        <activity android:name="com.bawei.admin.wdcinema.activity.MainActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name="com.bawei.admin.wdcinema.activity.second_activity.MyMessage_Activity"
-            android:launchMode="singleTask"/>
-        <activity android:name="com.bawei.admin.wdcinema.activity.LoginActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name="com.bawei.admin.wdcinema.activity.RegisActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name="com.bawei.admin.wdcinema.activity.second_activity.UpdatePwdActivity"
+        <activity
+            android:name="com.bawei.admin.wdcinema.activity.MainActivity"
             android:launchMode="singleTask" />
-        <activity android:name="com.bawei.admin.wdcinema.activity.thirdly_activity.UpdateNameActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name="com.bawei.admin.wdcinema.activity.FilmShowActivity"
-            android:launchMode="singleTask"></activity>
+        <activity
+            android:name="com.bawei.admin.wdcinema.activity.second_activity.MyMessage_Activity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name="com.bawei.admin.wdcinema.activity.LoginActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name="com.bawei.admin.wdcinema.activity.RegisActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name="com.bawei.admin.wdcinema.activity.second_activity.UpdatePwdActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name="com.bawei.admin.wdcinema.activity.thirdly_activity.UpdateNameActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name="com.bawei.admin.wdcinema.activity.FilmShowActivity"
+            android:launchMode="singleTask" />
+        <activity android:name="com.bawei.admin.wdcinema.activity.second_activity.ConcerActivity"></activity>
     </application>
 
 </manifest>
