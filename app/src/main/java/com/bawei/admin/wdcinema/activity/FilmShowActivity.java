@@ -6,7 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.bawei.admin.wdcinema.activity.fragment.Fragment_Page_one;
 import com.bawei.admin.wdcinema.adapter.FilmShowAdapter;
 import com.bawei.admin.wdcinema.bean.HotMovieBean;
 import com.bawei.admin.wdcinema.bean.Result;
@@ -37,6 +43,8 @@ public class FilmShowActivity extends AppCompatActivity implements CustomAdapt, 
     Button comingSoon;
     @BindView(R.id.filmshow_recycler)
     XRecyclerView filmshow_recycler;
+    @BindView(R.id.cimema_text)
+    TextView textView;
     private HotMoviePresenter hotMoviePresenter;
     private ReleaseMoviePresenter releaseMoviePresenter;
     private ComingSoonMoviePresenter comingSoonMoviePresenter;
@@ -45,6 +53,8 @@ public class FilmShowActivity extends AppCompatActivity implements CustomAdapt, 
     private String sessionId;
     private int userId;
     private FilmShowAdapter filmShowAdapter;
+    public LocationClient mLocationClient = null;
+    private MyLocationListener myListener = new MyLocationListener();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -230,5 +240,44 @@ public class FilmShowActivity extends AppCompatActivity implements CustomAdapt, 
         releaseMoviePresenter.unBind();
         hotMoviePresenter.unBind();
         comingSoonMoviePresenter.unBind();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        //百度定位
+        mLocationClient = new LocationClient(getApplicationContext());
+        //声明LocationClient类
+        mLocationClient.registerLocationListener(myListener);
+        //注册监听函数
+        LocationClientOption option = new LocationClientOption();
+        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
+        //可选，是否需要位置描述信息，默认为不需要，即参数为false
+        //如果开发者需要获得当前点的位置信息，此处必须为true
+        option.setIsNeedLocationDescribe(true);
+        //可选，设置是否需要地址信息，默认不需要
+        option.setIsNeedAddress(true);
+        //可选，默认false,设置是否使用gps
+        option.setOpenGps(true);
+        //可选，默认false，设置是否当GPS有效时按照1S/1次频率输出GPS结果
+        option.setLocationNotify(false);
+        mLocationClient.setLocOption(option);
+        mLocationClient.start();
+    }
+    //定位
+    public class MyLocationListener implements BDLocationListener {
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            //此处的BDLocation为定位结果信息类，通过它的各种get方法可获取定位相关的全部结果
+            //以下只列举部分获取地址相关的结果信息
+            //更多结果信息获取说明，请参照类参考中BDLocation类中的说明
+//            double latitude = location.getLatitude();    //获取纬度信息
+//            double longitude = location.getLongitude();    //获取经度信息
+            if (!location.equals("")) {
+                mLocationClient.stop();
+            }
+//            String locationDescribe = location.getLocationDescribe();    //获取位置描述信息
+            String addr = location.getCity();    //获取详细地址信息
+            textView.setText(addr);
+        }
     }
 }
