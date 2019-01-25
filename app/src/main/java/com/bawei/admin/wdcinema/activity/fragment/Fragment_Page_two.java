@@ -1,6 +1,7 @@
 package com.bawei.admin.wdcinema.activity.fragment;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +21,8 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.bawei.admin.wdcinema.activity.second_activity.CinemaScheduleActivity;
+import com.bawei.admin.wdcinema.adapter.CineamaRecycleAdapter;
 import com.bawei.admin.wdcinema.adapter.TuiMovieRecycleAdapter;
 import com.bawei.admin.wdcinema.bean.RecommBean;
 import com.bawei.admin.wdcinema.bean.Result;
@@ -87,13 +90,19 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
         cinemarecycleview.setLayoutManager(manager);
         cinemarecycleview.setAdapter(tuiMovieRecycleAdapter);
         location();
+        //这是刚进页面设置的动画状态
         ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 30f, 510f);
         animator.setDuration(0);
         animator.start();
         tuiMovieRecycleAdapter.setOnClickListener(new TuiMovieRecycleAdapter.OnClickListener() {
             @Override
-            public void onclick(int id) {
-                Toast.makeText(getContext(), "" + id, Toast.LENGTH_SHORT).show();
+            public void onclick(int id, String img, String name, String address) {
+                Intent intent = new Intent(getContext(), CinemaScheduleActivity.class);
+                intent.putExtra("id", id);
+                intent.putExtra("image",img);
+                intent.putExtra("name",name);
+                intent.putExtra("address",address);
+                startActivity(intent);
             }
         });
         return view;
@@ -106,6 +115,7 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
         }
         animatort = true;
         animatorf = false;
+        //这是显示出现的动画
         ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 510f, 30f);
         animator.setDuration(1500);
         animator.start();
@@ -118,6 +128,7 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
         }
         animatorf = true;
         animatort = false;
+        //这是隐藏进去的动画
         ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 30f, 510f);
         animator.setDuration(1500);
         animator.start();
