@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/twopopularsdvone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="120dp"
+        android:background="@drawable/shape_dialog"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
+
+        <ImageView
+            android:id="@+id/popupwindow_detalis_sdvtwo"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/com_icon_down_default" />
+
+        <TextView
+            android:id="@+id/jianjie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="预告片"
+            android:textColor="#333333"
+            android:textSize="16dp" />
+
+        <View
+            android:id="@+id/lineone"
+            android:layout_width="30dp"
+            android:layout_height="3dp"
+            android:layout_below="@+id/jianjie"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/re_shape" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/yg_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lineone"
+            android:layout_marginTop="20dp"></android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
+</LinearLayout>

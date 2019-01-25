@@ -28,51 +28,11 @@ public class MoviesByIdBean<T> {
     private String placeOrigin;
     private String starring;
     private String summary;
-    private boolean followMovie;
+    private int followMovie;
     private String movieTypes;
     private int rank;
     private List<String> posterList;
-    private T shortFilmList;
-
-    public boolean isFollowMovie() {
-        return followMovie;
-    }
-
-    public void setFollowMovie(boolean followMovie) {
-        this.followMovie = followMovie;
-    }
-
-    public String getMovieTypes() {
-        return movieTypes;
-    }
-
-    public void setMovieTypes(String movieTypes) {
-        this.movieTypes = movieTypes;
-    }
-
-    public int getRank() {
-        return rank;
-    }
-
-    public void setRank(int rank) {
-        this.rank = rank;
-    }
-
-    public List<String> getPosterList() {
-        return posterList;
-    }
-
-    public void setPosterList(List<String> posterList) {
-        this.posterList = posterList;
-    }
-
-    public T getShortFilmList() {
-        return shortFilmList;
-    }
-
-    public void setShortFilmList(T shortFilmList) {
-        this.shortFilmList = shortFilmList;
-    }
+    private List<MoviesDetailBean> shortFilmList;
 
     public String getDirector() {
         return director;
@@ -144,5 +104,45 @@ public class MoviesByIdBean<T> {
 
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    public int getFollowMovie() {
+        return followMovie;
+    }
+
+    public void setFollowMovie(int followMovie) {
+        this.followMovie = followMovie;
+    }
+
+    public String getMovieTypes() {
+        return movieTypes;
+    }
+
+    public void setMovieTypes(String movieTypes) {
+        this.movieTypes = movieTypes;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+
+    public List<String> getPosterList() {
+        return posterList;
+    }
+
+    public void setPosterList(List<String> posterList) {
+        this.posterList = posterList;
+    }
+
+    public List<MoviesDetailBean> getShortFilmList() {
+        return shortFilmList;
+    }
+
+    public void setShortFilmList(List<MoviesDetailBean> shortFilmList) {
+        this.shortFilmList = shortFilmList;
     }
 }
