@@ -1,6 +1,7 @@
 package com.bawei.admin.wdcinema.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bawei.admin.wdcinema.activity.MoviesByIdActivity;
 import com.bawei.admin.wdcinema.bean.HotMovieBean;
 import com.bw.movie.R;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -36,6 +38,14 @@ public class ComingSoonMovieAdapter extends RecyclerView.Adapter<ComingSoonMovie
         viewHolder.textView.setBackgroundColor(0x55000000);
         viewHolder.textView.setText(list.get(i).getName());
         viewHolder.imageView.setImageURI(Uri.parse(list.get(i).getImageUrl()));
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MoviesByIdActivity.class);
+                intent.putExtra("id", String.valueOf(list.get(i).getId()));
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

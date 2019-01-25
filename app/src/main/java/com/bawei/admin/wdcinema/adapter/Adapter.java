@@ -47,7 +47,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             public void onClick(View v) {
 //                Toast.makeText(mContext, "点击了："+position, Toast.LENGTH_SHORT).show();
                 if (clickCb != null) {
-                    clickCb.clickItem(position);
+                    clickCb.clickItem(list.get(position).getId());
                 }
             }
         });
@@ -76,6 +76,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     }
 
     public interface onItemClick {
-        void clickItem(int pos);
+        void clickItem(int id);
     }
 }

@@ -14,12 +14,14 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.bawei.admin.wdcinema.activity.FilmShowActivity;
+import com.bawei.admin.wdcinema.activity.MoviesByIdActivity;
 import com.bawei.admin.wdcinema.adapter.Adapter;
 import com.bawei.admin.wdcinema.adapter.ComingSoonMovieAdapter;
 import com.bawei.admin.wdcinema.adapter.HotMovieAdapter;
@@ -187,9 +189,8 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
             //此处的BDLocation为定位结果信息类，通过它的各种get方法可获取定位相关的全部结果
             //以下只列举部分获取地址相关的结果信息
             //更多结果信息获取说明，请参照类参考中BDLocation类中的说明
-            double latitude = location.getLatitude();    //获取纬度信息
-            double longitude = location.getLongitude();    //获取经度信息
-            String locationDescribe = location.getLocationDescribe();    //获取位置描述信息
+//            double latitude = location.getLatitude();    //获取纬度信息
+//            double longitude = location.getLongitude();    //获取经度信息
             if (!location.equals("")) {
                 mLocationClient.stop();
             }
@@ -200,28 +201,12 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
     }
 
     @Override
-    public void clickItem(int pos) {
-        mList.smoothScrollToPosition(pos);
-        switch (pos) {
-            case 0:
-                home_radio_1.setChecked(true);
-                break;
-            case 1:
-                home_radio_2.setChecked(true);
-                break;
-            case 2:
-                home_radio_3.setChecked(true);
-                break;
-            case 3:
-                home_radio_4.setChecked(true);
-                break;
-            case 4:
-                home_radio_5.setChecked(true);
-                break;
-            case 5:
-                home_radio_6.setChecked(true);
-                break;
-        }
+    public void clickItem(int id) {
+//        mList.smoothScrollToPosition(pos);
+        Toast.makeText(getActivity(), "" + id, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getActivity(), MoviesByIdActivity.class);
+        intent.putExtra("id", String.valueOf(id));
+        startActivity(intent);
 
     }
 

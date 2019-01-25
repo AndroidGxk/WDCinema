@@ -3,16 +3,13 @@ package com.bawei.admin.wdcinema.core;
 import com.bawei.admin.wdcinema.bean.HotMovieBean;
 import com.bawei.admin.wdcinema.bean.LoginBean;
 import com.bawei.admin.wdcinema.bean.MovieListBean;
-import com.bawei.admin.wdcinema.bean.MoviesDetail;
+import com.bawei.admin.wdcinema.bean.MoviesByIdBean;
 import com.bawei.admin.wdcinema.bean.RecommBean;
 import com.bawei.admin.wdcinema.bean.Result;
 
-import java.io.File;
 import java.util.List;
 
 import io.reactivex.Observable;
-import okhttp3.MultipartBody;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -102,13 +99,13 @@ public interface ICoreInfe {
      * 根据电影ID查询电影信息
      */
     @GET("movie/v1/findMoviesById")
-    Observable<Result<MoviesDetail>> findMoviesById(@Header("userId") int userId, @Header("sessionId") String sessionId,
-                                                    @Query("movieId") int movieId);
+    Observable<Result<MoviesByIdBean>> findMoviesById(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                                      @Query("movieId") int movieId);
 
     /**
      * 查看电影详情
      */
     @GET("movie/v1/findMoviesDetail")
-    Observable<Result<MoviesDetail>> findMoviesDetail(@Header("userId") int userId, @Header("sessionId") String sessionId,
+    Observable<Result<MoviesByIdBean>> findMoviesDetail(@Header("userId") int userId, @Header("sessionId") String sessionId,
                                                       @Query("movieId") int movieId);
 }

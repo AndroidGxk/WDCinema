@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/moviesbyid_bg"
+    tools:context="com.bawei.admin.wdcinema.activity.MoviesByIdActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="30dp">
+
+        <ImageView
+            android:id="@+id/detalishomepagesdvone"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/com_icon_movie_default" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="6dp"
+            android:layout_toRightOf="@+id/detalishomepagesdvone"
+            android:text="电影详情"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="24dp"
+            android:src="@drawable/com_icon_collection_selected" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/moviesbyid_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:text="铁血战士"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/moviesbyid_sim"
+        android:layout_width="259dp"
+        android:layout_height="360dp"
+        android:layout_below="@+id/moviesbyid_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/baobeier" />
+
+    <LinearLayout
+        android:id="@+id/detalisgroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/moviesbyid_sim"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="24dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/moviesbyid_xq"
+            android:layout_width="58dp"
+            android:layout_height="32dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/movie_btn_shape"
+            android:button="@null"
+            android:gravity="center"
+            android:text="详情"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/moviesbyid_yg"
+            android:layout_width="58dp"
+            android:layout_height="32dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/movie_btn_shape"
+            android:button="@null"
+            android:gravity="center"
+            android:text="预告"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/moviesbyid_jz"
+            android:layout_width="58dp"
+            android:layout_height="32dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/movie_btn_shape"
+            android:button="@null"
+            android:gravity="center"
+            android:text="剧照"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/moviesbyid_yp"
+            android:layout_width="58dp"
+            android:layout_height="32dp"
+            android:layout_weight="1"
+            android:background="@drawable/movie_btn_shape"
+            android:button="@null"
+            android:gravity="center"
+            android:text="影评"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/moviesbyid_finish"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_below="@+id/detalisgroup"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/com_icon_myback_default" />
+</RelativeLayout>

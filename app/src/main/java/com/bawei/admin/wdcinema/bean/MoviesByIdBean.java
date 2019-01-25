@@ -1,10 +1,12 @@
 package com.bawei.admin.wdcinema.bean;
 
+import java.util.List;
+
 /**
  * 作者：古祥坤 on 2019/1/25 08:56
  * 邮箱：1724959985@qq.com
  */
-public class MoviesById {
+public class MoviesByIdBean<T> {
     /**
      * director : 文牧野
      * duration : 117分钟
@@ -26,6 +28,51 @@ public class MoviesById {
     private String placeOrigin;
     private String starring;
     private String summary;
+    private boolean followMovie;
+    private String movieTypes;
+    private int rank;
+    private List<String> posterList;
+    private T shortFilmList;
+
+    public boolean isFollowMovie() {
+        return followMovie;
+    }
+
+    public void setFollowMovie(boolean followMovie) {
+        this.followMovie = followMovie;
+    }
+
+    public String getMovieTypes() {
+        return movieTypes;
+    }
+
+    public void setMovieTypes(String movieTypes) {
+        this.movieTypes = movieTypes;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+
+    public List<String> getPosterList() {
+        return posterList;
+    }
+
+    public void setPosterList(List<String> posterList) {
+        this.posterList = posterList;
+    }
+
+    public T getShortFilmList() {
+        return shortFilmList;
+    }
+
+    public void setShortFilmList(T shortFilmList) {
+        this.shortFilmList = shortFilmList;
+    }
 
     public String getDirector() {
         return director;
