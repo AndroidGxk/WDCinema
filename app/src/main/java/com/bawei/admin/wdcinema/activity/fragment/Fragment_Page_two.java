@@ -117,7 +117,7 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
         animatorf = false;
         //这是显示出现的动画
         ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 510f, 30f);
-        animator.setDuration(1500);
+        animator.setDuration(1000);
         animator.start();
     }
 
@@ -130,7 +130,7 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
         animatort = false;
         //这是隐藏进去的动画
         ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 30f, 510f);
-        animator.setDuration(1500);
+        animator.setDuration(1000);
         animator.start();
     }
 

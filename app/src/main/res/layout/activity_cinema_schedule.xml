@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.bawei.admin.wdcinema.activity.second_activity.CinemaScheduleActivity">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -24,13 +25,12 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_marginLeft="24dp"
-                app:roundBottomRight="true"
+                android:layout_marginTop="20dp"
                 app:roundBottomLeft="true"
+                app:roundBottomRight="true"
                 app:roundTopLeft="true"
                 app:roundTopRight="true"
-                app:roundedCornerRadius="8dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/rectangle"></com.facebook.drawee.view.SimpleDraweeView>
+                app:roundedCornerRadius="8dp" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
 
                 <TextView
                     android:id="@+id/cinema_detalis_textviewtwo"
-                    android:layout_width="wrap_content"
+                    android:layout_width="230dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/cinema_detalis_textviewone"
                     android:layout_marginLeft="10dp"
@@ -59,6 +59,13 @@
                     android:textColor="#ffffff"
                     android:textSize="12sp" />
 
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/com_icon_navigation_default" />
             </RelativeLayout>
 
         </RelativeLayout>
@@ -76,14 +83,60 @@
             android:layout_below="@+id/cinema_detalis_horse"
             android:layout_marginTop="10dp"
             android:background="@drawable/viewbg_shape"
-            android:orientation="horizontal">
-        </RadioGroup>
+            android:orientation="horizontal"></RadioGroup>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/home_radio_group"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:text="10-26 13:14"
+                android:textColor="#666666"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@drawable/com_icon_praise_default" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:text="2001"
+                android:textColor="#666666"
+                android:textSize="12sp" />
+        </LinearLayout>
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/cinemarecycle"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/cinemarecycle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp" />
+
+        <ImageView
+            android:id="@+id/moviesbyid_finish"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_below="@+id/detalisgroup"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="24dp"
+            android:layout_marginBottom="24dp"
+            android:src="@drawable/com_icon_myback_default" />
+    </RelativeLayout>
 </LinearLayout>

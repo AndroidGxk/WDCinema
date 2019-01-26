@@ -1,11 +1,13 @@
 package com.bawei.admin.wdcinema.activity;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
@@ -31,7 +33,8 @@ import butterknife.OnClick;
 import me.jessyan.autosize.internal.CustomAdapt;
 
 public class FilmShowActivity extends AppCompatActivity implements CustomAdapt, XRecyclerView.LoadingListener {
-
+    private boolean animatort = false;
+    private boolean animatorf = false;
     private boolean hotcheck = true;
     private boolean releasecheck = false;
     private boolean comingSooncheck = false;
@@ -55,13 +58,17 @@ public class FilmShowActivity extends AppCompatActivity implements CustomAdapt, 
     private FilmShowAdapter filmShowAdapter;
     public LocationClient mLocationClient = null;
     private MyLocationListener myListener = new MyLocationListener();
+    @BindView(R.id.seacrch_linear2)
+    LinearLayout seacrch_linear2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_film_show);
         ButterKnife.bind(this);
-
+        ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 30f, 510f);
+        animator.setDuration(0);
+        animator.start();
         //调用sp，获取userID和sessionid
         sp = getSharedPreferences("login", MODE_PRIVATE);
 
@@ -83,25 +90,51 @@ public class FilmShowActivity extends AppCompatActivity implements CustomAdapt, 
         filmshow_recycler.setLayoutManager(manager);
         filmshow_recycler.setAdapter(filmShowAdapter);
 
-        if (select.equals("1")){
+        if (select.equals("1")) {
             hot.setBackgroundResource(R.drawable.btn_gradient);
             release.setBackgroundResource(R.drawable.btn_false);
             comingSoon.setBackgroundResource(R.drawable.btn_false);
             filmShowAdapter.remove();
             hotMoviePresenter.request(userId, sessionId, page, 5);
-        }else if (select.equals("2")){
+        } else if (select.equals("2")) {
             release.setBackgroundResource(R.drawable.btn_gradient);
             hot.setBackgroundResource(R.drawable.btn_false);
             comingSoon.setBackgroundResource(R.drawable.btn_false);
             filmShowAdapter.remove();
             releaseMoviePresenter.request(userId, sessionId, page, 5);
-        }else {
+        } else {
             comingSoon.setBackgroundResource(R.drawable.btn_gradient);
             hot.setBackgroundResource(R.drawable.btn_false);
             release.setBackgroundResource(R.drawable.btn_false);
             filmShowAdapter.remove();
             comingSoonMoviePresenter.request(userId, sessionId, page, 5);
         }
+    }
+
+    @OnClick(R.id.imageView)
+    public void seacrch_linear2() {
+        if (animatort) {
+            return;
+        }
+        animatort = true;
+        animatorf = false;
+        //这是显示出现的动画
+        ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 510f, 30f);
+        animator.setDuration(1000);
+        animator.start();
+    }
+
+    @OnClick(R.id.seacrch_text)
+    public void seacrch_text() {
+        if (animatorf) {
+            return;
+        }
+        animatorf = true;
+        animatort = false;
+        //这是隐藏进去的动画
+        ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 30f, 510f);
+        animator.setDuration(1000);
+        animator.start();
     }
 
     //点击事件
@@ -241,6 +274,7 @@ public class FilmShowActivity extends AppCompatActivity implements CustomAdapt, 
         hotMoviePresenter.unBind();
         comingSoonMoviePresenter.unBind();
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -263,6 +297,7 @@ public class FilmShowActivity extends AppCompatActivity implements CustomAdapt, 
         mLocationClient.setLocOption(option);
         mLocationClient.start();
     }
+
     //定位
     public class MyLocationListener implements BDLocationListener {
         @Override

@@ -35,15 +35,19 @@ public class MovieScheAdapter extends RecyclerView.Adapter<MovieScheAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        MovieScheBean movieScheBean = list.get(position);
+        final MovieScheBean movieScheBean = list.get(position);
         holder.pay_ting.setText(movieScheBean.getScreeningHall());
         holder.pay_starttime.setText(movieScheBean.getBeginTime());
         holder.pay_endtime.setText(movieScheBean.getEndTime());
         holder.pay_money.setText(movieScheBean.getPrice() + "");
-        holder.go_image.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (onClickListener != null) {
+                    onClickListener.onclick(movieScheBean.getId(), position,
+                            movieScheBean.getBeginTime() + "一" + movieScheBean.getEndTime(),
+                            movieScheBean.getScreeningHall(), movieScheBean.getSeatsTotal(), movieScheBean.getPrice());
+                }
             }
         });
     }
@@ -91,6 +95,6 @@ public class MovieScheAdapter extends RecyclerView.Adapter<MovieScheAdapter.View
     }
 
     public interface OnClickListener {
-        void onclick(int id);
+        void onclick(int id, int position, String date, String name, int datetime, double money);
     }
 }

@@ -1,5 +1,6 @@
 package com.bawei.admin.wdcinema.activity.fragment;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -76,12 +78,16 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
     RadioButton home_radio_5;
     @BindView(R.id.home_radio_6)
     RadioButton home_radio_6;
+    private boolean animatort = false;
+    private boolean animatorf = false;
     private ReleaseMovieAdapter releaseMovieAdapter;
     private ComingSoonMovieAdapter comingSoonMovieAdapter;
     private ReleaseMoviePresenter releaseMoviePresenter;
     private ComingSoonMoviePresenter comingSoonMoviePresenter;
     public LocationClient mLocationClient = null;
     private MyLocationListener myListener = new MyLocationListener();
+    @BindView(R.id.seacrch_linear2)
+    LinearLayout seacrch_linear2;
 
     @Nullable
     @Override
@@ -91,7 +97,9 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
 
         //调用sp，获取userID和sessionid
         sp = getActivity().getSharedPreferences("login", MODE_PRIVATE);
-
+        ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 30f, 510f);
+        animator.setDuration(0);
+        animator.start();
         String sessionId = sp.getString("sessionId", "1");
         int userId = sp.getInt("userId", 1);
         //屏幕适配
@@ -135,6 +143,32 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
             }
         });
         return view;
+    }
+
+    @OnClick(R.id.imageView)
+    public void seacrch_linear2() {
+        if (animatort) {
+            return;
+        }
+        animatort = true;
+        animatorf = false;
+        //这是显示出现的动画
+        ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 510f, 30f);
+        animator.setDuration(1000);
+        animator.start();
+    }
+
+    @OnClick(R.id.seacrch_text)
+    public void seacrch_text() {
+        if (animatorf) {
+            return;
+        }
+        animatorf = true;
+        animatort = false;
+        //这是隐藏进去的动画
+        ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 30f, 510f);
+        animator.setDuration(1000);
+        animator.start();
     }
 
     @Override

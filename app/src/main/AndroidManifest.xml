@@ -72,7 +72,9 @@
         <activity android:name="com.bawei.admin.wdcinema.activity.second_activity.OpinActivity" />
         <activity android:name="com.bawei.admin.wdcinema.activity.MoviesByIdActivity" />
         <activity android:name="com.bawei.admin.wdcinema.activity.second_activity.ConcerActivity" />
-        <activity android:name="com.bawei.admin.wdcinema.activity.second_activity.CinemaScheduleActivity"></activity>
+        <activity android:name="com.bawei.admin.wdcinema.activity.second_activity.CinemaScheduleActivity" />
+        <activity android:name="com.bawei.admin.wdcinema.activity.thirdly_activity.MovieSeatActivity" />
+        <activity android:name="com.bawei.admin.wdcinema.activity.thirdly_activity.OpinTwoActivity"></activity>
     </application>
 
 </manifest>

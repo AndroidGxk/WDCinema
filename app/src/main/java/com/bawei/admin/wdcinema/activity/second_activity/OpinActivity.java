@@ -1,11 +1,13 @@
 package com.bawei.admin.wdcinema.activity.second_activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.bawei.admin.wdcinema.activity.thirdly_activity.OpinTwoActivity;
 import com.bawei.admin.wdcinema.bean.Result;
 import com.bawei.admin.wdcinema.core.ResultInfe;
 import com.bawei.admin.wdcinema.presenter.FeedBackPresenter;
@@ -65,7 +67,12 @@ public class OpinActivity extends AppCompatActivity implements CustomAdapt, Resu
     @Override
     public void success(Object data) {
         Result result = (Result) data;
-        Toast.makeText(this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
+        if (result.getStatus().equals("0000")) {
+            startActivity(new Intent(OpinActivity.this, OpinTwoActivity.class));
+            finish();
+        } else {
+            Toast.makeText(this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

@@ -107,7 +107,7 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt, Result
 
     }
 
-    @OnClick(R.id.myyijian)
+    @OnClick(R.id.mylinear_three)
     public void myyijian() {
         if (list.size() == 0) {
             startActivity(new Intent(getContext(), LoginActivity.class));
