@@ -5,6 +5,7 @@ import com.bawei.admin.wdcinema.bean.CinemaPageList;
 import com.bawei.admin.wdcinema.bean.HotMovieBean;
 import com.bawei.admin.wdcinema.bean.LoginBean;
 import com.bawei.admin.wdcinema.bean.MovieListBean;
+import com.bawei.admin.wdcinema.bean.MovieScheBean;
 import com.bawei.admin.wdcinema.bean.MoviesByIdBean;
 import com.bawei.admin.wdcinema.bean.RecommBean;
 import com.bawei.admin.wdcinema.bean.Result;
@@ -136,4 +137,10 @@ public interface ICoreInfe {
      */
     @GET("movie/v1/findMovieListByCinemaId")
     Observable<Result<List<CineamScheBean>>> findMovieListByCinemaId(@Query("cinemaId") int cinemaId);
+
+    /**
+     * 电影排期列表
+     */
+    @GET("movie/v1/findMovieScheduleList")
+    Observable<Result<List<MovieScheBean>>> findMovieScheduleList(@Query("cinemasId") int cinemasId, @Query("movieId") int movieId);
 }

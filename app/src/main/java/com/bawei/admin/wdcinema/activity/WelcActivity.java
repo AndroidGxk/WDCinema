@@ -1,13 +1,17 @@
 package com.bawei.admin.wdcinema.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -19,6 +23,7 @@ import com.bawei.admin.wdcinema.activity.fragment.Fragment_Bootpage_four;
 import com.bawei.admin.wdcinema.activity.fragment.Fragment_Bootpage_one;
 import com.bawei.admin.wdcinema.activity.fragment.Fragment_Bootpage_three;
 import com.bawei.admin.wdcinema.activity.fragment.Fragment_Bootpage_two;
+import com.bawei.admin.wdcinema.core.utils.Constant;
 import com.bw.movie.R;
 
 import java.util.ArrayList;
@@ -58,6 +63,11 @@ public class WelcActivity extends AppCompatActivity implements CustomAdapt {
         boolean judge = sp.getBoolean("judge", false);
         if (judge) {
             setContentView(R.layout.activity_welc);
+            if (ContextCompat.checkSelfPermission(WelcActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // 申请权限
+                ActivityCompat.requestPermissions(WelcActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE}, Constant.REQ_PERM_CAMERA);
+            }
             slipToMain();
             if (judge) {
                 new Thread(new Runnable() {
@@ -69,6 +79,11 @@ public class WelcActivity extends AppCompatActivity implements CustomAdapt {
             }
         } else {
             setContentView(R.layout.activity_guidance);
+            if (ContextCompat.checkSelfPermission(WelcActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // 申请权限
+                ActivityCompat.requestPermissions(WelcActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE}, Constant.REQ_PERM_CAMERA);
+            }
             slipToMain();
             // 获取分辨率
             DisplayMetrics dm = new DisplayMetrics();

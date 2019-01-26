@@ -55,11 +55,7 @@ public class LoginActivity extends AppCompatActivity implements CustomAdapt, Res
         ButterKnife.bind(this);
         loginPresenter = new LoginPresenter(this);
         sp = getSharedPreferences("login", MODE_PRIVATE);
-        if (ContextCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // 申请权限
-            ActivityCompat.requestPermissions(LoginActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE}, Constant.REQ_PERM_CAMERA);
-        }
+
         DaoSession daoSession = DaoMaster.newDevSession(LoginActivity.this, LoginSubBeanDao.TABLENAME);
         loginSubBeanDao = daoSession.getLoginSubBeanDao();
         List<LoginSubBean> loginSubBeans = loginSubBeanDao.loadAll();

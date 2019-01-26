@@ -79,4 +79,14 @@ public class CineamScheAdapter extends RecyclerView.Adapter<CineamScheAdapter.Vi
     public interface onItemClick {
         void clickItem(int id);
     }
+
+    private OnClickListener onClickListener;
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
+    public interface OnClickListener {
+        void onclick(int pid);
+    }
 }
