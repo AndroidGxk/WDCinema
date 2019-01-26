@@ -3,26 +3,22 @@ package com.bawei.admin.wdcinema.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
-import com.bawei.admin.wdcinema.bean.MoviesDetailBean;
 import com.bumptech.glide.Glide;
 import com.bw.movie.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.jzvd.JZVideoPlayerStandard;
-
-
-public class YGAdapter extends RecyclerView.Adapter<YGAdapter.ViewHolder> {
-    List<MoviesDetailBean> list;
+public class StagePhotoAdapter extends RecyclerView.Adapter<StagePhotoAdapter.ViewHolder> {
     private Context context;
+    List<String> list;
 
-    public YGAdapter(Context context) {
+    public StagePhotoAdapter(Context context) {
         this.context = context;
         this.list = new ArrayList<>();
     }
@@ -30,16 +26,13 @@ public class YGAdapter extends RecyclerView.Adapter<YGAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_yg_recycler, viewGroup, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_stagerecycler, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        Log.e("asdasdaaaaa", "------------" + list.get(i).getVideoUrl());
-        viewHolder.jzVideoPlayerStandard.setUp(list.get(i).getVideoUrl(),
-                JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL);
-        Glide.with(context).load(list.get(i).getImageUrl()).into(viewHolder.jzVideoPlayerStandard.thumbImageView);
+        Glide.with(context).load(list.get(i)).into(viewHolder.imageView);
     }
 
     @Override
@@ -47,18 +40,18 @@ public class YGAdapter extends RecyclerView.Adapter<YGAdapter.ViewHolder> {
         return list.size();
     }
 
-    public void addItem(List<MoviesDetailBean> shortFilmList) {
-        if (shortFilmList != null) {
-            list.addAll(shortFilmList);
+    public void addItem(List posterList) {
+        if (posterList != null) {
+            list.addAll(posterList);
         }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        JZVideoPlayerStandard jzVideoPlayerStandard;
+        ImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            jzVideoPlayerStandard = itemView.findViewById(R.id.videoplayer);
+            imageView = itemView.findViewById(R.id.stage_iv);
         }
     }
 }

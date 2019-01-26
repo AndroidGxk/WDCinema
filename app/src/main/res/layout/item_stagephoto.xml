@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="预告片"
+            android:text="剧照"
             android:textColor="#333333"
             android:textSize="16dp" />
 
@@ -39,7 +39,7 @@
             android:background="@drawable/re_shape" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/yg_recycler"
+            android:id="@+id/stagephoto_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/lineone"
