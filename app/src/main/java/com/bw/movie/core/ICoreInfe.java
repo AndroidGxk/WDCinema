@@ -14,6 +14,8 @@ import com.bw.movie.bean.Result;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -59,9 +61,8 @@ public interface ICoreInfe {
     /**
      * 修改用户头像
      */
-    @FormUrlEncoded
     @POST("user/v1/verify/uploadHeadPic")
-    Observable<Result> uploadHeadPic(@Header("userId") int userId, @Header("sessionId") String sessionId, @Field("image") String image);
+    Observable<Result> uploadHeadPic(@Header("userId") int userId, @Header("sessionId") String sessionId, @Body MultipartBody body);
 
     /**
      * 正在上映

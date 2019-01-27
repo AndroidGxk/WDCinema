@@ -1,27 +1,41 @@
 package com.bw.movie.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.bean.LoginBean;
 import com.bw.movie.bean.LoginSubBean;
 import com.bw.movie.bean.Result;
+import com.bw.movie.core.GTApplication;
 import com.bw.movie.core.ResultInfe;
+import com.bw.movie.core.utils.Constant;
 import com.bw.movie.core.utils.EncryptUtil;
 import com.bw.movie.greendao.DaoMaster;
 import com.bw.movie.greendao.DaoSession;
 import com.bw.movie.greendao.LoginSubBeanDao;
 import com.bw.movie.presenter.LoginPresenter;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,7 +55,7 @@ public class LoginActivity extends AppCompatActivity implements CustomAdapt, Res
     private LoginPresenter loginPresenter;
     private SharedPreferences sp;
     private LoginSubBeanDao loginSubBeanDao;
-
+    private IWXAPI mWechatApi;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +63,6 @@ public class LoginActivity extends AppCompatActivity implements CustomAdapt, Res
         ButterKnife.bind(this);
         loginPresenter = new LoginPresenter(this);
         sp = getSharedPreferences("login", MODE_PRIVATE);
-
         DaoSession daoSession = DaoMaster.newDevSession(LoginActivity.this, LoginSubBeanDao.TABLENAME);
         loginSubBeanDao = daoSession.getLoginSubBeanDao();
         List<LoginSubBean> loginSubBeans = loginSubBeanDao.loadAll();
@@ -58,10 +71,23 @@ public class LoginActivity extends AppCompatActivity implements CustomAdapt, Res
         }
     }
 
+    /**
+     * 点击微信登录
+     */
     @OnClick(R.id.mIv_WeChat)
-    public void mIv_WeChat(){
+    public void mIv_WeChat() {
+
+//初始化微信
+        mWechatApi = WXAPIFactory.createWXAPI(this,"wxb3852e6a6b7d9516",false);
+        mWechatApi.registerApp("wxb3852e6a6b7d9516");
+        final SendAuth.Req req = new SendAuth.Req();
+        req.scope = "snsapi_userinfo";
+        req.state = "diandi_wx_login";
+        mWechatApi.sendReq(req);
 
     }
+
+
     @OnClick(R.id.my_login_btn)
     public void my_login_btn() {
         String name = my_login_phone.getText().toString();
