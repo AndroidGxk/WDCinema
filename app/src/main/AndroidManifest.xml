@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.bw.movie">
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -42,7 +43,10 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="QLbXEuG8V7NzlqZQBxPWxBaPQnpSoI05" />
-
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5c4d55b2b465f5fd96000d2f" >
+        </meta-data>
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
@@ -75,6 +79,11 @@
         <activity android:name="com.bw.movie.activity.second_activity.CinemaScheduleActivity" />
         <activity android:name="com.bw.movie.activity.thirdly_activity.MovieSeatActivity" />
         <activity android:name="com.bw.movie.activity.thirdly_activity.OpinTwoActivity"></activity>
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
     </application>
 
 </manifest>

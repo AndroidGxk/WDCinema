@@ -89,7 +89,7 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
         cinemarecycleview.setAdapter(tuiMovieRecycleAdapter);
         location();
         //这是刚进页面设置的动画状态
-        ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 30f, 550f);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 30f, 530f);
         animator.setDuration(0);
         animator.start();
         tuiMovieRecycleAdapter.setOnClickListener(new TuiMovieRecycleAdapter.OnClickListener() {
@@ -114,7 +114,7 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
         animatort = true;
         animatorf = false;
         //这是显示出现的动画
-        ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 550f, 30f);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 530f, 30f);
         animator.setDuration(1000);
         animator.start();
     }
@@ -127,7 +127,7 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
         animatorf = true;
         animatort = false;
         //这是隐藏进去的动画
-        ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 30f, 550f);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 30f, 530f);
         animator.setDuration(1000);
         animator.start();
     }

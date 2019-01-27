@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -25,6 +26,7 @@ import com.bw.movie.activity.fragment.Fragment_Bootpage_one;
 import com.bw.movie.activity.fragment.Fragment_Bootpage_three;
 import com.bw.movie.activity.fragment.Fragment_Bootpage_two;
 import com.bw.movie.core.utils.Constant;
+import com.bw.movie.core.utils.FileUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +56,6 @@ public class WelcActivity extends AppCompatActivity implements CustomAdapt {
     private int currentItem = 0;
     private int flaggingWidth;
     public GestureDetector mGestureDetector;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +69,7 @@ public class WelcActivity extends AppCompatActivity implements CustomAdapt {
                 ActivityCompat.requestPermissions(WelcActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
                         Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE}, Constant.REQ_PERM_CAMERA);
             }
+
             slipToMain();
             if (judge) {
                 new Thread(new Runnable() {
