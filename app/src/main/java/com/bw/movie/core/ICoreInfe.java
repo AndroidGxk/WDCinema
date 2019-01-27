@@ -150,4 +150,27 @@ public interface ICoreInfe {
      */
     @GET("movie/v1/findAllMovieComment")
     Observable<Result<List<FilmReviewBean>>> filmreview(@Query("movieId") int movieId, @Query("page") int page, @Query("count") int count);
+
+    /**
+     * 下单
+     *
+     * @param userId
+     * @param sessionId
+     * @param scheduleId
+     * @param amount
+     * @param sign
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("movie/v1/verify/buyMovieTicket")
+    Observable<Result> buyMovieTicket(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                      @Field("scheduleId") int scheduleId, @Field("amount") int amount, @Field("sign") String sign);
+
+    /**
+     * 支付
+     */
+    @FormUrlEncoded
+    @POST("movie/v1/verify/pay")
+    Observable<Result> pay(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                           @Field("payType") int payType, @Field("orderId") String orderId);
 }

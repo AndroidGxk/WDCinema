@@ -1,20 +1,30 @@
 package com.bw.movie.activity.thirdly_activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.bean.MovieScheBean;
 import com.bw.movie.bean.Result;
 import com.bw.movie.core.ResultInfe;
+import com.bw.movie.presenter.BuyMovieTicketPresenter;
 import com.bw.movie.presenter.MovieSchePresenter;
+import com.bw.movie.presenter.PayPresenter;
 import com.qfdqc.views.seattable.SeatTable;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,15 +58,40 @@ public class MovieSeatActivity extends AppCompatActivity {
     private double money;
     @BindView(R.id.moviesbyid_finish)
     ImageView moviesbyid_finish;
+    @BindView(R.id.zhifu)
+    ImageView zhifu;
+    private BuyMovieTicketPresenter buyMovieTicketPresenter;
+    private int userId;
+    private String sessionId;
+    private int id;
+    private SharedPreferences sp;
+    private String sessionId1;
+    private PayPresenter payPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_seat);
         ButterKnife.bind(this);
+
+//        DaoSession daoSession = DaoMaster.newDevSession(this, LoginSubBeanDao.TABLENAME);
+//        LoginSubBeanDao loginSubBeanDao = daoSession.getLoginSubBeanDao();
+//        List<LoginSubBean> loginSubBeans = loginSubBeanDao.loadAll();
+//        for (int i = 0; i < loginSubBeans.size(); i++) {
+//            userId = loginSubBeans.get(i).getUserId();
+//            sessionId = loginSubBeans.get(i).getSessionId();
+//        }
+        sp = getSharedPreferences("login", MODE_PRIVATE);
+        sessionId1 = sp.getString("sessionId", "1");
+        userId = sp.getInt("userId", 1);
+        Log.e("qqqqqqqqqqqqqqqq", "---------------userId" + userId + "--------------sessionId" + sessionId1);
+        buyMovieTicketPresenter = new BuyMovieTicketPresenter(new BuyMovie());
+        payPresenter = new PayPresenter(new Pay());
+
         line1.setBackgroundColor(0X77ffffff);
         MovieSchePresenter movieSchePresenter = new MovieSchePresenter(new movieScheList());
         Intent intent = getIntent();
-        int id = intent.getIntExtra("id", 0);
+        id = intent.getIntExtra("id", 0);
         int ids = intent.getIntExtra("pid", 0);
         String address = intent.getStringExtra("address");
         String name = intent.getStringExtra("names");
@@ -76,7 +111,7 @@ public class MovieSeatActivity extends AppCompatActivity {
         line0.setText(name);
         addressview.setText(address);
         movieSchePresenter.request(ids, id);
-        seatTableView = (SeatTable) findViewById(R.id.seatView);
+        seatTableView = findViewById(R.id.seatView);
         seatTableView.setSeatChecker(new SeatTable.SeatChecker() {
             @Override
             public boolean isValidSeat(int row, int column) {
@@ -130,6 +165,44 @@ public class MovieSeatActivity extends AppCompatActivity {
         seatTableView.setData(10, 15);
     }
 
+    @OnClick(R.id.zhifu)
+    public void zhifu() {
+//        String s = String.valueOf(userId) + String.valueOf(id) + String.valueOf(mCount)+"movie";
+        String s = MD5(userId + "" + id + "" + mCount + "movie");
+        Log.e("qqqqqqqqqqqqqqqq", "---------------userId" + mCount);
+        buyMovieTicketPresenter.request(userId, sessionId1, id, mCount, s);
+    }
+
+    /**
+     * MD5加密
+     *
+     * @param sourceStr
+     * @return
+     */
+    public static String MD5(String sourceStr) {
+        String result = "";
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(sourceStr.getBytes());
+            byte b[] = md.digest();
+            int i;
+            StringBuffer buf = new StringBuffer("");
+            for (int offset = 0; offset < b.length; offset++) {
+                i = b[offset];
+                if (i < 0)
+                    i += 256;
+                if (i < 16)
+                    buf.append("0");
+                buf.append(Integer.toHexString(i));
+            }
+            result = buf.toString();
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println(e);
+        }
+        return result;
+    }
+
+
     @OnClick(R.id.quxiao)
     public void quxiao() {
         finish();
@@ -140,6 +213,45 @@ public class MovieSeatActivity extends AppCompatActivity {
         public void success(Object data) {
             Result result = (Result) data;
             List<MovieScheBean> movieScheList = (List<MovieScheBean>) result.getResult();
+        }
+
+        @Override
+        public void errors(Throwable throwable) {
+
+        }
+    }
+
+    private class BuyMovie implements ResultInfe<Result> {
+        @Override
+        public void success(Result data) {
+            Toast.makeText(MovieSeatActivity.this, "" + data.getMessage(), Toast.LENGTH_SHORT).show();
+            String orderId = data.getOrderId();
+            payPresenter.request(userId, sessionId1, 1, orderId);
+        }
+
+        @Override
+        public void errors(Throwable throwable) {
+
+        }
+    }
+
+    private class Pay implements ResultInfe<Result> {
+        @Override
+        public void success(Result data) {
+            final IWXAPI msgApi = WXAPIFactory.createWXAPI(MovieSeatActivity.this, null);
+
+            // 将该app注册到微信
+
+            msgApi.registerApp("wxd930ea5d5a258f4f");
+            PayReq request = new PayReq();
+            request.appId = data.getAppId();
+            request.partnerId = data.getPartnerId();
+            request.prepayId = data.getPrepayId();
+            request.packageValue = data.getPackageValue();
+            request.nonceStr = data.getNonceStr();
+            request.timeStamp = data.getTimeStamp();
+            request.sign = data.getSign();
+            msgApi.sendReq(request);
         }
 
         @Override

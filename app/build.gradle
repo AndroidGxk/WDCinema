@@ -3,10 +3,10 @@ apply plugin: 'org.greenrobot.greendao'
 
 android {
     signingConfigs {
-        config {
-            keyAlias 'bw_movie '
+        moviekey {
+            keyAlias 'bw_movie'
             keyPassword '123456'
-            storeFile file('C:/Users/admin/Desktop/movie.keystore')
+            storeFile file('C:/Users/Lee辉/Desktop/movie.keystore')
             storePassword '123456'
         }
     }
@@ -18,11 +18,17 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.moviekey
+        multiDexEnabled true
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.moviekey
+        }
+        debug {
+            signingConfig signingConfigs.moviekey
         }
     }
     sourceSets {
@@ -31,10 +37,12 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
+    productFlavors {
+    }
 }
 greendao {
     schemaVersion 1  //版本
-    daoPackage 'com.bawei.admin.wdcinema.greendao' // 一般为app包名+生成文件的文件夹名
+    daoPackage 'com.bw.movie.greendao' // 一般为app包名+生成文件的文件夹名
     targetGenDir 'src/main/java' //生成文件路径
 }
 dependencies {
@@ -79,4 +87,5 @@ dependencies {
     implementation 'cn.jzvd:jiaozivideoplayer:6.2.12'
     implementation project(':SeatTable')
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+    implementation 'com.android.support:multidex:1.0.3'
 }

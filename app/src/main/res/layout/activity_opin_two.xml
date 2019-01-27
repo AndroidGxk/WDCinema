@@ -7,7 +7,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context="com.bawei.admin.wdcinema.activity.second_activity.OpinActivity">
+    tools:context=".activity.thirdly_activity.OpinTwoActivity">
 
     <TextView
         android:layout_width="wrap_content"

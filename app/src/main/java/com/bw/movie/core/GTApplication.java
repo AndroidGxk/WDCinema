@@ -1,10 +1,10 @@
 package com.bw.movie.core;
 
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 
-public class GTApplication extends Application {
+public class GTApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
