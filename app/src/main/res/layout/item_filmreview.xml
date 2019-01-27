@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="剧照"
+            android:text="影评"
             android:textColor="#333333"
             android:textSize="16dp" />
 
@@ -38,11 +38,11 @@
             android:layout_marginTop="4dp"
             android:background="@drawable/re_shape" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/stagephoto_recycler"
+        <com.jcodecraeer.xrecyclerview.XRecyclerView
+            android:id="@+id/filmreview_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/lineone"
-            android:layout_marginTop="20dp"></android.support.v7.widget.RecyclerView>
+            android:layout_marginTop="20dp"></com.jcodecraeer.xrecyclerview.XRecyclerView>
     </RelativeLayout>
 </RelativeLayout>
