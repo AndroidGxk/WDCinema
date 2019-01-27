@@ -58,6 +58,10 @@ public class LoginActivity extends AppCompatActivity implements CustomAdapt, Res
         }
     }
 
+    @OnClick(R.id.mIv_WeChat)
+    public void mIv_WeChat(){
+
+    }
     @OnClick(R.id.my_login_btn)
     public void my_login_btn() {
         String name = my_login_phone.getText().toString();
