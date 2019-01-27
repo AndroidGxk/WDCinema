@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.bw.movie.Constants;
 import com.bw.movie.R;
+import com.bw.movie.core.utils.Constant;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -25,7 +25,7 @@ public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEvent
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pay_result);
 
-        api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
+        api = WXAPIFactory.createWXAPI(this, Constant.APP_ID);
         api.handleIntent(getIntent(), this);
     }
 
