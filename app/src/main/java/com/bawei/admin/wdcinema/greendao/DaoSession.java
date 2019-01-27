@@ -8,7 +8,7 @@ import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.identityscope.IdentityScopeType;
 import org.greenrobot.greendao.internal.DaoConfig;
 
-import com.bawei.admin.wdcinema.bean.LoginSubBean;
+import com.bw.movie.bean.LoginSubBean;
 
 import com.bawei.admin.wdcinema.greendao.LoginSubBeanDao;
 
