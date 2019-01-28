@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.bw.movie">
+
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -26,7 +27,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.bw.movie.activity.WelcActivity">
+        <activity android:name=".activity.WelcActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,40 +46,40 @@
             android:value="QLbXEuG8V7NzlqZQBxPWxBaPQnpSoI05" />
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5c4d55b2b465f5fd96000d2f" >
-        </meta-data>
+            android:value="5c4d55b2b465f5fd96000d2f" />
+
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
 
         <activity
-            android:name="com.bw.movie.activity.MainActivity"
+            android:name=".activity.MainActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name="com.bw.movie.activity.second_activity.MyMessage_Activity"
+            android:name=".activity.second_activity.MyMessage_Activity"
             android:launchMode="singleTask" />
         <activity
-            android:name="com.bw.movie.activity.LoginActivity"
+            android:name=".activity.LoginActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name="com.bw.movie.activity.RegisActivity"
+            android:name=".activity.RegisActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name="com.bw.movie.activity.second_activity.UpdatePwdActivity"
+            android:name=".activity.second_activity.UpdatePwdActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name="com.bw.movie.activity.thirdly_activity.UpdateNameActivity"
+            android:name=".activity.thirdly_activity.UpdateNameActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name="com.bw.movie.activity.FilmShowActivity"
+            android:name=".activity.FilmShowActivity"
             android:launchMode="singleTask" />
-        <activity android:name="com.bw.movie.activity.second_activity.OpinActivity" />
-        <activity android:name="com.bw.movie.activity.MoviesByIdActivity" />
-        <activity android:name="com.bw.movie.activity.second_activity.ConcerActivity" />
-        <activity android:name="com.bw.movie.activity.second_activity.CinemaScheduleActivity" />
-        <activity android:name="com.bw.movie.activity.thirdly_activity.MovieSeatActivity" />
-        <activity android:name="com.bw.movie.activity.thirdly_activity.OpinTwoActivity"></activity>
+        <activity android:name=".activity.second_activity.OpinActivity" />
+        <activity android:name=".activity.MoviesByIdActivity" />
+        <activity android:name=".activity.second_activity.ConcerActivity" />
+        <activity android:name=".activity.second_activity.CinemaScheduleActivity" />
+        <activity android:name=".activity.thirdly_activity.MovieSeatActivity" />
+        <activity android:name=".activity.thirdly_activity.OpinTwoActivity" />
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
@@ -89,6 +90,8 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name=".activity.CinemasListByMovieIdActivity"></activity>
+        <activity android:name=".activity.MovieScheduleListActivity" />
     </application>
 
 </manifest>

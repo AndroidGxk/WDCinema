@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.bawei.admin.wdcinema.activity.FilmShowActivity">
+    tools:context=".activity.FilmShowActivity">
 
     <RelativeLayout
         android:id="@+id/cinema_relative"

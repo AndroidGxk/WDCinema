@@ -14,7 +14,7 @@
         android:paddingRight="24dp">
 
         <ImageView
-            android:id="@+id/popupwindow_detalis_sdvtwo"
+            android:id="@+id/stagephoto_finish"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_alignParentRight="true"

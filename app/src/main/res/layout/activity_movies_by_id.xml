@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/moviesbyid_bg"
-    tools:context="com.bawei.admin.wdcinema.activity.MoviesByIdActivity">
+    tools:context=".activity.MoviesByIdActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="90dp"
         android:text="铁血战士"
         android:textColor="#ffffff"
         android:textSize="20sp" />
@@ -119,13 +119,35 @@
             android:textSize="14sp" />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/moviesbyid_finish"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_below="@+id/detalisgroup"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="12dp"
-        android:src="@drawable/com_icon_myback_default" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/detalisgroup">
+
+        <ImageView
+            android:id="@+id/moviesbyid_finish"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/com_icon_myback_default" />
+
+        <Button
+            android:id="@+id/goupay"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/goupay_shape"
+            android:gravity="center"
+            android:text="购票"
+            android:textColor="#fff"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
 </RelativeLayout>

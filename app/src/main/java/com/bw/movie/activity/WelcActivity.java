@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.WindowManager;
 import android.widget.RadioGroup;
 
 import com.bw.movie.R;
@@ -144,6 +145,13 @@ public class WelcActivity extends AppCompatActivity implements CustomAdapt {
         SharedPreferences.Editor edit = sp.edit();
         edit.putBoolean("judge", true);
         edit.commit();
+        //沉浸式状态栏
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            //透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //透明导航栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
     }
 
     @Override
