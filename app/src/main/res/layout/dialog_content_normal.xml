@@ -18,7 +18,6 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="20dp"
             android:layout_marginRight="24dp"
             android:src="@drawable/com_icon_down_default" />
 
@@ -36,7 +35,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="20dp"
         android:layout_toRightOf="@+id/popupwindow_detalis_sdvone">
 
         <TextView

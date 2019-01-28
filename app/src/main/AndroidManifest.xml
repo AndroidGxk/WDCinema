@@ -27,7 +27,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.WelcActivity">
+        <activity android:name="com.bw.movie.activity.WelcActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -46,40 +46,40 @@
             android:value="QLbXEuG8V7NzlqZQBxPWxBaPQnpSoI05" />
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5c4d55b2b465f5fd96000d2f"></meta-data>
-
+            android:value="5c4d55b2b465f5fd96000d2f" >
+        </meta-data>
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
 
         <activity
-            android:name=".activity.MainActivity"
+            android:name="com.bw.movie.activity.MainActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".activity.second_activity.MyMessage_Activity"
+            android:name="com.bw.movie.activity.second_activity.MyMessage_Activity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".activity.LoginActivity"
+            android:name="com.bw.movie.activity.LoginActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".activity.RegisActivity"
+            android:name="com.bw.movie.activity.RegisActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".activity.second_activity.UpdatePwdActivity"
+            android:name="com.bw.movie.activity.second_activity.UpdatePwdActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".activity.thirdly_activity.UpdateNameActivity"
+            android:name="com.bw.movie.activity.thirdly_activity.UpdateNameActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".activity.FilmShowActivity"
+            android:name="com.bw.movie.activity.FilmShowActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".activity.second_activity.OpinActivity" />
-        <activity android:name=".activity.MoviesByIdActivity" />
-        <activity android:name=".activity.second_activity.ConcerActivity" />
-        <activity android:name=".activity.second_activity.CinemaScheduleActivity" />
-        <activity android:name=".activity.thirdly_activity.MovieSeatActivity" />
-        <activity android:name=".activity.thirdly_activity.OpinTwoActivity" />
+        <activity android:name="com.bw.movie.activity.second_activity.OpinActivity" />
+        <activity android:name="com.bw.movie.activity.MoviesByIdActivity" />
+        <activity android:name="com.bw.movie.activity.second_activity.ConcerActivity" />
+        <activity android:name="com.bw.movie.activity.second_activity.CinemaScheduleActivity" />
+        <activity android:name="com.bw.movie.activity.thirdly_activity.MovieSeatActivity" />
+        <activity android:name="com.bw.movie.activity.thirdly_activity.OpinTwoActivity"></activity>
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
@@ -91,6 +91,8 @@
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".activity.second_activity.BuyRecordActivity" />
+        <activity android:name=".activity.CinemasListByMovieIdActivity"></activity>
+        <activity android:name=".activity.MovieScheduleListActivity" />
     </application>
 
 </manifest>

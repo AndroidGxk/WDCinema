@@ -4,10 +4,12 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.WindowManager;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -34,6 +36,15 @@ public abstract class WDActivity extends AppCompatActivity {
         setContentView(getLayoutId());
         ButterKnife.bind(this);//绑定布局
         initView();
+
+        //沉浸式状态栏
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            //透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //透明导航栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
+
         //百度定位
         mLocationClient = new LocationClient(getApplicationContext());
         //声明LocationClient类
@@ -73,6 +84,7 @@ public abstract class WDActivity extends AppCompatActivity {
 
     /**
      * @param mActivity 传送Activity的
+     * @param s
      */
     public void intent(Class mActivity) {
         Intent intent = new Intent(this, mActivity);

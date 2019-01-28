@@ -58,6 +58,18 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
     private int page = 1;
     private FilmReviewPresenter filmReviewPresenter;
     private XRecyclerView filmreview_recycler;
+    private TextView popupwindow_detalis_daoyan;
+    private TextView popupwindow_detalis_shichang;
+    private TextView popupwindow_detalis_chandi;
+    private TextView plot;
+    private TextView popupwindow_detalis_leixing;
+    private int id1;
+    private String names;
+    private String movieTypes;
+    private String placeOrigin;
+    private String duration;
+    private String director;
+    private String imageUrl;
 
     @Override
     protected int getLayoutId() {
@@ -82,6 +94,11 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         bottomDialog = new Dialog(this, R.style.BottomDialog);
 
         simpleDraweeView1 = contentView.findViewById(R.id.popupwindow_detalis_sdvone);
+        popupwindow_detalis_daoyan = contentView.findViewById(R.id.popupwindow_detalis_daoyan);
+        popupwindow_detalis_shichang = contentView.findViewById(R.id.popupwindow_detalis_shichang);
+        popupwindow_detalis_chandi = contentView.findViewById(R.id.popupwindow_detalis_chandi);
+        popupwindow_detalis_leixing = contentView.findViewById(R.id.popupwindow_detalis_leixing);
+        plot = contentView.findViewById(R.id.plot);
         moviesDetailPresenter = new MoviesDetailPresenter(new MoviesDetail());
 
         moviesByIdPresenter = new MoviesByIdPresenter(new MoviesById());
@@ -120,12 +137,43 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
                 bottomDialog.dismiss();
             }
         });
+        contentView2.findViewById(R.id.yg_finish).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomDialog.dismiss();
+            }
+        });
+        contentView3.findViewById(R.id.stagephoto_finish).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomDialog.dismiss();
+            }
+        });
+        contentView4.findViewById(R.id.filmreview_finish).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomDialog.dismiss();
+            }
+        });
     }
 
     @Override
     protected void destoryData() {
         moviesDetailPresenter.unBind();
         filmReviewPresenter.unBind();
+    }
+
+    @OnClick(R.id.goupay)
+    public void goupay() {
+        Intent intent = new Intent(this, CinemasListByMovieIdActivity.class);
+        intent.putExtra("id", id);
+        intent.putExtra("name", names);
+        intent.putExtra("director", director);
+        intent.putExtra("duration", duration);
+        intent.putExtra("placeOrigin", placeOrigin);
+        intent.putExtra("movieTypes", movieTypes);
+        intent.putExtra("imageUrl", imageUrl);
+        startActivity(intent);
     }
 
     @OnClick(R.id.moviesbyid_finish)
@@ -135,62 +183,29 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
 
     @OnClick(R.id.moviesbyid_xq)
     public void moviesbyid_xq() {
-        show1();
+        show(contentView);
     }
 
     @OnClick(R.id.moviesbyid_yg)
     public void moviesbyid_yg() {
-        show2();
+        show(contentView2);
     }
 
     @OnClick(R.id.moviesbyid_photo)
     public void moviesbyid_photo() {
-        show3();
+        show(contentView3);
     }
 
     @OnClick(R.id.moviesbyid_filmreview)
     public void moviesbyid_filmreview() {
-        show4();
+        show(contentView4);
     }
 
-    private void show1() {
-        bottomDialog.setContentView(contentView);
-        ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
+    private void show(View contentViewss) {
+        bottomDialog.setContentView(contentViewss);
+        ViewGroup.LayoutParams layoutParams = contentViewss.getLayoutParams();
         layoutParams.width = getResources().getDisplayMetrics().widthPixels;
-        contentView.setLayoutParams(layoutParams);
-        bottomDialog.getWindow().setGravity(Gravity.BOTTOM);
-        bottomDialog.setCanceledOnTouchOutside(true);
-        bottomDialog.getWindow().setWindowAnimations(R.style.BottomDialog_Animation);
-        bottomDialog.show();
-    }
-
-    private void show2() {
-        bottomDialog.setContentView(contentView2);
-        ViewGroup.LayoutParams layoutParams = contentView2.getLayoutParams();
-        layoutParams.width = getResources().getDisplayMetrics().widthPixels;
-        contentView2.setLayoutParams(layoutParams);
-        bottomDialog.getWindow().setGravity(Gravity.BOTTOM);
-        bottomDialog.setCanceledOnTouchOutside(true);
-        bottomDialog.getWindow().setWindowAnimations(R.style.BottomDialog_Animation);
-        bottomDialog.show();
-    }
-
-    private void show3() {
-        bottomDialog.setContentView(contentView3);
-        ViewGroup.LayoutParams layoutParams = contentView3.getLayoutParams();
-        layoutParams.width = getResources().getDisplayMetrics().widthPixels;
-        contentView3.setLayoutParams(layoutParams);
-        bottomDialog.getWindow().setGravity(Gravity.BOTTOM);
-        bottomDialog.setCanceledOnTouchOutside(true);
-        bottomDialog.getWindow().setWindowAnimations(R.style.BottomDialog_Animation);
-        bottomDialog.show();
-    }
-
-    private void show4() {
-        bottomDialog.setContentView(contentView4);
-        ViewGroup.LayoutParams layoutParams = contentView4.getLayoutParams();
-        layoutParams.width = getResources().getDisplayMetrics().widthPixels;
-        contentView4.setLayoutParams(layoutParams);
+        contentViewss.setLayoutParams(layoutParams);
         bottomDialog.getWindow().setGravity(Gravity.BOTTOM);
         bottomDialog.setCanceledOnTouchOutside(true);
         bottomDialog.getWindow().setWindowAnimations(R.style.BottomDialog_Animation);
@@ -216,7 +231,9 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         @Override
         public void success(Result data) {
             MoviesByIdBean result = (MoviesByIdBean) data.getResult();
-            name.setText(result.getName());
+            id1 = result.getId();
+            names = result.getName();
+            name.setText(names);
             simpleDraweeView.setImageURI(Uri.parse(result.getImageUrl()));
         }
 
@@ -230,7 +247,17 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         @Override
         public void success(Result data) {
             MoviesByIdBean result = (MoviesByIdBean) data.getResult();
-            simpleDraweeView1.setImageURI(Uri.parse(result.getImageUrl()));
+            imageUrl = result.getImageUrl();
+            simpleDraweeView1.setImageURI(Uri.parse(imageUrl));
+            director = result.getDirector();
+            duration = result.getDuration();
+            placeOrigin = result.getPlaceOrigin();
+            movieTypes = result.getMovieTypes();
+            popupwindow_detalis_daoyan.setText("导演：" + director);
+            popupwindow_detalis_shichang.setText("时长：" + duration);
+            popupwindow_detalis_chandi.setText("产地：" + placeOrigin);
+            popupwindow_detalis_leixing.setText("产地：" + movieTypes);
+            plot.setText(result.getSummary());
             List posterList = result.getPosterList();
             List<MoviesDetailBean> shortFilmList = (List<MoviesDetailBean>) result.getShortFilmList();
             ygAdapter.addItem(shortFilmList);

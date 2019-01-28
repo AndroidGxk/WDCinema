@@ -14,7 +14,7 @@
         android:paddingRight="24dp">
 
         <ImageView
-            android:id="@+id/popupwindow_detalis_sdvtwo"
+            android:id="@+id/filmreview_finish"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_alignParentRight="true"
@@ -45,4 +45,14 @@
             android:layout_below="@id/lineone"
             android:layout_marginTop="20dp"></com.jcodecraeer.xrecyclerview.XRecyclerView>
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/comment"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/com_icon_publish_default" />
 </RelativeLayout>

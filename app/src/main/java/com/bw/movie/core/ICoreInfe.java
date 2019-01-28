@@ -2,6 +2,7 @@ package com.bw.movie.core;
 
 import com.bw.movie.bean.CineamScheBean;
 import com.bw.movie.bean.CinemaPageList;
+import com.bw.movie.bean.CinemasListByMovieIdBean;
 import com.bw.movie.bean.FilmReviewBean;
 import com.bw.movie.bean.HotMovieBean;
 import com.bw.movie.bean.LoginBean;
@@ -176,6 +177,12 @@ public interface ICoreInfe {
     @POST("movie/v1/verify/pay")
     Observable<Result> pay(@Header("userId") int userId, @Header("sessionId") String sessionId,
                            @Field("payType") int payType, @Field("orderId") String orderId);
+
+    /**
+     * 根据电影ID查询当前排片该电影的影院列表
+     */
+    @GET("movie/v1/findCinemasListByMovieId")
+    Observable<Result<List<CinemasListByMovieIdBean>>> cinemasListByMovieId(@Query("movieId") int movieId);
 
     /**
      * 微信登录
