@@ -173,6 +173,11 @@ public class MovieSeatActivity extends AppCompatActivity {
         buyMovieTicketPresenter.request(userId, sessionId1, id, mCount, s);
     }
 
+    @OnClick(R.id.moviesbyid_finish)
+    public void moviesbyid_finish() {
+        finish();
+    }
+
     /**
      * MD5加密
      *

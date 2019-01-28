@@ -10,12 +10,14 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,8 +26,10 @@ import android.widget.Toast;
 import com.bw.movie.R;
 import com.bw.movie.activity.thirdly_activity.UpdateNameActivity;
 import com.bw.movie.bean.LoginSubBean;
+import com.bw.movie.bean.Result;
 import com.bw.movie.core.ResultInfe;
 import com.bw.movie.core.utils.Constant;
+import com.bw.movie.core.utils.FileUtils;
 import com.bw.movie.core.utils.GetRealPath;
 import com.bw.movie.greendao.DaoMaster;
 import com.bw.movie.greendao.DaoSession;
@@ -60,19 +64,32 @@ public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt
     @BindView(R.id.update_mail)
     TextView update_mail;
     private int SELECT_PICTURE = 1; // 从图库中选择图片
-    private int SELECT_CAMER = 0; // 用相机拍摄照片
-    private Bitmap bmp;
-    private UpdateHeadPresenter updateHeadPresenter;
-    private File file;
+    private static final int CHOOSE_PICTURE = 1000;
+    private static final int TAKE_PICTURE = 1500;
     private SharedPreferences sp;
+    private Uri tempUri;
+    private UpdateHeadPresenter updateHeadPresenter;
+    private DaoSession daoSession;
+    private LoginSubBeanDao loginSubBeanDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_message_);
         ButterKnife.bind(this);
-        DaoSession daoSession = DaoMaster.newDevSession(MyMessage_Activity.this, LoginSubBeanDao.TABLENAME);
-        LoginSubBeanDao loginSubBeanDao = daoSession.getLoginSubBeanDao();
+
+        findViewById(R.id.update_name).setOnClickListener(this);
+        findViewById(R.id.update_mail).setOnClickListener(this);
+        findViewById(R.id.update_sex).setOnClickListener(this);
+        sp = getSharedPreferences("login", MODE_PRIVATE);
+        updateHeadPresenter = new UpdateHeadPresenter(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        daoSession = DaoMaster.newDevSession(MyMessage_Activity.this, LoginSubBeanDao.TABLENAME);
+        loginSubBeanDao = daoSession.getLoginSubBeanDao();
         List<LoginSubBean> list = loginSubBeanDao.queryBuilder()
                 .where(LoginSubBeanDao.Properties.Statu.eq("1"))
                 .build().list();
@@ -92,11 +109,6 @@ public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt
             update_date.setText(Datetime);
             myphone.setText(loginSubBean.getPhone());
         }
-        findViewById(R.id.update_name).setOnClickListener(this);
-        findViewById(R.id.update_mail).setOnClickListener(this);
-        findViewById(R.id.update_sex).setOnClickListener(this);
-        updateHeadPresenter = new UpdateHeadPresenter(this);
-        sp = getSharedPreferences("login", MODE_PRIVATE);
     }
 
     @OnClick(R.id.myheader)
@@ -129,45 +141,38 @@ public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 0) {
-            Bitmap bitmap = data.getParcelableExtra("data");
-            Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null, null));
-            myheader.setImageURI(uri);
-            String realPathFromUri = GetRealPath.getRealPathFromUri(MyMessage_Activity.this, uri);
-            file = new File(realPathFromUri);
-            String seesionId = sp.getString("sessionId", "");
+        if (resultCode == MyMessage_Activity.RESULT_OK) {
+            String sessionId = sp.getString("sessionId", "");
             int userId = sp.getInt("userId", 0);
-            File file = null;
-            String[] proj = {MediaStore.Images.Media.DATA};
-            Cursor cursor = this.managedQuery(uri, proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            String filepath = cursor.getString(column_index);
-            file = new File(filepath);
-            // TODO: 2019/1/24 上传头像
-            updateHeadPresenter.request(userId, seesionId, "http://mobile.bwstudent.com/images/movie/head_pic/2019-01-24/20190124132033.jpg");
-            return;
-        }
-        if (resultCode == RESULT_OK) {
-            Uri uri = data.getData();
-            ContentResolver cr = this.getContentResolver();
-            try {
-                if (bmp != null) {
-                    bmp.recycle();
-                    bmp = BitmapFactory.decodeStream(cr.openInputStream(uri));
-                    file = new File(uri.toString());
-                    String seesionId = sp.getString("seesionId", "");
-                    int userId = sp.getInt("userId", 0);
-                    updateHeadPresenter.request(userId, seesionId, file);
-                }
-            } catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            switch (requestCode) {
+                case TAKE_PICTURE:
+                    File imageFile = FileUtils.getImageFile();
+                    String path = imageFile.getPath();
+
+                    Log.e("zmz", "=====" + path);
+
+//                    headPresenter.reqeust(userid, sessionId, path);
+
+                    updateHeadPresenter.request(userId, sessionId, path);
+                    break;
+                case CHOOSE_PICTURE:
+                    Uri uri = data.getData();
+
+                    String[] proj = {MediaStore.Images.Media.DATA};
+
+                    Cursor actualimagecursor = MyMessage_Activity.this.managedQuery(uri, proj, null, null, null);
+
+                    int actual_image_column_index = actualimagecursor
+                            .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                    actualimagecursor.moveToFirst();
+                    String img_path = actualimagecursor
+                            .getString(actual_image_column_index);
+                    // 4.0以上平台会自动关闭cursor,所以加上版本判断,OK
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+                        actualimagecursor.close();
+                    updateHeadPresenter.request(userId, sessionId, img_path);
+                    break;
             }
-            myheader.setImageURI(uri);
-        } else {
-            Toast.makeText(MyMessage_Activity.this, "选择图片失败,请重新选择", Toast.LENGTH_SHORT)
-                    .show();
         }
     }
 
@@ -183,28 +188,31 @@ public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt
                     public void onClick(DialogInterface dialog, int which) {
                         // TODO Auto-generated method stub
                         if (which == SELECT_PICTURE) {
-                            if (ContextCompat.checkSelfPermission(MyMessage_Activity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
-                                    ContextCompat.checkSelfPermission(MyMessage_Activity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                                    ) {
-                                // 申请权限
-                                ActivityCompat.requestPermissions(MyMessage_Activity.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constant.REQ_PERM_CAMERA);
-                                return;
-                            }
-                            Intent intent = new Intent(
+                            Intent openCameraIntent = new Intent(
                                     MediaStore.ACTION_IMAGE_CAPTURE);
-                            intent.addCategory("android.intent.category.DEFAULT");
-                            startActivityForResult(intent, SELECT_CAMER);
+                            tempUri = Uri.parse(FileUtils.getDir("/image/bimap") + "1.jpg");
+                            Log.e("zmz", "=====" + tempUri);
+                            //启动相机程序
+                            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                            openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
+                            startActivityForResult(intent, TAKE_PICTURE);
+
                         } else {
-                            Intent intent = new Intent(
-                                    Intent.ACTION_GET_CONTENT);
-                            intent.addCategory(Intent.CATEGORY_OPENABLE);
-                            intent.setType("image/*");
-                            startActivityForResult(intent, SELECT_PICTURE);
+                            if (ContextCompat.checkSelfPermission(MyMessage_Activity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                                //权限还没有授予，需要在这里写申请权限的代码
+                                ActivityCompat.requestPermissions(MyMessage_Activity.this,
+                                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CHOOSE_PICTURE);
+                            } else {
+                                Intent openAlbumIntent = new Intent(
+                                        Intent.ACTION_PICK);
+                                openAlbumIntent.setType("image/*");
+                                //用startActivityForResult方法，待会儿重写onActivityResult()方法，拿到图片做裁剪操作
+                                startActivityForResult(openAlbumIntent, CHOOSE_PICTURE);
+                            }
                         }
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // TODO Auto-generated method stub
@@ -231,7 +239,18 @@ public class MyMessage_Activity extends AppCompatActivity implements CustomAdapt
 
     @Override
     public void success(Object data) {
-        Toast.makeText(this, "chengg", Toast.LENGTH_SHORT).show();
+        Result result = (Result) data;
+        Toast.makeText(this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
+        if (result.getStatus().equals("0000")) {
+            List<LoginSubBean> list = loginSubBeanDao.queryBuilder()
+                    .where(LoginSubBeanDao.Properties.Statu.eq("1"))
+                    .build().list();
+            LoginSubBean loginSubBean = list.get(0);
+            loginSubBean.setHeadPic(result.getHeadPath());
+            loginSubBeanDao.insertOrReplace(loginSubBean);
+            myheader.setImageURI(result.getHeadPath());
+        }
+
     }
 
     @Override

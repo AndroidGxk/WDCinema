@@ -10,6 +10,8 @@ import com.bw.movie.bean.MovieScheBean;
 import com.bw.movie.bean.MoviesByIdBean;
 import com.bw.movie.bean.RecommBean;
 import com.bw.movie.bean.Result;
+import com.bw.movie.bean.UpdateUserInfoBean;
+import com.bw.movie.bean.UserTicketBean;
 
 import java.util.List;
 
@@ -174,4 +176,27 @@ public interface ICoreInfe {
     @POST("movie/v1/verify/pay")
     Observable<Result> pay(@Header("userId") int userId, @Header("sessionId") String sessionId,
                            @Field("payType") int payType, @Field("orderId") String orderId);
+
+    /**
+     * 微信登录
+     */
+    @FormUrlEncoded
+    @POST("user/v1/weChatBindingLogin")
+    Observable<Result<LoginBean>> weChatBindingLogin(@Field("code") String code);
+
+    /**
+     * 查看购票记录
+     */
+    @GET("user/v1/verify/findUserBuyTicketRecordList")
+    Observable<Result<List<UserTicketBean>>> findUserBuyTicketRecordList(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                                                         @Query("page") int page, @Query("count") int count,
+                                                                         @Query("status") int status);
+
+    /**
+     * 修改用户昵称
+     */
+    @FormUrlEncoded
+    @POST("user/v1/verify/modifyUserInfo")
+    Observable<Result<UpdateUserInfoBean>> modifyUserInfo(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                                          @Field("nickName") String nickName, @Field("sex") int sex, @Field("email") String email);
 }

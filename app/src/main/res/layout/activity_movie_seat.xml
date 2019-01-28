@@ -14,7 +14,7 @@
         <com.facebook.drawee.view.SimpleDraweeView
             android:layout_width="match_parent"
             android:layout_height="206dp"
-            android:background="@drawable/movebg" />
+            android:background="@drawable/statbag" />
 
         <TextView
             android:id="@+id/line0"

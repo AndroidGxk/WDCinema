@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.Button;
+
 import com.bw.movie.R;
 import com.bw.movie.adapter.CineamaRecycleAdapter;
 import com.bw.movie.adapter.ConcerRecycleAdapter;
@@ -71,6 +72,11 @@ public class ConcerActivity extends AppCompatActivity implements ResultInfe, Cus
         concerrecycleview2.setPullRefreshEnabled(true);
         concerrecycleview2.setLayoutManager(manager2);
         concerrecycleview2.setAdapter(cineamaRecycleAdapter);
+    }
+
+    @OnClick(R.id.moviesbyid_finish)
+    public void moviesbyid_finish() {
+        finish();
     }
 
     class LoadingListener2 implements XRecyclerView.LoadingListener {

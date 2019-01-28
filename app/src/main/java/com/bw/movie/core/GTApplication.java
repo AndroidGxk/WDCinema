@@ -9,16 +9,12 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.umeng.commonsdk.UMConfigure;
-import com.umeng.socialize.PlatformConfig;
-import com.umeng.socialize.UMShareAPI;
 
 import java.io.File;
 
 public class GTApplication extends Application {
 
     public static IWXAPI mWxApi;
-    private  static UMShareAPI umShareAPI;
 
     @Override
     public void onCreate() {

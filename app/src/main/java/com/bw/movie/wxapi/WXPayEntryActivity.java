@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.core.utils.Constant;
@@ -43,12 +44,10 @@ public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEvent
     @Override
     public void onResp(BaseResp resp) {
         Log.d(TAG, "onPayFinish, errCode = " + resp.errCode);
-
-        if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.app_tip);
-            builder.setMessage(getString(R.string.pay_result_callback_msg, String.valueOf(resp.errCode)));
-            builder.show();
+        if (resp.errCode == -2 || resp.errCode == -1) {
+            Toast.makeText(this, "支付失败", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, "支付成功", Toast.LENGTH_SHORT).show();
         }
     }
 }

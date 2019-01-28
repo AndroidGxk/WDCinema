@@ -60,7 +60,19 @@
         android:layout_marginRight="20dp"
         android:background="@drawable/three_btn_shape"
         android:text="完成"
-        android:textColor="#ffffff"
+        android:textColor="#ffffff" />
 
-        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/back_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="24dp"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/com_icon_myback_default" />
+    </RelativeLayout>
 </LinearLayout>

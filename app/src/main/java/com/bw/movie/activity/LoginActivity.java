@@ -1,27 +1,20 @@
 package com.bw.movie.activity;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.bean.LoginBean;
 import com.bw.movie.bean.LoginSubBean;
 import com.bw.movie.bean.Result;
-import com.bw.movie.core.GTApplication;
 import com.bw.movie.core.ResultInfe;
-import com.bw.movie.core.utils.Constant;
 import com.bw.movie.core.utils.EncryptUtil;
 import com.bw.movie.greendao.DaoMaster;
 import com.bw.movie.greendao.DaoSession;
@@ -30,12 +23,10 @@ import com.bw.movie.presenter.LoginPresenter;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
-import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.UMShareConfig;
 
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,9 +57,7 @@ public class LoginActivity extends AppCompatActivity implements CustomAdapt, Res
         DaoSession daoSession = DaoMaster.newDevSession(LoginActivity.this, LoginSubBeanDao.TABLENAME);
         loginSubBeanDao = daoSession.getLoginSubBeanDao();
         List<LoginSubBean> loginSubBeans = loginSubBeanDao.loadAll();
-        if (loginSubBeans.size() >= 5) {
-            loginSubBeanDao.deleteAll();
-        }
+        loginSubBeanDao.deleteAll();
     }
 
     /**
@@ -82,7 +71,7 @@ public class LoginActivity extends AppCompatActivity implements CustomAdapt, Res
         mWechatApi.registerApp("wxb3852e6a6b7d9516");
         final SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
-        req.state = "diandi_wx_login";
+        req.state = "wechat_sdk_demo";
         mWechatApi.sendReq(req);
 
     }

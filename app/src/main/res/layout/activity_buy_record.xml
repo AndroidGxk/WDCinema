@@ -5,31 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.bawei.admin.wdcinema.activity.second_activity.ConcerActivity">
+    tools:context=".activity.second_activity.BuyRecordActivity">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/movie_btn"
+            android:id="@+id/obli_btn"
             android:layout_width="83dp"
             android:layout_height="25dp"
             android:layout_marginRight="32dp"
             android:background="@drawable/btn_false"
-            android:text="电影"
+            android:text="待付款"
             android:textColor="#333333"
             android:textSize="14sp" />
 
         <Button
-            android:id="@+id/cinema_btn"
+            android:id="@+id/nearby_btn"
             android:layout_width="83dp"
             android:layout_height="25dp"
             android:background="@drawable/btn_false"
-            android:text="影院"
+            android:text="已完成"
             android:textColor="#333333"
             android:textSize="14sp" />
 
@@ -40,21 +40,12 @@
         android:layout_height="match_parent">
 
         <com.jcodecraeer.xrecyclerview.XRecyclerView
-            android:id="@+id/concerrecycleview"
+            android:id="@+id/ticket_recycle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="24dp"
             android:layout_marginTop="30dp"
-            android:layout_marginRight="24dp"></com.jcodecraeer.xrecyclerview.XRecyclerView>
-
-        <com.jcodecraeer.xrecyclerview.XRecyclerView
-            android:id="@+id/concerrecycleview2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="24dp"
-            android:visibility="gone" />
+            android:layout_marginRight="24dp" />
 
         <ImageView
             android:id="@+id/moviesbyid_finish"
@@ -66,4 +57,6 @@
             android:layout_marginBottom="24dp"
             android:src="@drawable/com_icon_myback_default" />
     </RelativeLayout>
+
+
 </LinearLayout>

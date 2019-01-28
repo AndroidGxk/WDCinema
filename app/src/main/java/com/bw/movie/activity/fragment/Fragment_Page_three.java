@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.activity.LoginActivity;
+import com.bw.movie.activity.second_activity.BuyRecordActivity;
 import com.bw.movie.activity.second_activity.ConcerActivity;
 import com.bw.movie.activity.second_activity.MyMessage_Activity;
 import com.bw.movie.activity.second_activity.OpinActivity;
@@ -29,6 +30,7 @@ import com.bw.movie.presenter.UserSignInPresenter;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -63,8 +65,6 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt, Result
         sp = getActivity().getSharedPreferences("login", MODE_PRIVATE);
         sessionId = sp.getString("sessionId", "1");
         userId = sp.getInt("userId", 1);
-
-
         return view;
     }
 
@@ -94,8 +94,12 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt, Result
                 }
             });
         }
+
     }
 
+    /**
+     * 个人信息
+     */
     @OnClick(R.id.massge_linea)
     public void massge_linea() {
         if (list.size() == 0) {
@@ -106,6 +110,9 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt, Result
 
     }
 
+    /**
+     * 意见反馈
+     */
     @OnClick(R.id.mylinear_three)
     public void myyijian() {
         if (list.size() == 0) {
@@ -115,6 +122,9 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt, Result
         startActivity(new Intent(getContext(), OpinActivity.class));
     }
 
+    /**
+     * 退出登录
+     */
     @OnClick(R.id.back_btn)
     public void back_btn() {
         if (list.size() == 0) {
@@ -125,6 +135,18 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt, Result
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    /**
+     * 购票记录
+     */
+    @OnClick(R.id.goupiao)
+    public void goupiao() {
+        if (list.size() == 0) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            return;
+        }
+        startActivity(new Intent(getContext(), BuyRecordActivity.class));
     }
 
     /**
