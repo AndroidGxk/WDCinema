@@ -33,7 +33,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.jessyan.autosize.internal.CustomAdapt;
 
-public class LoginActivity extends AppCompatActivity implements CustomAdapt, ResultInfe {
+public class LoginActivity extends WDActivity implements CustomAdapt, ResultInfe {
     boolean canSee = false;
     @BindView(R.id.regis_btn)
     TextView regis_btn;
@@ -48,16 +48,22 @@ public class LoginActivity extends AppCompatActivity implements CustomAdapt, Res
     private LoginSubBeanDao loginSubBeanDao;
     private IWXAPI mWechatApi;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
+    protected int getLayoutId() {
+        return R.layout.activity_login;
+    }
+
+    @Override
+    protected void initView() {
         loginPresenter = new LoginPresenter(this);
         sp = getSharedPreferences("login", MODE_PRIVATE);
         DaoSession daoSession = DaoMaster.newDevSession(LoginActivity.this, LoginSubBeanDao.TABLENAME);
         loginSubBeanDao = daoSession.getLoginSubBeanDao();
-        List<LoginSubBean> loginSubBeans = loginSubBeanDao.loadAll();
         loginSubBeanDao.deleteAll();
+    }
+
+    @Override
+    protected void destoryData() {
+        loginPresenter.unBind();
     }
 
     /**
@@ -157,11 +163,5 @@ public class LoginActivity extends AppCompatActivity implements CustomAdapt, Res
     @Override
     public void errors(Throwable throwable) {
 
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        loginPresenter.unBind();
     }
 }

@@ -2,10 +2,12 @@ package com.bw.movie.activity.thirdly_activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -73,7 +75,13 @@ public class MovieSeatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_seat);
         ButterKnife.bind(this);
-
+        //沉浸式状态栏
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            //透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //透明导航栏
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
 //        DaoSession daoSession = DaoMaster.newDevSession(this, LoginSubBeanDao.TABLENAME);
 //        LoginSubBeanDao loginSubBeanDao = daoSession.getLoginSubBeanDao();
 //        List<LoginSubBean> loginSubBeans = loginSubBeanDao.loadAll();

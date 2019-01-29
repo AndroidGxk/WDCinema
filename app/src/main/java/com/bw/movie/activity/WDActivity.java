@@ -15,6 +15,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.ButterKnife;
 
@@ -42,7 +43,7 @@ public abstract class WDActivity extends AppCompatActivity {
             //透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             //透明导航栏
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
 
         //百度定位
@@ -122,6 +123,11 @@ public abstract class WDActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+    @Override
     protected void onStart() {
         super.onStart();
         mForegroundActivity = this;
@@ -137,6 +143,7 @@ public abstract class WDActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        MobclickAgent.onResume(this);
     }
 
     //定位

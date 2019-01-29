@@ -19,6 +19,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.config
+        flavorDimensions "versionCode"
     }
     buildTypes {
         release {
@@ -37,6 +38,15 @@ android {
         }
     }
     productFlavors {
+        kuan {}
+        xiaomi {}
+        qh360 {}
+        baidu {}
+        wandoujia {}
+    }
+
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
     }
 }
 greendao {
@@ -87,4 +97,6 @@ dependencies {
     implementation project(':SeatTable')
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
     implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.umeng.umsdk:analytics:8.0.0'
+    implementation 'com.umeng.umsdk:utdid:1.1.5.3'
 }

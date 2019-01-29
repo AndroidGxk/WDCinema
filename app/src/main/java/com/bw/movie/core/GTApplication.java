@@ -9,6 +9,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.umeng.commonsdk.UMConfigure;
 
 import java.io.File;
 
@@ -26,7 +27,7 @@ public class GTApplication extends Application {
                                 .setBaseDirectoryPath(file)
                                 .build()
                 ).build());
-
+        UMConfigure.init(this,  UMConfigure.DEVICE_TYPE_PHONE, null);
         registToWX();
     }
 

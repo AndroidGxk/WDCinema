@@ -46,8 +46,11 @@
             android:value="QLbXEuG8V7NzlqZQBxPWxBaPQnpSoI05" />
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5c4d55b2b465f5fd96000d2f" >
-        </meta-data>
+            android:value="5c4d55b2b465f5fd96000d2f"></meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" />
+
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"

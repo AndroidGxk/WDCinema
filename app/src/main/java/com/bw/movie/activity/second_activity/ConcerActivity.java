@@ -1,10 +1,12 @@
 package com.bw.movie.activity.second_activity;
 
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import com.bw.movie.R;
@@ -50,6 +52,13 @@ public class ConcerActivity extends AppCompatActivity implements ResultInfe, Cus
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_att);
+        //沉浸式状态栏
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            //透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //透明导航栏
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
         ButterKnife.bind(this);
         movie_btn.setBackgroundResource(R.drawable.btn_gradient);
         sp = getSharedPreferences("login", MODE_PRIVATE);

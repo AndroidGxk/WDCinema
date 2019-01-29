@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.bean.RecommBean;
@@ -62,6 +63,7 @@ public class TuiMovieRecycleAdapter extends RecyclerView.Adapter<TuiMovieRecycle
     public void onBindViewHolder(@NonNull Vh vh, int i) {
         final RecommBean recommBean = recommList.get(i);
         vh.cinematextviewone.setText(recommBean.getName());
+
         vh.simpleDraweeView.setImageURI(recommBean.getLogo());
         vh.cinematextviewtwo.setText(recommBean.getAddress());
         vh.cinematextviewthree.setText(recommBean.getDistance() + "m");
@@ -69,6 +71,12 @@ public class TuiMovieRecycleAdapter extends RecyclerView.Adapter<TuiMovieRecycle
             @Override
             public void onClick(View v) {
                 onClickListener.onclick(recommBean.getId(), recommBean.getLogo(), recommBean.getName(), recommBean.getAddress());
+            }
+        });
+        vh.cinemasdvstwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
@@ -88,4 +96,5 @@ public class TuiMovieRecycleAdapter extends RecyclerView.Adapter<TuiMovieRecycle
     public interface OnClickListener {
         void onclick(int id, String img, String name, String address);
     }
+
 }

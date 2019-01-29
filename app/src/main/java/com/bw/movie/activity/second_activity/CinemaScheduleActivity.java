@@ -74,7 +74,13 @@ public class CinemaScheduleActivity extends AppCompatActivity implements ResultI
         ButterKnife.bind(this);
         dates = new Date();
         format = new SimpleDateFormat("MM-dd hh:mm:ss");
-
+        //沉浸式状态栏
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            //透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //透明导航栏
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
         Intent intent = getIntent();
         ids = intent.getIntExtra("id", 0);
         String image = intent.getStringExtra("image");
