@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bw.movie.R;
@@ -21,6 +21,15 @@ import java.util.List;
 public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.ViewHolder> {
     private Context context;
     List<FilmReviewBean> list;
+    OnClick onClick;
+
+    public void setOnClick(OnClick onClick) {
+        this.onClick = onClick;
+    }
+
+    public interface OnClick {
+        void onclick(ImageView like, int commentId);
+    }
 
     public FilmReviewAdapter(Context context) {
         this.context = context;
@@ -35,7 +44,7 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
         FilmReviewBean filmReviewBean = list.get(i);
         viewHolder.textView1.setText(filmReviewBean.getCommentUserName());
         Date date = new Date();
@@ -47,6 +56,12 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
         viewHolder.textView4.setText(String.valueOf(filmReviewBean.getReplyNum()));
         viewHolder.textView5.setText("共" + filmReviewBean.getGreatNum() + "条评论");
         viewHolder.textView6.setText(String.valueOf(filmReviewBean.getGreatNum()));
+        viewHolder.like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClick.onclick(viewHolder.like, list.get(i).getCommentId());
+            }
+        });
     }
 
     @Override
@@ -69,10 +84,10 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
         TextView textView1;
         TextView textView2;
         TextView textView3;
-        CheckBox checkBox;
         TextView textView4;
         TextView textView5;
         TextView textView6;
+        ImageView like;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -80,10 +95,10 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
             textView1 = itemView.findViewById(R.id.circle_name);
             textView2 = itemView.findViewById(R.id.circle_time);
             textView3 = itemView.findViewById(R.id.circle_pl);
-            checkBox = itemView.findViewById(R.id.ck);
             textView4 = itemView.findViewById(R.id.tv);
             textView5 = itemView.findViewById(R.id.replyNum);
             textView6 = itemView.findViewById(R.id.tv2);
+            like = itemView.findViewById(R.id.like);
         }
     }
 }

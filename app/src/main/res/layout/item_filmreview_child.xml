@@ -50,8 +50,8 @@
             android:textColor="#666"
             android:textSize="10sp" />
 
-        <CheckBox
-            android:id="@+id/ck"
+        <ImageView
+            android:id="@+id/like"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_centerVertical="true"
@@ -64,26 +64,28 @@
             android:id="@+id/tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/pl"
             android:layout_centerVertical="true"
-            android:text="123"
-            android:layout_marginRight="18dp"/>
+            android:layout_marginRight="18dp"
+            android:layout_toLeftOf="@id/pl"
+            android:text="123" />
 
         <ImageView
             android:id="@+id/pl"
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:src="@drawable/com_icon_comment_default"
             android:layout_centerVertical="true"
+            android:layout_marginRight="6dp"
             android:layout_toLeftOf="@id/tv2"
-            android:layout_marginRight="6dp"/>
+            android:src="@drawable/com_icon_comment_default" />
+
         <TextView
             android:id="@+id/tv2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="800"
-            android:layout_alignParentRight="true"/>
+            android:text="800" />
+
         <View
             android:layout_width="312dp"
             android:layout_height="2dp"

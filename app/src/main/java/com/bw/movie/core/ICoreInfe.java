@@ -244,4 +244,20 @@ public interface ICoreInfe {
     Observable<Result> cancelFollowMovie(@Header("userId") int userId,
                                          @Header("sessionId") String sessionId,
                                          @Query("movieId") int movieId);
+
+    /**
+     * 用户对影片的评论
+     */
+    @FormUrlEncoded
+    @POST("movie/v1/verify/movieComment")
+    Observable<Result> movieComment(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                    @Field("movieId") int movieId, @Field("commentContent") String commentContent);
+
+    /**
+     * 点赞
+     */
+    @FormUrlEncoded
+    @POST("movie/v1/verify/movieCommentGreat")
+    Observable<Result> movieCommentGreat(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                         @Field("commentId") int movieId);
 }

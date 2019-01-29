@@ -7,6 +7,7 @@ import com.bw.movie.core.utils.Constant;
 import com.facebook.cache.disk.DiskCacheConfig;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.commonsdk.UMConfigure;
@@ -27,10 +28,11 @@ public class GTApplication extends Application {
                                 .setBaseDirectoryPath(file)
                                 .build()
                 ).build());
-        UMConfigure.init(this,  UMConfigure.DEVICE_TYPE_PHONE, null);
+        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, null);
         registToWX();
+        //腾讯bugly
+        CrashReport.initCrashReport(getApplicationContext(), "ec43974c44", false);
     }
-
 
 
     private void registToWX() {
