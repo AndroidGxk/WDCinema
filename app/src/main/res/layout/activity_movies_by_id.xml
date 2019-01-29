@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="40dp">
 
         <ImageView
             android:id="@+id/detalishomepagesdvone"
@@ -33,9 +33,10 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentRight="true"
+            android:id="@+id/xinxin"
             android:layout_centerVertical="true"
             android:layout_marginRight="24dp"
-            android:src="@drawable/com_icon_collection_selected" />
+            android:src="@drawable/weiguanzhu" />
     </RelativeLayout>
 
     <TextView
@@ -43,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="100dp"
         android:text="铁血战士"
         android:textColor="#ffffff"
         android:textSize="20sp" />

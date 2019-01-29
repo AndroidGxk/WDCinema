@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bw.movie.R;
@@ -18,10 +19,14 @@ import com.bw.movie.adapter.FilmReviewAdapter;
 import com.bw.movie.adapter.StagePhotoAdapter;
 import com.bw.movie.adapter.YGAdapter;
 import com.bw.movie.bean.FilmReviewBean;
+import com.bw.movie.bean.LoginSubBean;
 import com.bw.movie.bean.MoviesByIdBean;
 import com.bw.movie.bean.MoviesDetailBean;
 import com.bw.movie.bean.Result;
 import com.bw.movie.core.ResultInfe;
+import com.bw.movie.greendao.DaoMaster;
+import com.bw.movie.greendao.DaoSession;
+import com.bw.movie.greendao.LoginSubBeanDao;
 import com.bw.movie.presenter.FilmReviewPresenter;
 import com.bw.movie.presenter.MoviesByIdPresenter;
 import com.bw.movie.presenter.MoviesDetailPresenter;
@@ -35,9 +40,9 @@ import butterknife.OnClick;
 import cn.jzvd.JZVideoPlayer;
 
 public class MoviesByIdActivity extends WDActivity implements XRecyclerView.LoadingListener {
-    private SharedPreferences sp;
     private MoviesByIdPresenter moviesByIdPresenter;
-
+    @BindView(R.id.xinxin)
+    ImageView xinxin;
     @BindView(R.id.moviesbyid_name)
     TextView name;
     @BindView(R.id.moviesbyid_sim)
@@ -48,8 +53,6 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
     private View contentView4;
     private Dialog bottomDialog;
     private MoviesDetailPresenter moviesDetailPresenter;
-    private String sessionId;
-    private int userId;
     private String id;
     private YGAdapter ygAdapter;
     private SimpleDraweeView simpleDraweeView1;
@@ -70,6 +73,8 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
     private String duration;
     private String director;
     private String imageUrl;
+    private String sessionId;
+    private int userId;
 
     @Override
     protected int getLayoutId() {
@@ -81,10 +86,6 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
         //调用sp，获取userID和sessionid
-        sp = getSharedPreferences("login", MODE_PRIVATE);
-
-        sessionId = sp.getString("sessionId", "1");
-        userId = sp.getInt("userId", 1);
 
         contentView = LayoutInflater.from(this).inflate(R.layout.dialog_content_normal, null);
         contentView2 = LayoutInflater.from(this).inflate(R.layout.item_yg, null);
@@ -264,6 +265,12 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
             ygAdapter.notifyDataSetChanged();
             stagePhotoAdapter.addItem(posterList);
             stagePhotoAdapter.notifyDataSetChanged();
+            if (result.getFollowMovie() == 1) {
+                xinxin.setImageResource(R.drawable.com_icon_collection_selected);
+            } else {
+                xinxin.setImageResource(R.drawable.weiguanzhu);
+            }
+
         }
 
         @Override
@@ -299,6 +306,21 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         @Override
         public void errors(Throwable throwable) {
 
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        DaoSession daoSession = DaoMaster.newDevSession(MoviesByIdActivity.this, LoginSubBeanDao.TABLENAME);
+        LoginSubBeanDao loginSubBeanDao = daoSession.getLoginSubBeanDao();
+        List<LoginSubBean> list = loginSubBeanDao.queryBuilder()
+                .where(LoginSubBeanDao.Properties.Statu.eq("1"))
+                .build().list();
+        if (list.size() > 0) {
+            LoginSubBean loginSubBean = list.get(0);
+            userId = loginSubBean.getId();
+            sessionId = loginSubBean.getSessionId();
         }
     }
 }

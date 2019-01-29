@@ -13,19 +13,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.bw.movie.R;
+import com.bw.movie.activity.FilmShowActivity;
 import com.bw.movie.activity.second_activity.CinemaScheduleActivity;
 import com.bw.movie.adapter.TuiMovieRecycleAdapter;
+import com.bw.movie.bean.LoginSubBean;
 import com.bw.movie.bean.RecommBean;
 import com.bw.movie.bean.Result;
 import com.bw.movie.core.ResultInfe;
+import com.bw.movie.greendao.DaoMaster;
+import com.bw.movie.greendao.DaoSession;
+import com.bw.movie.greendao.LoginSubBeanDao;
+import com.bw.movie.presenter.CinemaAttListPresenter;
+import com.bw.movie.presenter.CinemaCancelListPresenter;
 import com.bw.movie.presenter.NearMoviePresenter;
 import com.bw.movie.presenter.RecomMoviePresenter;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -54,12 +63,9 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
     private boolean animatort = false;
     private boolean animatorf = false;
     private RecomMoviePresenter recomMoviePresenter;
-    private SharedPreferences sp;
     private int page = 1;
     private final static int count = 5;
     private TuiMovieRecycleAdapter tuiMovieRecycleAdapter;
-    private int userId;
-    private String sessionId;
     private NearMoviePresenter nearMoviePresenter;
     public LocationClient mLocationClient = null;
     MyLocationListener myListener = new MyLocationListener();
@@ -67,6 +73,11 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
     private double longitude;
     @BindView(R.id.seacrch_linear2)
     LinearLayout seacrch_linear2;
+    private CinemaAttListPresenter cinemaAttListPresenter;
+    ImageView mAttImage;
+    private CinemaCancelListPresenter cinemaCancelListPresenter;
+    private int id;
+    private String sessionId;
 
     @Nullable
     @Override
@@ -75,19 +86,22 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
         ButterKnife.bind(this, view);
         recommend.setBackgroundResource(R.drawable.btn_gradient);
         recomMoviePresenter = new RecomMoviePresenter(this);
-        sp = getActivity().getSharedPreferences("login", MODE_PRIVATE);
-        sessionId = sp.getString("sessionId", "1");
-        userId = sp.getInt("userId", 1);
+
+
         nearMoviePresenter = new NearMoviePresenter(this);
-        recomMoviePresenter.request(userId, sessionId, page, count);
+
         cinemarecycleview.setLoadingListener(this);
         cinemarecycleview.setLoadingMoreEnabled(true);
         cinemarecycleview.setPullRefreshEnabled(true);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        tuiMovieRecycleAdapter = new TuiMovieRecycleAdapter();
+        tuiMovieRecycleAdapter = new TuiMovieRecycleAdapter(getContext());
         cinemarecycleview.setLayoutManager(manager);
         cinemarecycleview.setAdapter(tuiMovieRecycleAdapter);
         location();
+        //关注
+        cinemaAttListPresenter = new CinemaAttListPresenter(new CinemaAtt());
+        //取消关注
+        cinemaCancelListPresenter = new CinemaCancelListPresenter(new CinemaCancel());
         //这是刚进页面设置的动画状态
         ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 30f, 530f);
         animator.setDuration(0);
@@ -97,10 +111,25 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
             public void onclick(int id, String img, String name, String address) {
                 Intent intent = new Intent(getContext(), CinemaScheduleActivity.class);
                 intent.putExtra("id", id);
-                intent.putExtra("image",img);
-                intent.putExtra("name",name);
-                intent.putExtra("address",address);
+                intent.putExtra("image", img);
+                intent.putExtra("name", name);
+                intent.putExtra("address", address);
                 startActivity(intent);
+            }
+        });
+        /**
+         * 点赞
+         */
+        tuiMovieRecycleAdapter.setOnClickListenerAtte(new TuiMovieRecycleAdapter.OnClickListenerAtte() {
+            @Override
+            public void onclick(int id, ImageView image, int followCinema) {
+                //ID是影院ID
+                if (followCinema == 2) {
+                    cinemaAttListPresenter.request(id, sessionId, id);
+                } else {
+                    cinemaCancelListPresenter.request(id, sessionId, id);
+                }
+                mAttImage = image;
             }
         });
         return view;
@@ -159,7 +188,7 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
         page = 1;
         if (recommcheck) {
             tuiMovieRecycleAdapter.removeAll();
-            recomMoviePresenter.request(userId, sessionId, page, count);
+            recomMoviePresenter.request(id, sessionId, page, count);
             recommend.setBackgroundResource(R.drawable.btn_gradient);
             nearbycheck = false;
             nearby.setBackgroundResource(R.drawable.btn_false);
@@ -175,7 +204,7 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
         page = 1;
         if (nearbycheck) {
             tuiMovieRecycleAdapter.removeAll();
-            nearMoviePresenter.request(userId, sessionId, String.valueOf(longitude), String.valueOf(latitude), page, count);
+            nearMoviePresenter.request(id, sessionId, String.valueOf(longitude), String.valueOf(latitude), page, 5);
             nearby.setBackgroundResource(R.drawable.btn_gradient);
             recommcheck = false;
             recommend.setBackgroundResource(R.drawable.btn_false);
@@ -207,14 +236,12 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
      */
     @Override
     public void onRefresh() {
-
         page = 1;
         tuiMovieRecycleAdapter.removeAll();
         if (recommcheck) {
-            recomMoviePresenter.request(userId, sessionId, page, count);
+            recomMoviePresenter.request(id, sessionId, page, count);
         } else {
-            nearMoviePresenter.request(userId, sessionId, String.valueOf(longitude), String.valueOf(latitude), page, count);
-
+            nearMoviePresenter.request(id, sessionId, String.valueOf(longitude), String.valueOf(latitude), page, count);
         }
     }
 
@@ -222,9 +249,9 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
     public void onLoadMore() {
         page++;
         if (recommcheck) {
-            recomMoviePresenter.request(userId, sessionId, page, count);
+            recomMoviePresenter.request(id, sessionId, page, count);
         } else {
-            nearMoviePresenter.request(userId, sessionId, String.valueOf(longitude), String.valueOf(latitude), page, count);
+            nearMoviePresenter.request(id, sessionId, String.valueOf(longitude), String.valueOf(latitude), page, count);
         }
     }
 
@@ -267,5 +294,61 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
         super.onDestroy();
         nearMoviePresenter.unBind();
         recomMoviePresenter.unBind();
+    }
+
+    /**
+     * 关注接口
+     */
+    class CinemaAtt implements ResultInfe {
+
+        @Override
+        public void success(Object data) {
+            Result result = (Result) data;
+            if (result.getStatus().equals("0000")) {
+                mAttImage.setImageResource(R.drawable.com_icon_collection_selected);
+            }
+            Toast.makeText(getContext(), "" + result.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void errors(Throwable throwable) {
+
+        }
+    }
+
+    /**
+     * 取消关注
+     */
+    class CinemaCancel implements ResultInfe {
+
+        @Override
+        public void success(Object data) {
+            Result result = (Result) data;
+            if (result.getStatus().equals("0000")) {
+                mAttImage.setImageResource(R.drawable.weiguanzhu);
+            }
+            Toast.makeText(getContext(), "" + result.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void errors(Throwable throwable) {
+
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        DaoSession daoSession = DaoMaster.newDevSession(getContext(), LoginSubBeanDao.TABLENAME);
+        LoginSubBeanDao loginSubBeanDao = daoSession.getLoginSubBeanDao();
+        List<LoginSubBean> list = loginSubBeanDao.queryBuilder()
+                .where(LoginSubBeanDao.Properties.Statu.eq("1"))
+                .build().list();
+        if (list.size() > 0) {
+            LoginSubBean loginSubBean = list.get(0);
+            id = loginSubBean.getId();
+            sessionId = loginSubBean.getSessionId();
+        }
+        recomMoviePresenter.request(id, sessionId, page, count);
     }
 }

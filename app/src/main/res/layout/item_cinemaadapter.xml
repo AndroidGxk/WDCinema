@@ -14,7 +14,7 @@
         android:background="@drawable/shadow_shape"
         android:orientation="horizontal">
 
-        <com.facebook.drawee.view.SimpleDraweeView
+        <ImageView
             android:id="@+id/cinemasdvsone"
             android:layout_width="70dp"
             android:layout_height="70dp"
@@ -68,8 +68,7 @@
                     android:layout_width="16dp"
                     android:layout_height="14dp"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/com_icon_collection_selected" />
+                    android:layout_centerVertical="true" />
             </RelativeLayout>
         </LinearLayout>
 

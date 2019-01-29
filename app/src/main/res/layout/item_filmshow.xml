@@ -59,7 +59,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="24dp"
             android:layout_marginRight="24dp"
-            android:src="@drawable/com_icon_collection_selected" />
+            android:src="@drawable/weiguanzhu" />
 
         <TextView
             android:id="@+id/filmshow_summary"

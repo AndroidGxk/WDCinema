@@ -11,7 +11,7 @@
         android:id="@+id/cinema_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         android:textColor="#666"
         android:textSize="14sp" />
 
@@ -27,7 +27,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         android:src="@drawable/com_icon_navigation_default" />
 
     <LinearLayout

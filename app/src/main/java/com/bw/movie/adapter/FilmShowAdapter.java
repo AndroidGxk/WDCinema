@@ -33,10 +33,39 @@ public class FilmShowAdapter extends RecyclerView.Adapter<FilmShowAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
         viewHolder.name.setText(list.get(i).getName());
         viewHolder.summary.setText(list.get(i).getSummary());
         viewHolder.simpleDraweeView.setImageURI(Uri.parse(list.get(i).getImageUrl()));
+        viewHolder.name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickListener.onClick(list.get(i).getId());
+            }
+        });
+        viewHolder.simpleDraweeView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickListener.onClick(list.get(i).getId());
+            }
+        });
+        viewHolder.summary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickListener.onClick(list.get(i).getId());
+            }
+        });
+        if (list.get(i).getFollowMovie() == 1) {
+            viewHolder.imageView.setImageResource(R.drawable.com_icon_collection_selected);
+        } else {
+            viewHolder.imageView.setImageResource(R.drawable.weiguanzhu);
+        }
+        viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickListenerAtt.onClick(list.get(i).getId(), viewHolder.imageView,list.get(i).getFollowMovie());
+            }
+        });
     }
 
     @Override
@@ -68,5 +97,25 @@ public class FilmShowAdapter extends RecyclerView.Adapter<FilmShowAdapter.ViewHo
             imageView = itemView.findViewById(R.id.filmshow_heart);
             summary = itemView.findViewById(R.id.filmshow_summary);
         }
+    }
+
+    private OnClickListener onClickListener;
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
+    public interface OnClickListener {
+        void onClick(int id);
+    }
+
+    private OnClickListenerAtt onClickListenerAtt;
+
+    public void setOnClickListenerAtt(OnClickListenerAtt onClickListenerAtt) {
+        this.onClickListenerAtt = onClickListenerAtt;
+    }
+
+    public interface OnClickListenerAtt {
+        void onClick(int id, ImageView imageView,int followCinema);
     }
 }

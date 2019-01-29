@@ -5,16 +5,24 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.adapter.FilmShowAdapter;
 import com.bw.movie.bean.HotMovieBean;
+import com.bw.movie.bean.LoginSubBean;
 import com.bw.movie.bean.Result;
 import com.bw.movie.core.ResultInfe;
+import com.bw.movie.greendao.DaoMaster;
+import com.bw.movie.greendao.DaoSession;
+import com.bw.movie.greendao.LoginSubBeanDao;
 import com.bw.movie.presenter.ComingSoonMoviePresenter;
 import com.bw.movie.presenter.HotMoviePresenter;
+import com.bw.movie.presenter.MovieAttListPresenter;
+import com.bw.movie.presenter.MovieCancelListPresenter;
 import com.bw.movie.presenter.ReleaseMoviePresenter;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -44,12 +52,14 @@ public class FilmShowActivity extends WDActivity implements XRecyclerView.Loadin
     private ReleaseMoviePresenter releaseMoviePresenter;
     private ComingSoonMoviePresenter comingSoonMoviePresenter;
     private int page = 1;
-    private SharedPreferences sp;
-    private String sessionId;
-    private int userId;
     private FilmShowAdapter filmShowAdapter;
     @BindView(R.id.seacrch_linear2)
     LinearLayout seacrch_linear2;
+    private MovieAttListPresenter movieAttListPresenter;
+    ImageView imageView;
+    private MovieCancelListPresenter movieCancelListPresenter;
+    private int userId;
+    private String sessionId;
 
     @Override
     protected int getLayoutId() {
@@ -63,27 +73,32 @@ public class FilmShowActivity extends WDActivity implements XRecyclerView.Loadin
         ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 30f, 530f);
         animator.setDuration(0);
         animator.start();
-        //调用sp，获取userID和sessionid
-        sp = getSharedPreferences("login", MODE_PRIVATE);
-
-        sessionId = sp.getString("sessionId", "1");
-        userId = sp.getInt("userId", 1);
-
-        Intent intent = getIntent();
+        DaoSession daoSession = DaoMaster.newDevSession(FilmShowActivity.this, LoginSubBeanDao.TABLENAME);
+        LoginSubBeanDao loginSubBeanDao = daoSession.getLoginSubBeanDao();
+        List<LoginSubBean> list = loginSubBeanDao.queryBuilder()
+                .where(LoginSubBeanDao.Properties.Statu.eq("1"))
+                .build().list();
+        if (list.size() > 0) {
+            LoginSubBean loginSubBean = list.get(0);
+            userId = loginSubBean.getId();
+            sessionId = loginSubBean.getSessionId();
+        }
+        final Intent intent = getIntent();
         String select = intent.getStringExtra("select");
-
         hotMoviePresenter = new HotMoviePresenter(new Hot());
         releaseMoviePresenter = new ReleaseMoviePresenter(new Release());
         comingSoonMoviePresenter = new ComingSoonMoviePresenter(new ComingSoon());
         filmshow_recycler.setLoadingListener(this);
         filmshow_recycler.setLoadingMoreEnabled(true);
         filmshow_recycler.setPullRefreshEnabled(true);
-
+        //点赞接口
+        movieAttListPresenter = new MovieAttListPresenter(new MovieAtt());
+        //取消点赞
+        movieCancelListPresenter = new MovieCancelListPresenter(new MovieCan());
         LinearLayoutManager manager = new LinearLayoutManager(this);
         filmShowAdapter = new FilmShowAdapter(this);
         filmshow_recycler.setLayoutManager(manager);
         filmshow_recycler.setAdapter(filmShowAdapter);
-
         if (select.equals("1")) {
             hotcheck = true;
             hot.setBackgroundResource(R.drawable.btn_gradient);
@@ -106,6 +121,25 @@ public class FilmShowActivity extends WDActivity implements XRecyclerView.Loadin
             filmShowAdapter.remove();
             comingSoonMoviePresenter.request(userId, sessionId, page, 5);
         }
+        filmShowAdapter.setOnClickListener(new FilmShowAdapter.OnClickListener() {
+            @Override
+            public void onClick(int id) {
+                Intent intent = new Intent(FilmShowActivity.this, MoviesByIdActivity.class);
+                intent.putExtra("id", id + "");
+                startActivity(intent);
+            }
+        });
+        filmShowAdapter.setOnClickListenerAtt(new FilmShowAdapter.OnClickListenerAtt() {
+            @Override
+            public void onClick(int id, ImageView imag, int followCinema) {
+                imageView = imag;
+                if (followCinema == 2) {
+                    movieAttListPresenter.request(userId, sessionId, id);
+                } else {
+                    movieCancelListPresenter.request(userId, sessionId, id);
+                }
+            }
+        });
     }
 
 
@@ -268,6 +302,56 @@ public class FilmShowActivity extends WDActivity implements XRecyclerView.Loadin
         @Override
         public void errors(Throwable throwable) {
 
+        }
+    }
+
+    //电影点赞
+    private class MovieAtt implements ResultInfe<Result> {
+
+        @Override
+        public void success(Result data) {
+            Toast.makeText(FilmShowActivity.this, "" + data.getMessage(), Toast.LENGTH_SHORT).show();
+            if (data.getStatus().equals("0000")) {
+                imageView.setImageResource(R.drawable.com_icon_collection_selected);
+            }
+        }
+
+        @Override
+        public void errors(Throwable throwable) {
+
+        }
+    }
+
+    //电影取消点赞
+    private class MovieCan implements ResultInfe {
+
+        @Override
+        public void success(Object data) {
+            Result result = (Result) data;
+            Toast.makeText(FilmShowActivity.this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
+            if (result.getStatus().equals("0000")) {
+                imageView.setImageResource(R.drawable.weiguanzhu);
+            }
+        }
+
+        @Override
+        public void errors(Throwable throwable) {
+
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        DaoSession daoSession = DaoMaster.newDevSession(FilmShowActivity.this, LoginSubBeanDao.TABLENAME);
+        LoginSubBeanDao loginSubBeanDao = daoSession.getLoginSubBeanDao();
+        List<LoginSubBean> list = loginSubBeanDao.queryBuilder()
+                .where(LoginSubBeanDao.Properties.Statu.eq("1"))
+                .build().list();
+        if (list.size() > 0) {
+            LoginSubBean loginSubBean = list.get(0);
+            userId = loginSubBean.getId();
+            sessionId = loginSubBean.getSessionId();
         }
     }
 }

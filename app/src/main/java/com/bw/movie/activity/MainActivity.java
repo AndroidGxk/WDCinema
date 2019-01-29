@@ -7,6 +7,7 @@ import com.bw.movie.R;
 import com.bw.movie.activity.fragment.Fragment_Page_one;
 import com.bw.movie.activity.fragment.Fragment_Page_three;
 import com.bw.movie.activity.fragment.Fragment_Page_two;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 
@@ -62,5 +63,17 @@ public class MainActivity extends WDActivity {
     @Override
     protected void destoryData() {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MobclickAgent.onResume(this);
     }
 }

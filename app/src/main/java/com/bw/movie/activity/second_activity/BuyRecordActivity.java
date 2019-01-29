@@ -56,7 +56,7 @@ public class BuyRecordActivity extends WDActivity implements ResultInfe, XRecycl
     private LoginSubBeanDao loginSubBeanDao;
     private List<LoginSubBean> list;
     private int mPage = 1;
-    private static final int mCount = 5;
+    private static final int mCount = 10;
     private UserTicketRecycleAdapter userTicketRecycleAdapter;
     private LoginSubBean loginSubBean;
     // 声明平移动画

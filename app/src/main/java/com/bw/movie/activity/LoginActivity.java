@@ -7,8 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.bean.LoginBean;
@@ -47,6 +49,8 @@ public class LoginActivity extends WDActivity implements CustomAdapt, ResultInfe
     private SharedPreferences sp;
     private LoginSubBeanDao loginSubBeanDao;
     private IWXAPI mWechatApi;
+    private SharedPreferences checked;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_login;
@@ -56,9 +60,17 @@ public class LoginActivity extends WDActivity implements CustomAdapt, ResultInfe
     protected void initView() {
         loginPresenter = new LoginPresenter(this);
         sp = getSharedPreferences("login", MODE_PRIVATE);
+        checked = getSharedPreferences("Checked", MODE_PRIVATE);
         DaoSession daoSession = DaoMaster.newDevSession(LoginActivity.this, LoginSubBeanDao.TABLENAME);
         loginSubBeanDao = daoSession.getLoginSubBeanDao();
-        loginSubBeanDao.deleteAll();
+        boolean checkeds = checked.getBoolean("checked", false);
+        if (checkeds) {
+            List<LoginSubBean> list = loginSubBeanDao.loadAll();
+            LoginSubBean loginSubBean = list.get(0);
+            my_login_phone.setText(loginSubBean.getPhone());
+            my_login_pwd.setText(loginSubBean.getPwd());
+            rem_check.setChecked(true);
+        }
     }
 
     @Override
@@ -73,13 +85,12 @@ public class LoginActivity extends WDActivity implements CustomAdapt, ResultInfe
     public void mIv_WeChat() {
 
 //初始化微信
-        mWechatApi = WXAPIFactory.createWXAPI(this,"wxb3852e6a6b7d9516",false);
+        mWechatApi = WXAPIFactory.createWXAPI(this, "wxb3852e6a6b7d9516", false);
         mWechatApi.registerApp("wxb3852e6a6b7d9516");
         final SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
         req.state = "wechat_sdk_demo";
         mWechatApi.sendReq(req);
-
     }
 
 
@@ -141,6 +152,9 @@ public class LoginActivity extends WDActivity implements CustomAdapt, ResultInfe
         edit.putString("sessionId", loginBean.getSessionId());
         edit.putInt("userId", loginBean.getUserId());
         edit.commit();
+        SharedPreferences.Editor edit2 = checked.edit();
+        edit2.putBoolean("checked", rem_check.isChecked());
+        edit2.commit();
         LoginSubBean loginSubBean = new LoginSubBean();
         loginSubBean.setStatu(1);
         loginSubBean.setPwd(my_login_pwd.getText().toString());

@@ -13,6 +13,7 @@ import com.bw.movie.bean.RecommBean;
 import com.bw.movie.bean.Result;
 import com.bw.movie.bean.UpdateUserInfoBean;
 import com.bw.movie.bean.UserTicketBean;
+import com.bw.movie.bean.UserVipInfoBean;
 
 import java.util.List;
 
@@ -206,4 +207,41 @@ public interface ICoreInfe {
     @POST("user/v1/verify/modifyUserInfo")
     Observable<Result<UpdateUserInfoBean>> modifyUserInfo(@Header("userId") int userId, @Header("sessionId") String sessionId,
                                                           @Field("nickName") String nickName, @Field("sex") int sex, @Field("email") String email);
+
+    /**
+     * 影院关注
+     */
+    @GET("cinema/v1/verify/followCinema")
+    Observable<Result> followCinema(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                    @Query("cinemaId") int cinemaId);
+
+    /**
+     * 影院取消关注
+     */
+    @GET("cinema/v1/verify/cancelFollowCinema")
+    Observable<Result> cancelFollowCinema(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                          @Query("cinemaId") int cinemaId);
+
+    /**
+     * 查询会员首页信息
+     */
+    @GET("user/v1/verify/findUserHomeInfo")
+    Observable<Result<UserVipInfoBean>> findUserHomeInfo(@Header("userId") int userId,
+                                                         @Header("sessionId") String sessionId);
+
+    /**
+     * 关注电影
+     */
+    @GET("movie/v1/verify/followMovie")
+    Observable<Result> followMovie(@Header("userId") int userId,
+                                   @Header("sessionId") String sessionId,
+                                   @Query("movieId") int movieId);
+
+    /**
+     * 取消关注电影
+     */
+    @GET("movie/v1/verify/cancelFollowMovie")
+    Observable<Result> cancelFollowMovie(@Header("userId") int userId,
+                                         @Header("sessionId") String sessionId,
+                                         @Query("movieId") int movieId);
 }

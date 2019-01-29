@@ -125,7 +125,6 @@ public abstract class WDActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPause(this);
     }
     @Override
     protected void onStart() {
@@ -143,7 +142,6 @@ public abstract class WDActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onResume(this);
     }
 
     //定位

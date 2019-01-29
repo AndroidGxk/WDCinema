@@ -1,11 +1,14 @@
 package com.bw.movie.activity.fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +25,13 @@ import com.bw.movie.activity.second_activity.MyMessage_Activity;
 import com.bw.movie.activity.second_activity.OpinActivity;
 import com.bw.movie.bean.LoginSubBean;
 import com.bw.movie.bean.Result;
+import com.bw.movie.bean.UserVipInfoBean;
 import com.bw.movie.core.ResultInfe;
 import com.bw.movie.greendao.DaoMaster;
 import com.bw.movie.greendao.DaoSession;
 import com.bw.movie.greendao.LoginSubBeanDao;
 import com.bw.movie.presenter.UserSignInPresenter;
+import com.bw.movie.presenter.UserVipInfoPresenter;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -49,28 +54,41 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt, Result
     @BindView(R.id.myname)
     TextView myname;
     private UserSignInPresenter userSignInPresenter;
-    private int userId;
-    private String sessionId;
-    private SharedPreferences sp;
     private List<LoginSubBean> list;
     private LoginSubBeanDao loginSubBeanDao;
+    private UserVipInfoPresenter userVipInfoPresenter;
+    private String sessionId;
+    private int userId;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = View.inflate(getContext(), R.layout.fragment_page_three, null);
         ButterKnife.bind(this, view);
+        DaoSession daoSession = DaoMaster.newDevSession(getActivity(), LoginSubBeanDao.TABLENAME);
+        loginSubBeanDao = daoSession.getLoginSubBeanDao();
+        list = loginSubBeanDao.queryBuilder()
+                .where(LoginSubBeanDao.Properties.Statu.eq("1"))
+                .build().list();
+        if (list.size() > 0) {
+            LoginSubBean loginSubBean = list.get(0);
+            userId = loginSubBean.getId();
+            sessionId = loginSubBean.getSessionId();
+        }
+
         AutoSizeConfig.getInstance().setCustomFragment(true);
         userSignInPresenter = new UserSignInPresenter(this);
-        sp = getActivity().getSharedPreferences("login", MODE_PRIVATE);
-        sessionId = sp.getString("sessionId", "1");
-        userId = sp.getInt("userId", 1);
+        userVipInfoPresenter = new UserVipInfoPresenter(new UserInfo());
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        init();
+    }
+
+    public void init() {
         DaoSession daoSession = DaoMaster.newDevSession(getActivity(), LoginSubBeanDao.TABLENAME);
         loginSubBeanDao = daoSession.getLoginSubBeanDao();
         list = loginSubBeanDao.queryBuilder()
@@ -82,8 +100,11 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt, Result
             String headPic = loginSubBean.getHeadPic();
             myheader.setImageURI(headPic);
             myname.setText(nickName);
+            userVipInfoPresenter.request(loginSubBean.getId(), loginSubBean.getSessionId());
         } else {
             myname.setText("未登录");
+            myheader.setImageURI("");
+            usersigin.setText("签到");
             myname.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -94,7 +115,6 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt, Result
                 }
             });
         }
-
     }
 
     /**
@@ -130,11 +150,29 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt, Result
         if (list.size() == 0) {
             Toast.makeText(getActivity(), "未登录", Toast.LENGTH_SHORT).show();
             return;
+        } else {
+            AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+            alert.setTitle("提示");
+            alert.setMessage("确定退出登录吗?");
+            alert.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    DaoSession daoSession = DaoMaster.newDevSession(getActivity(), LoginSubBeanDao.TABLENAME);
+                    loginSubBeanDao = daoSession.getLoginSubBeanDao();
+                    list = loginSubBeanDao.queryBuilder()
+                            .where(LoginSubBeanDao.Properties.Statu.eq("1"))
+                            .build().list();
+                    if (list.size() > 0) {
+                        LoginSubBean loginSubBean = list.get(0);
+                        loginSubBean.setStatu(0);
+                        loginSubBeanDao.insertOrReplace(loginSubBean);
+                    }
+                    init();
+                }
+            });
+            alert.setNegativeButton("取消", null);
+            alert.show();
         }
-        loginSubBeanDao.deleteAll();
-        Intent intent = new Intent(getActivity(), LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
     }
 
     /**
@@ -194,11 +232,32 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt, Result
     public void success(Object data) {
         Result result = (Result) data;
         Toast.makeText(getContext(), "" + result.getMessage(), Toast.LENGTH_SHORT).show();
-        usersigin.setText("已签到");
+        if (result.getStatus().equals("0000")) {
+            usersigin.setText("已签到");
+        }
     }
 
     @Override
     public void errors(Throwable throwable) {
 
+    }
+
+    class UserInfo implements ResultInfe {
+
+        @Override
+        public void success(Object data) {
+            Result result = (Result) data;
+            UserVipInfoBean userVipInfoBean = (UserVipInfoBean) result.getResult();
+            if (userVipInfoBean.getUserSignStatus() == 1) {
+                usersigin.setText("签到");
+            } else {
+                usersigin.setText("已签到");
+            }
+        }
+
+        @Override
+        public void errors(Throwable throwable) {
+
+        }
     }
 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.bawei.admin.wdcinema.activity.second_activity.CinemaScheduleActivity">
+    tools:context=".activity.second_activity.CinemaScheduleActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_marginLeft="24dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 app:roundBottomLeft="true"
                 app:roundBottomRight="true"
                 app:roundTopLeft="true"
@@ -74,7 +74,7 @@
             android:id="@+id/cinema_detalis_horse"
             android:layout_width="match_parent"
             android:layout_height="223dp"
-            android:layout_marginTop="105dp"></com.example.coverflow.RecyclerCoverFlow>
+            android:layout_marginTop="115dp"></com.example.coverflow.RecyclerCoverFlow>
 
         <RadioGroup
             android:id="@+id/home_radio_group"
