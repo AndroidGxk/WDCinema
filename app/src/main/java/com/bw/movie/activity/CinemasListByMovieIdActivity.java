@@ -61,16 +61,18 @@ public class CinemasListByMovieIdActivity extends WDActivity {
 
         cinemasListByMovieIdAdapter.setOnClick(new CinemasListByMovieIdAdapter.OnClick() {
             @Override
-            public void click(String address, String name) {
+            public void click(String address, String name, int ids) {
                 Intent intent1 = new Intent(CinemasListByMovieIdActivity.this, MovieScheduleListActivity.class);
-                intent1.putExtra("address",address);
-                intent1.putExtra("name",name);
+                intent1.putExtra("address", address);
+                intent1.putExtra("name", name);
                 intent1.putExtra("names", names);
                 intent1.putExtra("director", director);
                 intent1.putExtra("duration", duration);
                 intent1.putExtra("placeOrigin", placeOrigin);
                 intent1.putExtra("movieTypes", movieTypes);
                 intent1.putExtra("imageUrl", imageUrl);
+                intent1.putExtra("id", id);
+                intent1.putExtra("ids", String.valueOf(ids));
                 startActivity(intent1);
             }
         });

@@ -26,7 +26,7 @@ public class CinemasListByMovieIdAdapter extends RecyclerView.Adapter<CinemasLis
     }
 
     public interface OnClick {
-        void click(String address, String name);
+        void click(String address, String name, int id);
     }
 
     public CinemasListByMovieIdAdapter(Context context) {
@@ -48,10 +48,11 @@ public class CinemasListByMovieIdAdapter extends RecyclerView.Adapter<CinemasLis
         viewHolder.simpleDraweeView.setImageURI(Uri.parse(list.get(i).getLogo()));
         final String address = list.get(i).getAddress();
         final String name = list.get(i).getName();
+        final int id = list.get(i).getId();
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClick.click(address, name);
+                onClick.click(address, name,id);
             }
         });
     }
