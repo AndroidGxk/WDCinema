@@ -7,4 +7,5 @@
     <color name="radiot">#333333</color>
     <color name="hyperlink">#AE00AE</color>
     <color name="navpage">#FFE1E8EB</color>
+    <color name="dialog_bg">#ffffff</color>
 </resources>

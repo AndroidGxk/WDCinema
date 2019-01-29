@@ -206,4 +206,20 @@ public interface ICoreInfe {
     @POST("user/v1/verify/modifyUserInfo")
     Observable<Result<UpdateUserInfoBean>> modifyUserInfo(@Header("userId") int userId, @Header("sessionId") String sessionId,
                                                           @Field("nickName") String nickName, @Field("sex") int sex, @Field("email") String email);
+
+    /**
+     * 用户对影片的评论
+     */
+    @FormUrlEncoded
+    @POST("movie/v1/verify/movieComment")
+    Observable<Result> movieComment(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                    @Field("movieId") int movieId, @Field("commentContent") String commentContent);
+
+    /**
+     * 点赞
+     */
+    @FormUrlEncoded
+    @POST("movie/v1/verify/movieCommentGreat")
+    Observable<Result> movieCommentGreat(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                         @Field("commentId") int movieId);
 }

@@ -1,6 +1,7 @@
 package com.bw.movie.activity;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -8,10 +9,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.adapter.FilmReviewAdapter;
@@ -23,6 +29,8 @@ import com.bw.movie.bean.MoviesDetailBean;
 import com.bw.movie.bean.Result;
 import com.bw.movie.core.ResultInfe;
 import com.bw.movie.presenter.FilmReviewPresenter;
+import com.bw.movie.presenter.MovieCommentGreatPresenter;
+import com.bw.movie.presenter.MovieCommentPresenter;
 import com.bw.movie.presenter.MoviesByIdPresenter;
 import com.bw.movie.presenter.MoviesDetailPresenter;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -47,6 +55,7 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
     private View contentView3;
     private View contentView4;
     private Dialog bottomDialog;
+    private Dialog bottomDialog1;
     private MoviesDetailPresenter moviesDetailPresenter;
     private String sessionId;
     private int userId;
@@ -70,6 +79,10 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
     private String duration;
     private String director;
     private String imageUrl;
+    private View pl;
+    private Button button;
+    private EditText editText;
+    private MovieCommentPresenter movieCommentPresenter;
 
     @Override
     protected int getLayoutId() {
@@ -90,8 +103,22 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         contentView2 = LayoutInflater.from(this).inflate(R.layout.item_yg, null);
         contentView3 = LayoutInflater.from(this).inflate(R.layout.item_stagephoto, null);
         contentView4 = LayoutInflater.from(this).inflate(R.layout.item_filmreview, null);
+        pl = LayoutInflater.from(this).inflate(R.layout.comment_popupwindow, null);
 
         bottomDialog = new Dialog(this, R.style.BottomDialog);
+        bottomDialog1 = new Dialog(this, R.style.BottomDialog);
+
+        bottomDialog1.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent keyEvent) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && keyEvent.getRepeatCount() == 0)
+                    bottomDialog1.cancel();
+                return false;
+            }
+        });
+
+        editText = pl.findViewById(R.id.et_discuss);
+        button = pl.findViewById(R.id.tv_confirm);
 
         simpleDraweeView1 = contentView.findViewById(R.id.popupwindow_detalis_sdvone);
         popupwindow_detalis_daoyan = contentView.findViewById(R.id.popupwindow_detalis_daoyan);
@@ -129,6 +156,8 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         filmreview_recycler.setLoadingMoreEnabled(true);
         filmreview_recycler.setPullRefreshEnabled(true);
 
+        movieCommentPresenter = new MovieCommentPresenter(new MovieComment());
+
         moviesDetailPresenter.request(userId, sessionId, Integer.parseInt(id));
 
         contentView.findViewById(R.id.popupwindow_detalis_sdvtwo).setOnClickListener(new View.OnClickListener() {
@@ -155,12 +184,47 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
                 bottomDialog.dismiss();
             }
         });
+        contentView4.findViewById(R.id.comment).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                show1(pl);
+            }
+        });
+        bottomDialog1.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent keyEvent) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && keyEvent.getRepeatCount() == 0)
+                    bottomDialog1.cancel();
+                return false;
+            }
+        });
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String str = editText.getText().toString().trim();
+                movieCommentPresenter.request(userId, sessionId, Integer.parseInt(id), str);
+            }
+        });
+
+        filmReviewAdapter.setOnClick(new FilmReviewAdapter.OnClick() {
+            @Override
+            public void onclick(ImageView like, int commentId) {
+                MovieCommentGreatPresenter movieCommentGreatPresenter = new MovieCommentGreatPresenter(new MovieCommentGreat());
+                like.setBackgroundResource(R.drawable.com_icon_praise_selected);
+                movieCommentGreatPresenter.request(userId, sessionId, commentId);
+            }
+        });
     }
 
     @Override
     protected void destoryData() {
         moviesDetailPresenter.unBind();
         filmReviewPresenter.unBind();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return super.onKeyDown(keyCode, event);
     }
 
     @OnClick(R.id.goupay)
@@ -212,6 +276,16 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         bottomDialog.show();
     }
 
+    private void show1(View contentViewss) {
+        bottomDialog1.setContentView(contentViewss);
+        ViewGroup.LayoutParams layoutParams = contentViewss.getLayoutParams();
+        layoutParams.width = getResources().getDisplayMetrics().widthPixels;
+        contentViewss.setLayoutParams(layoutParams);
+        bottomDialog1.getWindow().setGravity(Gravity.BOTTOM);
+        bottomDialog1.setCanceledOnTouchOutside(true);
+        bottomDialog1.getWindow().setWindowAnimations(R.style.BottomDialog_Animation);
+        bottomDialog1.show();
+    }
 
     //上下拉
     @Override
@@ -294,6 +368,39 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
             filmReviewAdapter.notifyDataSetChanged();
             filmreview_recycler.loadMoreComplete();
             filmreview_recycler.refreshComplete();
+        }
+
+        @Override
+        public void errors(Throwable throwable) {
+
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    private class MovieComment implements ResultInfe<Result> {
+        @Override
+        public void success(Result data) {
+            Toast.makeText(MoviesByIdActivity.this, "" + data.getMessage(), Toast.LENGTH_SHORT).show();
+            bottomDialog1.dismiss();
+            filmReviewPresenter.request(Integer.parseInt(id), 1, 5);
+            editText.setText(null);
+        }
+
+        @Override
+        public void errors(Throwable throwable) {
+
+        }
+    }
+
+    private class MovieCommentGreat implements ResultInfe<Result> {
+        @Override
+        public void success(Result data) {
+            Toast.makeText(MoviesByIdActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
         @Override

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff">
+
+    <EditText
+        android:id="@+id/et_discuss"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginBottom="6dp"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:hint="说点什么"
+        android:singleLine="true"
+        android:textColorHint="#a2a2a2"
+        android:textSize="13sp" />
+
+    <Button
+        android:id="@+id/tv_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:text="提交"
+        android:textColor="#646464"
+        android:textColorHint="#b7b7b7"
+        android:textSize="13sp"></Button>
+</LinearLayout>
