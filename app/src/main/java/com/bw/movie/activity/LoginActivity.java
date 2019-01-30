@@ -151,6 +151,7 @@ public class LoginActivity extends WDActivity implements CustomAdapt, ResultInfe
         LoginSubBean userInfo = loginBean.getUserInfo();
         edit.putString("sessionId", loginBean.getSessionId());
         edit.putInt("userId", loginBean.getUserId());
+
         edit.commit();
         SharedPreferences.Editor edit2 = checked.edit();
         edit2.putBoolean("checked", rem_check.isChecked());
@@ -170,6 +171,10 @@ public class LoginActivity extends WDActivity implements CustomAdapt, ResultInfe
         loginSubBean.setUserId(userInfo.getUserId());
         loginSubBean.setMail(userInfo.getMail());
         loginSubBeanDao.insertOrReplace(loginSubBean);
+        SharedPreferences userinfo = getSharedPreferences("userinfo", MODE_PRIVATE);
+        SharedPreferences.Editor edits = userinfo.edit();
+        edits.putBoolean("login", true);
+        edits.commit();
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
         finish();
     }

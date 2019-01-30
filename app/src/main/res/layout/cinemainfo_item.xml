@@ -4,66 +4,217 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.design.widget.TabLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/twopopularsdvone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical">
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="140dp"
+        android:background="@drawable/shape_dialog">
+
+        <TextView
+            android:id="@+id/tv_dialog_monitor_xiang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:text="详情"
+            android:textColor="#333333"
+            android:textSize="16sp" />
+
+        <View
+            android:id="@+id/view_dialog_monitor_xiang"
+            android:layout_width="30dp"
+            android:layout_height="3dp"
+            android:layout_below="@id/tv_dialog_monitor_xiang"
+            android:layout_alignLeft="@id/tv_dialog_monitor_xiang"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/btn_gradient" />
+
+        <TextView
+            android:id="@+id/tv_dialog_monitor_ping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="114dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/tv_dialog_monitor_xiang"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:text="评论"
+            android:textColor="#333333"
+            android:textSize="16sp" />
+
+        <View
+            android:id="@+id/view_dialog_monitor_ping"
+            android:layout_width="30dp"
+            android:layout_height="3dp"
+            android:layout_below="@id/tv_dialog_monitor_ping"
+            android:layout_alignLeft="@id/tv_dialog_monitor_ping"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/btn_gradient"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/popupwindow_detalis_sdvtwo"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/com_icon_down_default" />
 
         <RelativeLayout
+            android:id="@+id/rec_2"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:gravity="center">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/popupwindow_detalis_sdvtwo"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:visibility="gone">
 
-            <TextView
-                android:id="@+id/tv_dialog_monitor_xiang"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="70dp"
-                android:text="详情"
-                android:textColor="#333333"
-                android:textSize="16sp" />
-
-            <View
-                android:id="@+id/view_dialog_monitor_xiang"
-                android:layout_width="30dp"
-                android:layout_height="3dp"
-                android:layout_below="@id/tv_dialog_monitor_xiang"
-                android:layout_alignLeft="@id/tv_dialog_monitor_xiang"
-                android:layout_marginTop="3dp"
-                android:background="@drawable/btn_gradient" />
-
-            <TextView
-                android:id="@+id/tv_dialog_monitor_ping"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="114dp"
-                android:layout_toRightOf="@id/tv_dialog_monitor_xiang"
-                android:text="评论"
-                android:textColor="#333333"
-                android:textSize="16sp" />
-
-            <View
-                android:id="@+id/view_dialog_monitor_ping"
-                android:layout_width="30dp"
-                android:layout_height="3dp"
-                android:layout_below="@id/tv_dialog_monitor_ping"
-                android:layout_alignLeft="@id/tv_dialog_monitor_ping"
-                android:layout_marginTop="3dp"
-                android:background="@drawable/btn_gradient"
-                android:visibility="gone" />
-
-            <ImageView
-                android:id="@+id/iv_dialog_monitor_down"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="40dp"
-                android:layout_toRightOf="@id/tv_dialog_monitor_ping" />
+            <com.jcodecraeer.xrecyclerview.XRecyclerView
+                android:id="@+id/xrecycle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></com.jcodecraeer.xrecyclerview.XRecyclerView>
         </RelativeLayout>
-    </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/xiangqing"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/popupwindow_detalis_sdvtwo"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp">
+
+            <RelativeLayout
+                android:id="@+id/re1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:id="@+id/image_loca"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/cinemadetail_icon_location_default" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/image_loca"
+                    android:text="海淀区悦秀路99号二层"
+                    android:textColor="#333333"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/re2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/re1"
+                android:layout_marginTop="20dp">
+
+                <ImageView
+                    android:id="@+id/phone"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/cinemadetail_icon_phone_default" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/phone"
+                    android:text="0412-8999123"
+                    android:textColor="#333333"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/re3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/re2"
+                android:layout_marginTop="20dp">
+
+                <ImageView
+                    android:id="@+id/zhizhen"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/cinemadetail_icon_route_default" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/zhizhen"
+                    android:text="乘车路线"
+                    android:textColor="#333333"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/ditie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/re3"
+                android:layout_marginTop="20dp"
+                android:text="地铁：" />
+
+            <TextView
+                android:id="@+id/ditiears"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ditie"
+                android:layout_marginTop="10dp"
+                android:text="13号线西二旗站A口出，换成运通509路或者362路公交车软件园南站下车,过马路对面；" />
+
+            <TextView
+                android:id="@+id/gongjiao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ditiears"
+                android:layout_marginTop="10dp"
+                android:text="公交：" />
+
+            <TextView
+                android:id="@+id/gongjiaoars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/gongjiao"
+                android:layout_marginTop="10dp"
+                android:text="13号线西二旗站A口出，换成运通509路或者362路公交车软件园南站下车,过马路对面；" />
+
+            <TextView
+                android:id="@+id/zijia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/gongjiaoars"
+                android:layout_marginTop="10dp"
+                android:text="自驾：" />
+
+            <TextView
+                android:id="@+id/zijiaars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/zijia"
+                android:layout_marginTop="10dp"
+                android:text="13号线西二旗站A口出，换成运通509路或者362路公交车软件园南站下车,过马路对面；" />
+        </RelativeLayout>
+    </RelativeLayout>
 </LinearLayout>

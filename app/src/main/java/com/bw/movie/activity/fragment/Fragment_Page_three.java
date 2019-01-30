@@ -168,6 +168,10 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt, Result
                         loginSubBean.setStatu(0);
                         loginSubBeanDao.insertOrReplace(loginSubBean);
                     }
+                    SharedPreferences userinfo = getContext().getSharedPreferences("userinfo", MODE_PRIVATE);
+                    SharedPreferences.Editor edit = userinfo.edit();
+                    edit.putBoolean("login", false);
+                    edit.commit();
                     init();
                 }
             });

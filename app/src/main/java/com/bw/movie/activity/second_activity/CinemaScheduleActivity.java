@@ -8,6 +8,9 @@ import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,24 +19,37 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.activity.thirdly_activity.MovieSeatActivity;
 import com.bw.movie.adapter.CineamScheAdapter;
+import com.bw.movie.adapter.CinemaComListAdapter;
 import com.bw.movie.adapter.CinemaMovieAdapter;
 import com.bw.movie.adapter.MovieScheAdapter;
+import com.bw.movie.adapter.UserTicketRecycleAdapter;
+import com.bw.movie.bean.CineamComListBean;
 import com.bw.movie.bean.CineamScheBean;
+import com.bw.movie.bean.LoginSubBean;
 import com.bw.movie.bean.MovieScheBean;
 import com.bw.movie.bean.Result;
 import com.bw.movie.core.ResultInfe;
+import com.bw.movie.greendao.DaoMaster;
+import com.bw.movie.greendao.DaoSession;
+import com.bw.movie.greendao.LoginSubBeanDao;
+import com.bw.movie.presenter.CineamConListPresenter;
 import com.bw.movie.presenter.CinemaSchePresenter;
 import com.bw.movie.presenter.MovieSchePresenter;
 import com.example.coverflow.CoverFlowLayoutManger;
 import com.example.coverflow.RecyclerCoverFlow;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.jcodecraeer.xrecyclerview.XRecyclerView.LoadingListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,7 +60,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CinemaScheduleActivity extends AppCompatActivity implements ResultInfe, CineamScheAdapter.onItemClick {
+public class CinemaScheduleActivity extends AppCompatActivity implements ResultInfe, CineamScheAdapter.onItemClick, LoadingListener {
     private CineamScheAdapter adapter;
     private SharedPreferences sp;
     @BindView(R.id.cinema_detalis_horse)
@@ -74,12 +90,28 @@ public class CinemaScheduleActivity extends AppCompatActivity implements ResultI
     private SimpleDateFormat format;
     private String namemovie;
     private View contentView;
+    private TextView mTv_dialog_monitor_xiang;
+    private TextView mTv_dialog_monitor_ping;
+    private View mView_dialog_monitor_xiang;
+    private View mView_dialog_monitor_ping;
+    private XRecyclerView xrecycle;
+    private CineamConListPresenter cineamConListPresenter;
+    private LoginSubBeanDao loginSubBeanDao;
+    private List<LoginSubBean> list;
+    private CinemaComListAdapter cinemaComListAdapter;
+    private int mPage = 1;
+    private int mCount = 5;
+    private LoginSubBean loginSubBean;
+    private ImageView popupwindow_detalis_sdvtwo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cinema_schedule);
         ButterKnife.bind(this);
+
+        //影院评论列表
+        cineamConListPresenter = new CineamConListPresenter(new CineamComList());
         dates = new Date();
         format = new SimpleDateFormat("MM-dd hh:mm:ss");
         //沉浸式状态栏
@@ -133,6 +165,7 @@ public class CinemaScheduleActivity extends AppCompatActivity implements ResultI
             }
         });
         contentView = LayoutInflater.from(this).inflate(R.layout.cinemainfo_item, null);
+
         cinema_detalis_sdvone.setImageURI(image);
         cinema_detalis_textviewone.setText(name);
         cinema_detalis_textviewtwo.setText(address);
@@ -140,6 +173,64 @@ public class CinemaScheduleActivity extends AppCompatActivity implements ResultI
         cinemarecycle.setLayoutManager(manager);
         cinemarecycle.setAdapter(movieScheAdapter);
         bottomDialog = new Dialog(this, R.style.BottomDialog);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DaoSession daoSession = DaoMaster.newDevSession(CinemaScheduleActivity.this, LoginSubBeanDao.TABLENAME);
+        loginSubBeanDao = daoSession.getLoginSubBeanDao();
+        list = loginSubBeanDao.queryBuilder()
+                .where(LoginSubBeanDao.Properties.Statu.eq("1"))
+                .build().list();
+    }
+
+    // TODO: 2019/1/30  影院详情显示
+    private void initview(View inflate) {
+        final RelativeLayout rec_2 = inflate.findViewById(R.id.rec_2);
+        final RelativeLayout RelativeLayout = inflate.findViewById(R.id.xiangqing);
+        mTv_dialog_monitor_xiang = inflate.findViewById(R.id.tv_dialog_monitor_xiang);
+        mTv_dialog_monitor_ping = inflate.findViewById(R.id.tv_dialog_monitor_ping);
+        mView_dialog_monitor_xiang = inflate.findViewById(R.id.view_dialog_monitor_xiang);
+        mView_dialog_monitor_ping = inflate.findViewById(R.id.view_dialog_monitor_ping);
+        popupwindow_detalis_sdvtwo = inflate.findViewById(R.id.popupwindow_detalis_sdvtwo);
+        xrecycle = inflate.findViewById(R.id.xrecycle);
+        LinearLayoutManager manager = new LinearLayoutManager(CinemaScheduleActivity.this);
+        cinemaComListAdapter = new CinemaComListAdapter();
+        xrecycle.setAdapter(cinemaComListAdapter);
+        xrecycle.setLoadingMoreEnabled(true);
+        xrecycle.setLoadingListener(this);
+        xrecycle.setPullRefreshEnabled(true);
+        xrecycle.setLayoutManager(manager);
+        if (list.size() > 0) {
+            loginSubBean = list.get(0);
+            cineamConListPresenter.request(loginSubBean.getId(), loginSubBean.getSessionId(), ids, mPage, mCount);
+        }
+        mTv_dialog_monitor_xiang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mView_dialog_monitor_xiang.setVisibility(View.VISIBLE);
+                mView_dialog_monitor_ping.setVisibility(View.GONE);
+                rec_2.setVisibility(View.GONE);
+                RelativeLayout.setVisibility(View.VISIBLE);
+            }
+        });
+        mTv_dialog_monitor_ping.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mView_dialog_monitor_xiang.setVisibility(View.GONE);
+                mView_dialog_monitor_ping.setVisibility(View.VISIBLE);
+                rec_2.setVisibility(View.VISIBLE);
+                RelativeLayout.setVisibility(View.GONE);
+
+            }
+        });
+        popupwindow_detalis_sdvtwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomDialog.dismiss();
+            }
+        });
     }
 
     @OnClick(R.id.cinema_detalis_textviewtwo)
@@ -191,6 +282,23 @@ public class CinemaScheduleActivity extends AppCompatActivity implements ResultI
 
     }
 
+    /**
+     * 上拉下拉刷新加载
+     */
+    @Override
+    public void onRefresh() {
+        mPage = 1;
+        cinemaComListAdapter.RemoveAll();
+        cineamConListPresenter.request(loginSubBean.getId(), loginSubBean.getSessionId(), ids, mPage, mCount);
+
+    }
+
+    @Override
+    public void onLoadMore() {
+        mPage++;
+        cineamConListPresenter.request(loginSubBean.getId(), loginSubBean.getSessionId(), ids, mPage, mCount);
+    }
+
     class movieScheList implements ResultInfe {
 
         @Override
@@ -219,6 +327,26 @@ public class CinemaScheduleActivity extends AppCompatActivity implements ResultI
         bottomDialog.setCanceledOnTouchOutside(true);
         bottomDialog.getWindow().setWindowAnimations(R.style.BottomDialog_Animation);
         bottomDialog.show();
+        initview(contentView);
     }
 
+    /**
+     * 影院评论列表接口
+     */
+    private class CineamComList implements ResultInfe {
+
+        @Override
+        public void success(Object data) {
+            Result result = (Result) data;
+            List<CineamComListBean> comListBeans = (List<CineamComListBean>) result.getResult();
+            cinemaComListAdapter.setList(comListBeans);
+            xrecycle.loadMoreComplete();
+            xrecycle.refreshComplete();
+        }
+
+        @Override
+        public void errors(Throwable throwable) {
+
+        }
+    }
 }

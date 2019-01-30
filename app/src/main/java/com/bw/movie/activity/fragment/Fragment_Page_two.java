@@ -77,7 +77,9 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
     ImageView mAttImage;
     private CinemaCancelListPresenter cinemaCancelListPresenter;
     private int userid;
+    private LoginSubBeanDao loginSubBeanDao;
     private String sessionId;
+    private List<LoginSubBean> lists;
 
     @Nullable
     @Override
@@ -334,18 +336,35 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        DaoSession daoSession = DaoMaster.newDevSession(getContext(), LoginSubBeanDao.TABLENAME);
-        LoginSubBeanDao loginSubBeanDao = daoSession.getLoginSubBeanDao();
-        List<LoginSubBean> list = loginSubBeanDao.queryBuilder()
+    public void onHiddenChanged(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            //相当于Fragment的onResume，为true时，Fragment已经可见
+        } else {
+            //相当于Fragment的onPause，为false时，Fragment不可见
+            init();
+        }
+    }
+
+    public void init() {
+        recommcheck = true;
+        recommend.setBackgroundResource(R.drawable.btn_gradient);
+        nearbycheck = false;
+        nearby.setBackgroundResource(R.drawable.btn_false);
+        DaoSession daoSession = DaoMaster.newDevSession(getActivity(), LoginSubBeanDao.TABLENAME);
+        loginSubBeanDao = daoSession.getLoginSubBeanDao();
+        lists = loginSubBeanDao.queryBuilder()
                 .where(LoginSubBeanDao.Properties.Statu.eq("1"))
                 .build().list();
-        if (list.size() > 0) {
-            LoginSubBean loginSubBean = list.get(0);
+        if (lists.size() > 0) {
+            LoginSubBean loginSubBean = lists.get(0);
             userid = loginSubBean.getId();
             sessionId = loginSubBean.getSessionId();
+            tuiMovieRecycleAdapter.removeAll();
+            recomMoviePresenter.request(userid, sessionId, page, count);
+        } else {
+            tuiMovieRecycleAdapter.removeAll();
+            recomMoviePresenter.request(0, "", page, count);
         }
-        recomMoviePresenter.request(userid, sessionId, page, count);
     }
 }

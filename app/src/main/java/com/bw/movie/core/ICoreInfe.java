@@ -1,5 +1,6 @@
 package com.bw.movie.core;
 
+import com.bw.movie.bean.CineamComListBean;
 import com.bw.movie.bean.CineamScheBean;
 import com.bw.movie.bean.CinemaPageList;
 import com.bw.movie.bean.CinemasListByMovieIdBean;
@@ -268,4 +269,12 @@ public interface ICoreInfe {
     @GET("tool/v1/verify/findAllSysMsgList")
     Observable<Result<List<MeassageListBean>>> findAllSysMsgList(@Header("userId") int userId, @Header("sessionId") String sessionId,
                                                                  @Query("page") int page, @Query("count") int count);
+
+    /**
+     * 影院评论列表
+     */
+    @GET("cinema/v1/findAllCinemaComment")
+    Observable<Result<List<CineamComListBean>>> findAllCinemaComment(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                                                     @Query("cinemaId") int cinemaId,
+                                                                     @Query("page") int page, @Query("count") int count);
 }

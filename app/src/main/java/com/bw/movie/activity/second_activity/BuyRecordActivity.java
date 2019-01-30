@@ -35,6 +35,7 @@ import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -66,6 +67,7 @@ public class BuyRecordActivity extends WDActivity implements ResultInfe, XRecycl
     private Button btn;
     private String oderIds;
     private PayPresenter payPresenter;
+    private double price;
 
     @Override
     protected int getLayoutId() {
@@ -98,7 +100,8 @@ public class BuyRecordActivity extends WDActivity implements ResultInfe, XRecycl
         ticket_recycle.setAdapter(userTicketRecycleAdapter);
         userTicketRecycleAdapter.setOnClickListener(new UserTicketRecycleAdapter.OnClickListener() {
             @Override
-            public void onclick(int id, String oderId) {
+            public void onclick(int id, String oderId, double money) {
+                price = money;
                 oderIds = oderId;
                 changeIcon();
             }
@@ -127,8 +130,6 @@ public class BuyRecordActivity extends WDActivity implements ResultInfe, XRecycl
             // 设置popupWindow的显示位置，此处是在手机屏幕底部且水平居中的位置
         }
         popupWindow.showAtLocation(root, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-
-
         weixin_radio.setChecked(true);
         zhifubao_radio.setChecked(false);
         weixin_radio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -159,6 +160,9 @@ public class BuyRecordActivity extends WDActivity implements ResultInfe, XRecycl
             }
         });
         root.startAnimation(animation);
+        DecimalFormat df = new DecimalFormat("######0.00");
+        String sums = df.format(price);
+        btn.setText("微信支付" + sums + "元");
     }
 
     @OnClick(R.id.moviesbyid_finish)

@@ -74,7 +74,8 @@ public class UserTicketRecycleAdapter extends RecyclerView.Adapter<UserTicketRec
         vh.fukuan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickListener.onclick(userTicketBean.getId(), userTicketBean.getOrderId());
+                double price = userTicketBean.getPrice() * userTicketBean.getAmount();
+                onClickListener.onclick(userTicketBean.getId(), userTicketBean.getOrderId(),price);
             }
         });
     }
@@ -91,6 +92,6 @@ public class UserTicketRecycleAdapter extends RecyclerView.Adapter<UserTicketRec
     }
 
     public interface OnClickListener {
-        void onclick(int id, String oderId);
+        void onclick(int id, String oderId,double money);
     }
 }

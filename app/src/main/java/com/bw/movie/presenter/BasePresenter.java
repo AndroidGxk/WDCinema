@@ -22,6 +22,7 @@ public abstract class BasePresenter {
     protected abstract Observable observable(Object... args);
 
     public void request(Object... args) {
+
         if (isOper) {
             return;
         }
