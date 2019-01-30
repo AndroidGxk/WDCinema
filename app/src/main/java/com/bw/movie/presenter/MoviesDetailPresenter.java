@@ -15,6 +15,10 @@ public class MoviesDetailPresenter extends BasePresenter {
     @Override
     protected Observable observable(Object... args) {
         ICoreInfe iCoreInfe = NetworkManager.network().create(ICoreInfe.class);
-        return iCoreInfe.findMoviesDetail((int) args[0], (String) args[1], (int) args[2]);
+        if (args.length > 1) {
+            return iCoreInfe.findMoviesDetail((int) args[0], (String) args[1], (int) args[2]);
+        } else {
+            return iCoreInfe.findMoviesDetail1((int) args[0]);
+        }
     }
 }

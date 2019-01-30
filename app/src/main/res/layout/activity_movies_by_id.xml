@@ -30,10 +30,10 @@
             android:textSize="14sp" />
 
         <ImageView
+            android:id="@+id/xinxin"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentRight="true"
-            android:id="@+id/xinxin"
             android:layout_centerVertical="true"
             android:layout_marginRight="24dp"
             android:src="@drawable/weiguanzhu" />

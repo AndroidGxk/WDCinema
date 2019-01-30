@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.bawei.admin.wdcinema.activity.MainActivity">
+    tools:context=".activity.MainActivity">
 
     <FrameLayout
         android:id="@+id/fragment"
@@ -19,26 +19,26 @@
         android:orientation="horizontal">
 
         <RadioButton
+            android:id="@+id/one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/one"
             android:layout_weight="1"
             android:button="@null"
             android:drawableTop="@drawable/radio_one_sel" />
 
         <RadioButton
+            android:id="@+id/two"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
-            android:id="@+id/two"
             android:drawableTop="@drawable/radio_two_sel" />
 
         <RadioButton
+            android:id="@+id/three"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/three"
             android:button="@null"
             android:drawableTop="@drawable/radio_three_sel" />
     </RadioGroup>

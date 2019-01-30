@@ -119,6 +119,9 @@ public interface ICoreInfe {
     Observable<Result<MoviesByIdBean>> findMoviesDetail(@Header("userId") int userId, @Header("sessionId") String sessionId,
                                                         @Query("movieId") int movieId);
 
+    @GET("movie/v1/findMoviesDetail")
+    Observable<Result<MoviesByIdBean>> findMoviesDetail1(@Query("movieId") int movieId);
+
     /**
      * 关注影院列表
      */

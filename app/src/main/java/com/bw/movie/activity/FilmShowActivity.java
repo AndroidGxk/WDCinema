@@ -2,7 +2,6 @@ package com.bw.movie.activity;
 
 import android.animation.ObjectAnimator;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,7 +24,6 @@ import com.bw.movie.presenter.MovieAttListPresenter;
 import com.bw.movie.presenter.MovieCancelListPresenter;
 import com.bw.movie.presenter.ReleaseMoviePresenter;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
-
 
 import java.util.List;
 
