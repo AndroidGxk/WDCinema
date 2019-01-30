@@ -6,6 +6,7 @@ import com.bw.movie.bean.CinemasListByMovieIdBean;
 import com.bw.movie.bean.FilmReviewBean;
 import com.bw.movie.bean.HotMovieBean;
 import com.bw.movie.bean.LoginBean;
+import com.bw.movie.bean.MeassageListBean;
 import com.bw.movie.bean.MovieListBean;
 import com.bw.movie.bean.MovieScheBean;
 import com.bw.movie.bean.MoviesByIdBean;
@@ -260,4 +261,11 @@ public interface ICoreInfe {
     @POST("movie/v1/verify/movieCommentGreat")
     Observable<Result> movieCommentGreat(@Header("userId") int userId, @Header("sessionId") String sessionId,
                                          @Field("commentId") int movieId);
+
+    /**
+     * 消息通知列表
+     */
+    @GET("tool/v1/verify/findAllSysMsgList")
+    Observable<Result<List<MeassageListBean>>> findAllSysMsgList(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                                                 @Query("page") int page, @Query("count") int count);
 }

@@ -37,6 +37,7 @@ import com.bw.movie.presenter.HotMoviePresenter;
 import com.bw.movie.presenter.ReleaseMoviePresenter;
 import com.example.coverflow.CoverFlowLayoutManger;
 import com.example.coverflow.RecyclerCoverFlow;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 
@@ -174,6 +175,8 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
     @Override
     public void onResume() {
         super.onResume();
+        MobclickAgent.onPageStart("电影首页"); //统计页面("MainScreen"为页面名称，可自定义)
+        MobclickAgent.onResume(getContext()); //统计时长
         //百度定位
         mLocationClient = new LocationClient(getActivity().getApplicationContext());
         //声明LocationClient类
@@ -304,5 +307,12 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
         hotMoviePresenter.unBind();
         releaseMoviePresenter.unBind();
         comingSoonMoviePresenter.unBind();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("电影页面");
+        MobclickAgent.onPause(getContext()); //统计时长
     }
 }

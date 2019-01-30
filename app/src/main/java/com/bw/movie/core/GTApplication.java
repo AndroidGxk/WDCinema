@@ -14,6 +14,8 @@ import com.umeng.commonsdk.UMConfigure;
 
 import java.io.File;
 
+import static com.bw.movie.core.WDApplication.getContext;
+
 public class GTApplication extends Application {
 
     public static IWXAPI mWxApi;
@@ -28,7 +30,8 @@ public class GTApplication extends Application {
                                 .setBaseDirectoryPath(file)
                                 .build()
                 ).build());
-        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, null);
+        UMConfigure.init(getContext(), 1, null);
+        UMConfigure.setLogEnabled(true);
         registToWX();
         //腾讯bugly
         CrashReport.initCrashReport(getApplicationContext(), "ec43974c44", false);

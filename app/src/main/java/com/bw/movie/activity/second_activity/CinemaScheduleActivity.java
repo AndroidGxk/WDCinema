@@ -1,5 +1,6 @@
 package com.bw.movie.activity.second_activity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,10 +11,15 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
 import com.bw.movie.R;
 import com.bw.movie.activity.thirdly_activity.MovieSeatActivity;
 import com.bw.movie.adapter.CineamScheAdapter;
@@ -58,6 +64,7 @@ public class CinemaScheduleActivity extends AppCompatActivity implements ResultI
     private CinemaMovieAdapter cinemaMovieAdapter;
     private List<CineamScheBean> scheList = new ArrayList<>();
     private int mId;
+    private Dialog bottomDialog;
     private MovieSchePresenter movieSchePresenter;
     private int ids;
     private MovieScheAdapter movieScheAdapter;
@@ -66,6 +73,7 @@ public class CinemaScheduleActivity extends AppCompatActivity implements ResultI
     private Date dates;
     private SimpleDateFormat format;
     private String namemovie;
+    private View contentView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,13 +132,19 @@ public class CinemaScheduleActivity extends AppCompatActivity implements ResultI
                 startActivity(intent);
             }
         });
-
+        contentView = LayoutInflater.from(this).inflate(R.layout.cinemainfo_item, null);
         cinema_detalis_sdvone.setImageURI(image);
         cinema_detalis_textviewone.setText(name);
         cinema_detalis_textviewtwo.setText(address);
         LinearLayoutManager manager = new LinearLayoutManager(CinemaScheduleActivity.this);
         cinemarecycle.setLayoutManager(manager);
         cinemarecycle.setAdapter(movieScheAdapter);
+        bottomDialog = new Dialog(this, R.style.BottomDialog);
+    }
+
+    @OnClick(R.id.cinema_detalis_textviewtwo)
+    public void cinema_detalis_textviewtwo() {
+        show(contentView);
     }
 
     @OnClick(R.id.moviesbyid_finish)
@@ -191,6 +205,20 @@ public class CinemaScheduleActivity extends AppCompatActivity implements ResultI
         public void errors(Throwable throwable) {
 
         }
+    }
+
+    /**
+     * 影院详情
+     */
+    private void show(View contentViewss) {
+        bottomDialog.setContentView(contentViewss);
+        ViewGroup.LayoutParams layoutParams = contentViewss.getLayoutParams();
+        layoutParams.width = getResources().getDisplayMetrics().widthPixels;
+        contentViewss.setLayoutParams(layoutParams);
+        bottomDialog.getWindow().setGravity(Gravity.BOTTOM);
+        bottomDialog.setCanceledOnTouchOutside(true);
+        bottomDialog.getWindow().setWindowAnimations(R.style.BottomDialog_Animation);
+        bottomDialog.show();
     }
 
 }

@@ -21,6 +21,7 @@ import com.bw.movie.R;
 import com.bw.movie.activity.LoginActivity;
 import com.bw.movie.activity.second_activity.BuyRecordActivity;
 import com.bw.movie.activity.second_activity.ConcerActivity;
+import com.bw.movie.activity.second_activity.MessageActivity;
 import com.bw.movie.activity.second_activity.MyMessage_Activity;
 import com.bw.movie.activity.second_activity.OpinActivity;
 import com.bw.movie.bean.LoginSubBean;
@@ -199,6 +200,20 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt, Result
             return;
         }
         startActivity(new Intent(getContext(), ConcerActivity.class));
+    }
+
+    /**
+     * 消息列表
+     *
+     * @return
+     */
+    @OnClick(R.id.mes_image)
+    public void mes_image() {
+        if (list.size() == 0) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            return;
+        }
+        startActivity(new Intent(getContext(), MessageActivity.class));
     }
 
     @Override

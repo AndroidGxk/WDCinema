@@ -6,7 +6,7 @@ android {
         config {
             keyAlias 'bw_movie'
             keyPassword '123456'
-            storeFile file('C:/Users/Lee辉/Desktop/movie.keystore')
+            storeFile file('C:/Users/admin/Desktop/movie.keystore')
             storePassword '123456'
         }
     }
@@ -22,7 +22,7 @@ android {
         flavorDimensions "versionCode"
         ndk {
             // 设置支持的SO库架构
-            abiFilters 'armeabi'//, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+            abiFilters 'armeabi', 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
         }
     }
     buildTypes {
@@ -42,11 +42,21 @@ android {
         }
     }
     productFlavors {
-        kuan {}
-        xiaomi {}
-        qh360 {}
-        baidu {}
-        wandoujia {}
+        kuan {
+            signingConfig signingConfigs.config
+        }
+        xiaomi {
+            signingConfig signingConfigs.config
+        }
+        qh360 {
+            signingConfig signingConfigs.config
+        }
+        baidu {
+            signingConfig signingConfigs.config
+        }
+        wandoujia {
+            signingConfig signingConfigs.config
+        }
     }
 
     productFlavors.all {

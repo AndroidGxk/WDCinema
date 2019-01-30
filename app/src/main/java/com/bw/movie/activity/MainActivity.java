@@ -68,12 +68,14 @@ public class MainActivity extends WDActivity {
     @Override
     public void onResume() {
         super.onResume();
+        MobclickAgent.onPageStart("MainActivity页面"); //手动统计页面("SplashScreen"为页面名称，可自定义)
         MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        MobclickAgent.onPageEnd("MainActivity页面"); //手动统计页面("SplashScreen"为页面名称，可自定义)，必须保证 onPageEnd 在 onPause 之前调用，因为SDK会在 onPause 中保存onPageEnd统计到的页面数据。
         MobclickAgent.onResume(this);
     }
 }

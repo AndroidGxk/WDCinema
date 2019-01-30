@@ -76,7 +76,7 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
     private CinemaAttListPresenter cinemaAttListPresenter;
     ImageView mAttImage;
     private CinemaCancelListPresenter cinemaCancelListPresenter;
-    private int id;
+    private int userid;
     private String sessionId;
 
     @Nullable
@@ -86,10 +86,7 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
         ButterKnife.bind(this, view);
         recommend.setBackgroundResource(R.drawable.btn_gradient);
         recomMoviePresenter = new RecomMoviePresenter(this);
-
-
         nearMoviePresenter = new NearMoviePresenter(this);
-
         cinemarecycleview.setLoadingListener(this);
         cinemarecycleview.setLoadingMoreEnabled(true);
         cinemarecycleview.setPullRefreshEnabled(true);
@@ -125,9 +122,9 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
             public void onclick(int id, ImageView image, int followCinema) {
                 //ID是影院ID
                 if (followCinema == 2) {
-                    cinemaAttListPresenter.request(id, sessionId, id);
+                    cinemaAttListPresenter.request(userid, sessionId, id);
                 } else {
-                    cinemaCancelListPresenter.request(id, sessionId, id);
+                    cinemaCancelListPresenter.request(userid, sessionId, id);
                 }
                 mAttImage = image;
             }
@@ -188,7 +185,7 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
         page = 1;
         if (recommcheck) {
             tuiMovieRecycleAdapter.removeAll();
-            recomMoviePresenter.request(id, sessionId, page, count);
+            recomMoviePresenter.request(userid, sessionId, page, count);
             recommend.setBackgroundResource(R.drawable.btn_gradient);
             nearbycheck = false;
             nearby.setBackgroundResource(R.drawable.btn_false);
@@ -204,7 +201,7 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
         page = 1;
         if (nearbycheck) {
             tuiMovieRecycleAdapter.removeAll();
-            nearMoviePresenter.request(id, sessionId, String.valueOf(longitude), String.valueOf(latitude), page, 5);
+            nearMoviePresenter.request(userid, sessionId, String.valueOf(longitude), String.valueOf(latitude), page, 5);
             nearby.setBackgroundResource(R.drawable.btn_gradient);
             recommcheck = false;
             recommend.setBackgroundResource(R.drawable.btn_false);
@@ -239,9 +236,9 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
         page = 1;
         tuiMovieRecycleAdapter.removeAll();
         if (recommcheck) {
-            recomMoviePresenter.request(id, sessionId, page, count);
+            recomMoviePresenter.request(userid, sessionId, page, count);
         } else {
-            nearMoviePresenter.request(id, sessionId, String.valueOf(longitude), String.valueOf(latitude), page, count);
+            nearMoviePresenter.request(userid, sessionId, String.valueOf(longitude), String.valueOf(latitude), page, count);
         }
     }
 
@@ -249,9 +246,9 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
     public void onLoadMore() {
         page++;
         if (recommcheck) {
-            recomMoviePresenter.request(id, sessionId, page, count);
+            recomMoviePresenter.request(userid, sessionId, page, count);
         } else {
-            nearMoviePresenter.request(id, sessionId, String.valueOf(longitude), String.valueOf(latitude), page, count);
+            nearMoviePresenter.request(userid, sessionId, String.valueOf(longitude), String.valueOf(latitude), page, count);
         }
     }
 
@@ -346,9 +343,9 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
                 .build().list();
         if (list.size() > 0) {
             LoginSubBean loginSubBean = list.get(0);
-            id = loginSubBean.getId();
+            userid = loginSubBean.getId();
             sessionId = loginSubBean.getSessionId();
         }
-        recomMoviePresenter.request(id, sessionId, page, count);
+        recomMoviePresenter.request(userid, sessionId, page, count);
     }
 }
