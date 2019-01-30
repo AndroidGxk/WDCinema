@@ -11,6 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="485dp"
+        android:layout_alignParentStart="true"
         android:layout_marginTop="132dp"
         android:orientation="vertical">
 
@@ -138,8 +139,8 @@
                 android:layout_marginLeft="20dp"
                 android:background="@null"
                 android:hint="手机号"
-                android:maxLength="11"
                 android:inputType="number"
+                android:maxLength="11"
                 android:textColor="#fff"
                 android:textColorHint="#fff"
                 android:textSize="20sp" />
