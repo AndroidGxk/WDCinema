@@ -1,12 +1,17 @@
 package com.bw.movie.activity;
 
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.activity.fragment.Fragment_Page_one;
 import com.bw.movie.activity.fragment.Fragment_Page_three;
 import com.bw.movie.activity.fragment.Fragment_Page_two;
+import com.bw.movie.core.utils.Uris;
 import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
@@ -14,6 +19,10 @@ import butterknife.BindView;
 public class MainActivity extends WDActivity {
     @BindView(R.id.radio)
     RadioGroup radio;
+    @BindView(R.id.ww_iv)
+    ImageView imageView;
+    @BindView(R.id.ww_tv)
+    TextView textView;
 
     @Override
     protected int getLayoutId() {
@@ -22,6 +31,15 @@ public class MainActivity extends WDActivity {
 
     @Override
     protected void initView() {
+
+        if (!Uris.isConn(this)) {
+            imageView.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.VISIBLE);
+            radio.setVisibility(View.GONE);
+            Toast.makeText(this, "请连接网络", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         radio.check(radio.getChildAt(0).getId());
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         final Fragment_Page_one fragment_page_one = new Fragment_Page_one();

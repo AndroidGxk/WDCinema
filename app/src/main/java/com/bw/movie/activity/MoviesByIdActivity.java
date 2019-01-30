@@ -3,7 +3,6 @@ package com.bw.movie.activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +32,7 @@ import com.bw.movie.greendao.DaoMaster;
 import com.bw.movie.greendao.DaoSession;
 import com.bw.movie.greendao.LoginSubBeanDao;
 import com.bw.movie.presenter.FilmReviewPresenter;
+import com.bw.movie.presenter.MovieAttListPresenter;
 import com.bw.movie.presenter.MovieCommentGreatPresenter;
 import com.bw.movie.presenter.MovieCommentPresenter;
 import com.bw.movie.presenter.MoviesByIdPresenter;
@@ -88,6 +87,8 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
     private MovieCommentPresenter movieCommentPresenter;
     private String sessionId;
     private int userId;
+    private ImageView imageView;
+    private List<LoginSubBean> list;
 
     @Override
     protected int getLayoutId() {
@@ -98,7 +99,17 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
     protected void initView() {
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
-        //调用sp，获取userID和sessionid
+
+        DaoSession daoSession = DaoMaster.newDevSession(MoviesByIdActivity.this, LoginSubBeanDao.TABLENAME);
+        LoginSubBeanDao loginSubBeanDao = daoSession.getLoginSubBeanDao();
+        list = loginSubBeanDao.queryBuilder()
+                .where(LoginSubBeanDao.Properties.Statu.eq("1"))
+                .build().list();
+        if (list.size() > 0) {
+            LoginSubBean loginSubBean = list.get(0);
+            userId = loginSubBean.getId();
+            sessionId = loginSubBean.getSessionId();
+        }
 
         contentView = LayoutInflater.from(this).inflate(R.layout.dialog_content_normal, null);
         contentView2 = LayoutInflater.from(this).inflate(R.layout.item_yg, null);
@@ -158,8 +169,12 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         filmreview_recycler.setPullRefreshEnabled(true);
 
         movieCommentPresenter = new MovieCommentPresenter(new MovieComment());
+        if (list.size() > 0) {
+            moviesDetailPresenter.request(userId, sessionId, Integer.parseInt(id));
+        } else {
+            moviesDetailPresenter.request(Integer.parseInt(id));
+        }
 
-        moviesDetailPresenter.request(userId, sessionId, Integer.parseInt(id));
 
         contentView.findViewById(R.id.popupwindow_detalis_sdvtwo).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,12 +222,17 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
             }
         });
 
+
         filmReviewAdapter.setOnClick(new FilmReviewAdapter.OnClick() {
             @Override
             public void onclick(ImageView like, int commentId) {
                 MovieCommentGreatPresenter movieCommentGreatPresenter = new MovieCommentGreatPresenter(new MovieCommentGreat());
-                like.setBackgroundResource(R.drawable.com_icon_praise_selected);
-                movieCommentGreatPresenter.request(userId, sessionId, commentId);
+                imageView = like;
+                if (list.size() > 0) {
+                    movieCommentGreatPresenter.request(userId, sessionId, commentId);
+                } else {
+                    Toast.makeText(MoviesByIdActivity.this, "请先登录", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -264,6 +284,16 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
     @OnClick(R.id.moviesbyid_filmreview)
     public void moviesbyid_filmreview() {
         show(contentView4);
+    }
+
+    @OnClick(R.id.xinxin)
+    public void followMovie() {
+        MovieAttListPresenter movieAttListPresenter = new MovieAttListPresenter(new FollowMovie());
+        if (list.size() > 0) {
+            movieAttListPresenter.request(userId, sessionId, Integer.parseInt(id));
+        } else {
+            Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void show(View contentViewss) {
@@ -384,7 +414,6 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
     }
 
 
-
     private class MovieComment implements ResultInfe<Result> {
         @Override
         public void success(Result data) {
@@ -403,7 +432,8 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
     private class MovieCommentGreat implements ResultInfe<Result> {
         @Override
         public void success(Result data) {
-            Toast.makeText(MoviesByIdActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(MoviesByIdActivity.this, "" + data.getMessage(), Toast.LENGTH_SHORT).show();
+            imageView.setBackgroundResource(R.drawable.com_icon_praise_selected);
         }
 
         @Override
@@ -412,18 +442,16 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        DaoSession daoSession = DaoMaster.newDevSession(MoviesByIdActivity.this, LoginSubBeanDao.TABLENAME);
-        LoginSubBeanDao loginSubBeanDao = daoSession.getLoginSubBeanDao();
-        List<LoginSubBean> list = loginSubBeanDao.queryBuilder()
-                .where(LoginSubBeanDao.Properties.Statu.eq("1"))
-                .build().list();
-        if (list.size() > 0) {
-            LoginSubBean loginSubBean = list.get(0);
-            userId = loginSubBean.getId();
-            sessionId = loginSubBean.getSessionId();
+    private class FollowMovie implements ResultInfe<Result> {
+        @Override
+        public void success(Result data) {
+            Toast.makeText(MoviesByIdActivity.this, "" + data.getMessage(), Toast.LENGTH_SHORT).show();
+            moviesDetailPresenter.request(userId, sessionId, Integer.parseInt(id));
+        }
+
+        @Override
+        public void errors(Throwable throwable) {
+
         }
     }
 }

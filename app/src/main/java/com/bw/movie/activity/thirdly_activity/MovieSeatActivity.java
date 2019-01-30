@@ -1,24 +1,34 @@
 package com.bw.movie.activity.thirdly_activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bw.movie.R;
-import com.bw.movie.bean.MovieScheBean;
+import com.bw.movie.bean.LoginSubBean;
 import com.bw.movie.bean.Result;
 import com.bw.movie.core.ResultInfe;
+import com.bw.movie.greendao.DaoMaster;
+import com.bw.movie.greendao.DaoSession;
+import com.bw.movie.greendao.LoginSubBeanDao;
 import com.bw.movie.presenter.BuyMovieTicketPresenter;
-import com.bw.movie.presenter.MovieSchePresenter;
 import com.bw.movie.presenter.PayPresenter;
 import com.qfdqc.views.seattable.SeatTable;
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -66,9 +76,17 @@ public class MovieSeatActivity extends AppCompatActivity {
     private int userId;
     private String sessionId;
     private int id;
-    private SharedPreferences sp;
-    private String sessionId1;
+    //    private SharedPreferences sp;
+//    private String sessionId1;
     private PayPresenter payPresenter;
+    private PopupWindow popupWindow;
+    private View root;
+    private TranslateAnimation animation;
+    private RadioButton weixin_radio;
+    private RadioButton zhifubao_radio;
+    private int mType = 1;
+    private Button btn;
+    private List<LoginSubBean> loginSubBeans;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,22 +100,24 @@ public class MovieSeatActivity extends AppCompatActivity {
             //透明导航栏
 //            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
-//        DaoSession daoSession = DaoMaster.newDevSession(this, LoginSubBeanDao.TABLENAME);
-//        LoginSubBeanDao loginSubBeanDao = daoSession.getLoginSubBeanDao();
-//        List<LoginSubBean> loginSubBeans = loginSubBeanDao.loadAll();
-//        for (int i = 0; i < loginSubBeans.size(); i++) {
-//            userId = loginSubBeans.get(i).getUserId();
-//            sessionId = loginSubBeans.get(i).getSessionId();
-//        }
-        sp = getSharedPreferences("login", MODE_PRIVATE);
-        sessionId1 = sp.getString("sessionId", "1");
-        userId = sp.getInt("userId", 1);
-        Log.e("qqqqqqqqqqqqqqqq", "---------------userId" + userId + "--------------sessionId" + sessionId1);
+        DaoSession daoSession = DaoMaster.newDevSession(this, LoginSubBeanDao.TABLENAME);
+        LoginSubBeanDao loginSubBeanDao = daoSession.getLoginSubBeanDao();
+        loginSubBeans = loginSubBeanDao.loadAll();
+        for (int i = 0; i < loginSubBeans.size(); i++) {
+            userId = loginSubBeans.get(i).getId();
+            sessionId = loginSubBeans.get(i).getSessionId();
+        }
+        //popupwindow
+        root = View.inflate(this, R.layout.zhifu_item, null);
+        weixin_radio = root.findViewById(R.id.weixin_radio);
+        zhifubao_radio = root.findViewById(R.id.zhifubao_radio);
+        btn = root.findViewById(R.id.btn);
+
         buyMovieTicketPresenter = new BuyMovieTicketPresenter(new BuyMovie());
         payPresenter = new PayPresenter(new Pay());
 
         line1.setBackgroundColor(0X77ffffff);
-        MovieSchePresenter movieSchePresenter = new MovieSchePresenter(new movieScheList());
+
         Intent intent = getIntent();
         id = intent.getIntExtra("id", 0);
         int ids = intent.getIntExtra("pid", 0);
@@ -118,7 +138,6 @@ public class MovieSeatActivity extends AppCompatActivity {
         houseview.setText(house);
         line0.setText(name);
         addressview.setText(address);
-        movieSchePresenter.request(ids, id);
         seatTableView = findViewById(R.id.seatView);
         seatTableView.setSeatChecker(new SeatTable.SeatChecker() {
             @Override
@@ -175,10 +194,9 @@ public class MovieSeatActivity extends AppCompatActivity {
 
     @OnClick(R.id.zhifu)
     public void zhifu() {
-//        String s = String.valueOf(userId) + String.valueOf(id) + String.valueOf(mCount)+"movie";
         String s = MD5(userId + "" + id + "" + mCount + "movie");
         Log.e("qqqqqqqqqqqqqqqq", "---------------userId" + mCount);
-        buyMovieTicketPresenter.request(userId, sessionId1, id, mCount, s);
+        buyMovieTicketPresenter.request(userId, sessionId, id, mCount, s);
     }
 
     @OnClick(R.id.moviesbyid_finish)
@@ -221,25 +239,15 @@ public class MovieSeatActivity extends AppCompatActivity {
         finish();
     }
 
-    class movieScheList implements ResultInfe {
-        @Override
-        public void success(Object data) {
-            Result result = (Result) data;
-            List<MovieScheBean> movieScheList = (List<MovieScheBean>) result.getResult();
-        }
-
-        @Override
-        public void errors(Throwable throwable) {
-
-        }
-    }
-
     private class BuyMovie implements ResultInfe<Result> {
         @Override
         public void success(Result data) {
-            Toast.makeText(MovieSeatActivity.this, "" + data.getMessage(), Toast.LENGTH_SHORT).show();
             String orderId = data.getOrderId();
-            payPresenter.request(userId, sessionId1, 1, orderId);
+            if (loginSubBeans.size() > 0) {
+                changeIcon(orderId);
+            } else {
+                Toast.makeText(MovieSeatActivity.this, "请先登录", Toast.LENGTH_SHORT).show();
+            }
         }
 
         @Override
@@ -251,6 +259,9 @@ public class MovieSeatActivity extends AppCompatActivity {
     private class Pay implements ResultInfe<Result> {
         @Override
         public void success(Result data) {
+
+            popupWindow.dismiss();
+
             final IWXAPI msgApi = WXAPIFactory.createWXAPI(MovieSeatActivity.this, null);
 
             // 将该app注册到微信
@@ -271,5 +282,63 @@ public class MovieSeatActivity extends AppCompatActivity {
         public void errors(Throwable throwable) {
 
         }
+    }
+
+    /**
+     * popupWindow显示
+     *
+     * @param orderId
+     */
+    private void changeIcon(final String orderId) {
+        if (popupWindow == null) {
+            // 参数2,3：指明popupwindow的宽度和高度
+            popupWindow = new PopupWindow(root, WindowManager.LayoutParams.MATCH_PARENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT);
+            // 设置背景图片， 必须设置，不然动画没作用
+            popupWindow.setBackgroundDrawable(new BitmapDrawable());
+            popupWindow.setFocusable(true);
+            // 设置点击popupwindow外屏幕其它地方消失
+            popupWindow.setOutsideTouchable(true);
+
+            // 平移动画相对于手机屏幕的底部开始，X轴不变，Y轴从1变0
+            animation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, 0,
+                    Animation.RELATIVE_TO_PARENT, 1, Animation.RELATIVE_TO_PARENT, 0);
+            animation.setInterpolator(new AccelerateInterpolator());
+            animation.setDuration(200);
+            // 设置popupWindow的显示位置，此处是在手机屏幕底部且水平居中的位置
+        }
+        popupWindow.showAtLocation(root, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+
+
+        weixin_radio.setChecked(true);
+        zhifubao_radio.setChecked(false);
+        weixin_radio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    weixin_radio.setChecked(true);
+                    zhifubao_radio.setChecked(false);
+                    mType = 1;
+                }
+            }
+        });
+        zhifubao_radio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    weixin_radio.setChecked(false);
+                    zhifubao_radio.setChecked(true);
+                    mType = 2;
+                }
+            }
+        });
+        btn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                payPresenter.request(userId, sessionId, mType, orderId);
+            }
+        });
+        root.startAnimation(animation);
     }
 }
