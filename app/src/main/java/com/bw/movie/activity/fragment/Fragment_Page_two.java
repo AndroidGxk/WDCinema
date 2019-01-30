@@ -347,6 +347,7 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
     }
 
     public void init() {
+        page = 1;
         recommcheck = true;
         recommend.setBackgroundResource(R.drawable.btn_gradient);
         nearbycheck = false;
