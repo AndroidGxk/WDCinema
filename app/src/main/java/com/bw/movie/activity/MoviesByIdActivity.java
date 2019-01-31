@@ -45,9 +45,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.jzvd.JZVideoPlayer;
+import cn.jzvd.JZVideoPlayerStandard;
 
 public class MoviesByIdActivity extends WDActivity implements XRecyclerView.LoadingListener {
     private MoviesByIdPresenter moviesByIdPresenter;
+    private JZVideoPlayerStandard videoPlayerStandard;
     @BindView(R.id.xinxin)
     ImageView xinxin;
     @BindView(R.id.moviesbyid_name)
@@ -182,10 +184,19 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
                 bottomDialog.dismiss();
             }
         });
+
         contentView2.findViewById(R.id.yg_finish).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 bottomDialog.dismiss();
+                // TODO: 2019/1/31  DISMISS
+                ygAdapter.getStop();
+            }
+        });
+        bottomDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                ygAdapter.getStop();
             }
         });
         contentView3.findViewById(R.id.stagephoto_finish).setOnClickListener(new View.OnClickListener() {
@@ -237,6 +248,7 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         });
     }
 
+
     @Override
     protected void destoryData() {
         moviesDetailPresenter.unBind();
@@ -245,6 +257,11 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            ygAdapter.getrRelease();
+            ygAdapter.getStop();
+        }
         return super.onKeyDown(keyCode, event);
     }
 
@@ -388,13 +405,15 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         if (JZVideoPlayer.backPress()) {
             return;
         }
+        ygAdapter.getStop();
         super.onBackPressed();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        JZVideoPlayer.releaseAllVideos();
+        ygAdapter.getrRelease();
+        ygAdapter.getStop();
     }
 
     private class FilmReview implements ResultInfe<Result> {
@@ -454,4 +473,5 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
 
         }
     }
+
 }

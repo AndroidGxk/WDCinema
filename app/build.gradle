@@ -6,7 +6,7 @@ android {
         config {
             keyAlias 'bw_movie'
             keyPassword '123456'
-            storeFile file('C:/Users/Lee辉/Desktop/movie.keystore')
+            storeFile file('C:/Users/admin/Desktop/movie.keystore')
             storePassword '123456'
         }
     }
@@ -128,7 +128,7 @@ dependencies {
     //信鸽jar
     implementation 'com.tencent.xinge:xinge:3.2.7-Release'
     //jg包
-    implementation'com.tencent.jg:jg:1.1'
+    implementation 'com.tencent.jg:jg:1.1'
     //wup包
     implementation 'com.tencent.wup:wup:1.0.0.E-release'
     //mid包

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bw.movie.R;
@@ -15,12 +16,14 @@ import com.bw.movie.bean.MoviesDetailBean;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jzvd.JZVideoPlayer;
 import cn.jzvd.JZVideoPlayerStandard;
 
 
 public class YGAdapter extends RecyclerView.Adapter<YGAdapter.ViewHolder> {
     List<MoviesDetailBean> list;
     private Context context;
+    List<JZVideoPlayerStandard> jzVideoPlayerStandards = new ArrayList<>();
 
     public YGAdapter(Context context) {
         this.context = context;
@@ -35,13 +38,27 @@ public class YGAdapter extends RecyclerView.Adapter<YGAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
         Log.e("asdasdaaaaa", "------------" + list.get(i).getVideoUrl());
         viewHolder.jzVideoPlayerStandard.setUp(list.get(i).getVideoUrl(),
                 JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL);
         Glide.with(context).load(list.get(i).getImageUrl()).into(viewHolder.jzVideoPlayerStandard.thumbImageView);
+        jzVideoPlayerStandards.add(viewHolder.jzVideoPlayerStandard);
     }
 
+    public void getStop() {
+        for (int i = 0; i < jzVideoPlayerStandards.size(); i++) {
+            JZVideoPlayerStandard jzVideoPlayerStandard = jzVideoPlayerStandards.get(i);
+            jzVideoPlayerStandard.release();
+        }
+    }
+
+    public void getrRelease(){
+        for (int i = 0; i < jzVideoPlayerStandards.size(); i++) {
+            JZVideoPlayerStandard jzVideoPlayerStandard = jzVideoPlayerStandards.get(i);
+            jzVideoPlayerStandard.releaseAllVideos();
+        }
+    }
     @Override
     public int getItemCount() {
         return list.size();
@@ -61,4 +78,5 @@ public class YGAdapter extends RecyclerView.Adapter<YGAdapter.ViewHolder> {
             jzVideoPlayerStandard = itemView.findViewById(R.id.videoplayer);
         }
     }
+
 }
