@@ -248,7 +248,6 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         });
     }
 
-
     @Override
     protected void destoryData() {
         moviesDetailPresenter.unBind();

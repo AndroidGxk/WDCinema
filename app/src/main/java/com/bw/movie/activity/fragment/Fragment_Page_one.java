@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,13 +33,18 @@ import com.bw.movie.adapter.ReleaseMovieAdapter;
 import com.bw.movie.bean.HotMovieBean;
 import com.bw.movie.bean.Result;
 import com.bw.movie.core.ResultInfe;
+import com.bw.movie.core.utils.FileUtils;
+import com.bw.movie.core.utils.StringUtils;
 import com.bw.movie.presenter.ComingSoonMoviePresenter;
 import com.bw.movie.presenter.HotMoviePresenter;
 import com.bw.movie.presenter.ReleaseMoviePresenter;
 import com.example.coverflow.CoverFlowLayoutManger;
 import com.example.coverflow.RecyclerCoverFlow;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.umeng.analytics.MobclickAgent;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 import butterknife.BindView;
@@ -265,6 +271,20 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
             adapter.notifyDataSetChanged();
             hotMovieAdapter.addItem(result);
             hotMovieAdapter.notifyDataSetChanged();
+            String s = new Gson().toJson(result);
+            Log.e("QAZQAZ", "-------------------------" + s);
+            FileUtils.saveDataToFile(getContext(), s, "movesoon");
+
+            String movesoon = FileUtils.loadDataFromFile(getContext(), "movesoon");
+            Log.e("QQQQQQ", "-----------------------" + movesoon);
+            if (!StringUtils.isEmpty(movesoon)) {
+                Gson gson = new Gson();
+                Type type = new TypeToken<List<HotMovieBean>>() {
+                }.getType();
+                List<HotMovieBean> result1 = gson.fromJson(movesoon, type);
+                hotMovieAdapter.addItem(result1);
+                hotMovieAdapter.notifyDataSetChanged();
+            }
         }
 
         @Override
