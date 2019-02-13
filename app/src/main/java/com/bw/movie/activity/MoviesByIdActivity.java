@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ import com.bw.movie.presenter.MovieCommentPresenter;
 import com.bw.movie.presenter.MoviesByIdPresenter;
 import com.bw.movie.presenter.MoviesDetailPresenter;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.gson.Gson;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.sackcentury.shinebuttonlib.ShineButton;
 
@@ -148,7 +150,7 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         moviesByIdPresenter.request(userId, sessionId, Integer.parseInt(id));
 
         filmReviewPresenter = new FilmReviewPresenter(new FilmReview());
-        filmReviewPresenter.request(Integer.parseInt(id), 1, 5);
+        filmReviewPresenter.request(Integer.parseInt(id), 1, 10);
 
         RecyclerView recyclerView = contentView2.findViewById(R.id.yg_recycler);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -342,13 +344,13 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
     public void onRefresh() {
         page = 1;
         filmReviewAdapter.remove();
-        filmReviewPresenter.request(Integer.parseInt(id), page, 5);
+        filmReviewPresenter.request(Integer.parseInt(id), page, 10);
     }
 
     @Override
     public void onLoadMore() {
         page++;
-        filmReviewPresenter.request(Integer.parseInt(id), page, 5);
+        filmReviewPresenter.request(Integer.parseInt(id), page, 10);
     }
 
     private class MoviesById implements ResultInfe<Result> {
@@ -425,19 +427,13 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         @Override
         public void success(Result data) {
             List<FilmReviewBean> result = (List<FilmReviewBean>) data.getResult();
+            Gson gson = new Gson();
+            String s = gson.toJson(result);
+            Log.i("GT", "getIsGreat:" + s);
             filmReviewAdapter.addItem(result);
             filmReviewAdapter.notifyDataSetChanged();
             filmreview_recycler.loadMoreComplete();
             filmreview_recycler.refreshComplete();
-            for (int i = 0; i < result.size(); i++) {
-                FilmReviewBean filmReviewBean = result.get(i);
-                int isGreat = filmReviewBean.getIsGreat();
-                if (isGreat == 0) {
-                    imageView.setChecked(false);
-                } else {
-                    imageView.setChecked(true);
-                }
-            }
         }
 
         @Override
@@ -452,7 +448,8 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         public void success(Result data) {
             Toast.makeText(MoviesByIdActivity.this, "" + data.getMessage(), Toast.LENGTH_SHORT).show();
             bottomDialog1.dismiss();
-            filmReviewPresenter.request(Integer.parseInt(id), 1, 5);
+            filmReviewAdapter.remove();
+            filmReviewPresenter.request(Integer.parseInt(id), 1, 10);
             editText.setText(null);
         }
 

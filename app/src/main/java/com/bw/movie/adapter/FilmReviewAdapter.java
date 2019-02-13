@@ -3,11 +3,13 @@ package com.bw.movie.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.bean.FilmReviewBean;
@@ -54,22 +56,29 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
         viewHolder.textView2.setText(sdf.format(date));
         viewHolder.textView3.setText(filmReviewBean.getCommentContent());
         viewHolder.simpleDraweeView1.setImageURI(filmReviewBean.getCommentHeadPic());
-        viewHolder.textView4.setText(String.valueOf(filmReviewBean.getReplyNum()));
-        viewHolder.textView5.setText("共" + filmReviewBean.getGreatNum() + "条评论");
-        viewHolder.textView6.setText(String.valueOf(filmReviewBean.getGreatNum()));
+        viewHolder.textView4.setText(String.valueOf(filmReviewBean.getGreatNum()));
+        viewHolder.textView5.setText("共" + filmReviewBean.getReplyNum() + "条评论");
+        viewHolder.textView6.setText(String.valueOf(filmReviewBean.getReplyNum()));
+
         viewHolder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClick.onclick(viewHolder.like, list.get(i).getCommentId(), viewHolder.textView4);
-                if (viewHolder.like.isChecked()) {
-                    int greatNum = filmReviewBean.getGreatNum();
-                    viewHolder.textView4.setText(greatNum-- + "");
-                }else{
-                    int greatNum = filmReviewBean.getGreatNum();
-                    viewHolder.textView4.setText(greatNum++ + "");
+                if (!viewHolder.like.isChecked()) {
+                    Toast.makeText(context, "不能重复点赞哦", Toast.LENGTH_SHORT).show();
+                    viewHolder.like.setChecked(true);
+                    return;
                 }
+                onClick.onclick(viewHolder.like, list.get(i).getCommentId(), viewHolder.textView4);
+                int greatNum = filmReviewBean.getGreatNum();
+                viewHolder.textView4.setText(greatNum-- + "");
             }
         });
+        Log.i("GT", "getIsGreat:" + filmReviewBean.getIsGreat() + filmReviewBean.getCommentUserName());
+        if (filmReviewBean.getIsGreat() == 0) {
+            viewHolder.like.setChecked(false);
+        } else {
+            viewHolder.like.setChecked(true);
+        }
     }
 
     @Override
@@ -85,6 +94,7 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
 
     public void remove() {
         list.clear();
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
