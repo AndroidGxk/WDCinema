@@ -84,7 +84,6 @@ public class MessageActivity extends AppCompatActivity implements ResultInfe, XR
     public void errors(Throwable throwable) {
 
     }
-
     @Override
     public void onRefresh() {
         mPage = 1;
