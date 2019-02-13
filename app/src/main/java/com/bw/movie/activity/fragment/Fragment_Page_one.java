@@ -1,6 +1,7 @@
 package com.bw.movie.activity.fragment;
 
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -64,6 +67,8 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
     RecyclerCoverFlow mList;
     @BindView(R.id.hot_recycler)
     RecyclerView hot_recycler;
+    @BindView(R.id.seacrch_editext)
+    EditText seacrch_editext;
     private HotMovieAdapter hotMovieAdapter;
     @BindView(R.id.release_recycler)
     RecyclerView release_recycler;
@@ -147,6 +152,17 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
             @Override
             public void onItemSelected(int position) {
                 home_radio_group.check(home_radio_group.getChildAt(position).getId());
+            }
+        });
+        //点击软键盘外部，收起软键盘
+        seacrch_editext.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    InputMethodManager manager = ((InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE));
+                    if (manager != null)
+                        manager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
             }
         });
         return view;

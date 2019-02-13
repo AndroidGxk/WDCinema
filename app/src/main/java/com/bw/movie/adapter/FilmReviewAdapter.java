@@ -31,7 +31,7 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
     }
 
     public interface OnClick {
-        void onclick(ShineButton like, int commentId, TextView text);
+        void onclick(ShineButton like, int commentId, TextView text, int great);
     }
 
     public FilmReviewAdapter(Context context) {
@@ -68,9 +68,7 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
                     viewHolder.like.setChecked(true);
                     return;
                 }
-                onClick.onclick(viewHolder.like, list.get(i).getCommentId(), viewHolder.textView4);
-                int greatNum = filmReviewBean.getGreatNum();
-                viewHolder.textView4.setText(greatNum-- + "");
+                onClick.onclick(viewHolder.like, list.get(i).getCommentId(), viewHolder.textView4, list.get(i).getGreatNum());
             }
         });
         Log.i("GT", "getIsGreat:" + filmReviewBean.getIsGreat() + filmReviewBean.getCommentUserName());
