@@ -16,6 +16,7 @@ import com.bw.movie.presenter.CinemasListByMovieIdPresenter;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class CinemasListByMovieIdActivity extends WDActivity {
 
@@ -76,6 +77,11 @@ public class CinemasListByMovieIdActivity extends WDActivity {
                 startActivity(intent1);
             }
         });
+    }
+
+    @OnClick(R.id.cinemas_finish)
+    public void cinemas_finish() {
+        finish();
     }
 
     @Override

@@ -140,6 +140,10 @@ public class FilmShowActivity extends WDActivity implements XRecyclerView.Loadin
         });
     }
 
+    @OnClick(R.id.filmshow_finish)
+    public void filmshow_finish() {
+        finish();
+    }
 
     @Override
     protected void destoryData() {

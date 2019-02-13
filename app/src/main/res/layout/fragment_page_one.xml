@@ -162,7 +162,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="热门电影"
-                    android:textColor="#6666"
+                    android:textColor="#333"
                     android:textSize="16sp" />
 
                 <View
@@ -186,8 +186,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:paddingLeft="24dp"
-                android:paddingRight="24dp"></android.support.v7.widget.RecyclerView>
+                android:paddingLeft="24dp"></android.support.v7.widget.RecyclerView>
 
             <RelativeLayout
                 android:id="@+id/release"
@@ -202,7 +201,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="正在热映"
-                    android:textColor="#6666"
+                    android:textColor="#333"
                     android:textSize="16sp" />
 
                 <View
@@ -226,8 +225,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:paddingLeft="24dp"
-                android:paddingRight="24dp"></android.support.v7.widget.RecyclerView>
+                android:paddingLeft="24dp"></android.support.v7.widget.RecyclerView>
 
             <RelativeLayout
                 android:id="@+id/comingSoon"
@@ -242,7 +240,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="即将上映"
-                    android:textColor="#6666"
+                    android:textColor="#333"
                     android:textSize="16sp" />
 
                 <View
@@ -266,8 +264,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:paddingLeft="24dp"
-                android:paddingRight="24dp"></android.support.v7.widget.RecyclerView>
+                android:paddingLeft="24dp"></android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
 
