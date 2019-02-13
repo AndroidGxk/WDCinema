@@ -18,6 +18,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class MovieScheduleListActivity extends WDActivity {
 
@@ -95,6 +96,11 @@ public class MovieScheduleListActivity extends WDActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @OnClick(R.id.movieScheduleList_finish)
+    public void movieScheduleList_finish() {
+        finish();
     }
 
     @Override
