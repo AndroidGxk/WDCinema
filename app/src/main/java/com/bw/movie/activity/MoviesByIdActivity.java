@@ -150,7 +150,7 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         moviesByIdPresenter.request(userId, sessionId, Integer.parseInt(id));
 
         filmReviewPresenter = new FilmReviewPresenter(new FilmReview());
-        filmReviewPresenter.request(Integer.parseInt(id), 1, 10);
+        filmReviewPresenter.request(userId, sessionId, Integer.parseInt(id), page, 10000000);
 
         RecyclerView recyclerView = contentView2.findViewById(R.id.yg_recycler);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -169,11 +169,9 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         filmreview_recycler.setLayoutManager(linearLayoutManager1);
         filmReviewAdapter = new FilmReviewAdapter(this);
         filmreview_recycler.setAdapter(filmReviewAdapter);
-
         filmreview_recycler.setLoadingListener(this);
-        filmreview_recycler.setLoadingMoreEnabled(true);
+        filmreview_recycler.setLoadingMoreEnabled(false);
         filmreview_recycler.setPullRefreshEnabled(true);
-
         movieCommentPresenter = new MovieCommentPresenter(new MovieComment());
         if (list.size() > 0) {
             moviesDetailPresenter.request(userId, sessionId, Integer.parseInt(id));
@@ -240,10 +238,11 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
 
         filmReviewAdapter.setOnClick(new FilmReviewAdapter.OnClick() {
             @Override
-            public void onclick(ShineButton like, int commentId, TextView text) {
+            public void onclick(ShineButton like, int commentId, TextView text, int great) {
                 MovieCommentGreatPresenter movieCommentGreatPresenter = new MovieCommentGreatPresenter(new MovieCommentGreat());
                 imageView = like;
                 textview = text;
+                textview.setText(++great + "");
                 if (list.size() > 0) {
                     movieCommentGreatPresenter.request(userId, sessionId, commentId);
                 } else {
@@ -344,13 +343,13 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
     public void onRefresh() {
         page = 1;
         filmReviewAdapter.remove();
-        filmReviewPresenter.request(Integer.parseInt(id), page, 10);
+        filmReviewPresenter.request(userId, sessionId, Integer.parseInt(id), page, 10000000);
     }
 
     @Override
     public void onLoadMore() {
         page++;
-        filmReviewPresenter.request(Integer.parseInt(id), page, 10);
+        filmReviewPresenter.request(userId, sessionId, Integer.parseInt(id), page, 10000000);
     }
 
     private class MoviesById implements ResultInfe<Result> {
@@ -449,7 +448,7 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
             Toast.makeText(MoviesByIdActivity.this, "" + data.getMessage(), Toast.LENGTH_SHORT).show();
             bottomDialog1.dismiss();
             filmReviewAdapter.remove();
-            filmReviewPresenter.request(Integer.parseInt(id), 1, 10);
+            filmReviewPresenter.request(userId, sessionId, Integer.parseInt(id), 1, 10000000);
             editText.setText(null);
         }
 

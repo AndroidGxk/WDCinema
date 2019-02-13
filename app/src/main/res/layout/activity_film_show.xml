@@ -42,8 +42,8 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/com_icon_search_default" />
 
