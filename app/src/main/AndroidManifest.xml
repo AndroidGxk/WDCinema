@@ -60,33 +60,51 @@
 
         <activity
             android:name=".activity.MainActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.second_activity.MyMessage_Activity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.LoginActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.RegisActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.second_activity.UpdatePwdActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.thirdly_activity.UpdateNameActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.FilmShowActivity"
-            android:launchMode="singleTask" />
-        <activity android:name=".activity.second_activity.OpinActivity" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.second_activity.OpinActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MoviesByIdActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".activity.second_activity.ConcerActivity" />
-        <activity android:name=".activity.second_activity.CinemaScheduleActivity" />
-        <activity android:name=".activity.thirdly_activity.MovieSeatActivity" />
-        <activity android:name=".activity.thirdly_activity.OpinTwoActivity" />
+        <activity
+            android:name=".activity.second_activity.ConcerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.second_activity.CinemaScheduleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.thirdly_activity.MovieSeatActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.thirdly_activity.OpinTwoActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
@@ -96,11 +114,20 @@
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".activity.second_activity.BuyRecordActivity" />
-        <activity android:name=".activity.CinemasListByMovieIdActivity" />
-        <activity android:name=".activity.MovieScheduleListActivity" />
-        <activity android:name=".activity.second_activity.MessageActivity"></activity>
+        <activity
+            android:name=".activity.second_activity.BuyRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CinemasListByMovieIdActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MovieScheduleListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.second_activity.MessageActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

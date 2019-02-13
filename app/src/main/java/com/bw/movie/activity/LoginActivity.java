@@ -145,13 +145,16 @@ public class LoginActivity extends WDActivity implements CustomAdapt, ResultInfe
     @Override
     public void success(Object data) {
         Result result = (Result) data;
+        if (!result.getStatus().equals("0000")) {
+            Toast.makeText(this, "" + result.getMessage(), Toast.LENGTH_SHORT).show();
+            return;
+        }
         LoginBean loginBean = (LoginBean) result.getResult();
         SharedPreferences.Editor edit = sp.edit();
         //添加Sp添加
         LoginSubBean userInfo = loginBean.getUserInfo();
         edit.putString("sessionId", loginBean.getSessionId());
         edit.putInt("userId", loginBean.getUserId());
-
         edit.commit();
         SharedPreferences.Editor edit2 = checked.edit();
         edit2.putBoolean("checked", rem_check.isChecked());

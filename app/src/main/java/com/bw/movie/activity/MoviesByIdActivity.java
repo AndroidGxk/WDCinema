@@ -39,17 +39,18 @@ import com.bw.movie.presenter.MoviesByIdPresenter;
 import com.bw.movie.presenter.MoviesDetailPresenter;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.sackcentury.shinebuttonlib.ShineButton;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.jzvd.JZVideoPlayer;
-import cn.jzvd.JZVideoPlayerStandard;
 
 public class MoviesByIdActivity extends WDActivity implements XRecyclerView.LoadingListener {
     private MoviesByIdPresenter moviesByIdPresenter;
-    private JZVideoPlayerStandard videoPlayerStandard;
     @BindView(R.id.xinxin)
     ImageView xinxin;
     @BindView(R.id.moviesbyid_name)
@@ -89,8 +90,9 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
     private MovieCommentPresenter movieCommentPresenter;
     private String sessionId;
     private int userId;
-    private ImageView imageView;
+    private ShineButton imageView;
     private List<LoginSubBean> list;
+    private TextView textview;
 
     @Override
     protected int getLayoutId() {
@@ -236,9 +238,10 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
 
         filmReviewAdapter.setOnClick(new FilmReviewAdapter.OnClick() {
             @Override
-            public void onclick(ImageView like, int commentId) {
+            public void onclick(ShineButton like, int commentId, TextView text) {
                 MovieCommentGreatPresenter movieCommentGreatPresenter = new MovieCommentGreatPresenter(new MovieCommentGreat());
                 imageView = like;
+                textview = text;
                 if (list.size() > 0) {
                     movieCommentGreatPresenter.request(userId, sessionId, commentId);
                 } else {
@@ -416,6 +419,9 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         ygAdapter.getStop();
     }
 
+    /**
+     * 点赞返回数据
+     */
     private class FilmReview implements ResultInfe<Result> {
         @Override
         public void success(Result data) {
@@ -424,6 +430,15 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
             filmReviewAdapter.notifyDataSetChanged();
             filmreview_recycler.loadMoreComplete();
             filmreview_recycler.refreshComplete();
+            for (int i = 0; i < result.size(); i++) {
+                FilmReviewBean filmReviewBean = result.get(i);
+                int isGreat = filmReviewBean.getIsGreat();
+                if (isGreat == 0) {
+                    imageView.setChecked(false);
+                } else {
+                    imageView.setChecked(true);
+                }
+            }
         }
 
         @Override
@@ -448,11 +463,11 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         }
     }
 
+    //点赞
     private class MovieCommentGreat implements ResultInfe<Result> {
         @Override
         public void success(Result data) {
             Toast.makeText(MoviesByIdActivity.this, "" + data.getMessage(), Toast.LENGTH_SHORT).show();
-            imageView.setBackgroundResource(R.drawable.com_icon_praise_selected);
         }
 
         @Override

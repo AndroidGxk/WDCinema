@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bw.movie.R;
 import com.bw.movie.bean.FilmReviewBean;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.sackcentury.shinebuttonlib.ShineButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
     }
 
     public interface OnClick {
-        void onclick(ImageView like, int commentId);
+        void onclick(ShineButton like, int commentId, TextView text);
     }
 
     public FilmReviewAdapter(Context context) {
@@ -45,7 +46,7 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
-        FilmReviewBean filmReviewBean = list.get(i);
+        final FilmReviewBean filmReviewBean = list.get(i);
         viewHolder.textView1.setText(filmReviewBean.getCommentUserName());
         Date date = new Date();
         date.setTime(filmReviewBean.getCommentTime());
@@ -59,7 +60,14 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
         viewHolder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClick.onclick(viewHolder.like, list.get(i).getCommentId());
+                onClick.onclick(viewHolder.like, list.get(i).getCommentId(), viewHolder.textView4);
+                if (viewHolder.like.isChecked()) {
+                    int greatNum = filmReviewBean.getGreatNum();
+                    viewHolder.textView4.setText(greatNum-- + "");
+                }else{
+                    int greatNum = filmReviewBean.getGreatNum();
+                    viewHolder.textView4.setText(greatNum++ + "");
+                }
             }
         });
     }
@@ -87,7 +95,7 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
         TextView textView4;
         TextView textView5;
         TextView textView6;
-        ImageView like;
+        ShineButton like;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -98,7 +106,7 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
             textView4 = itemView.findViewById(R.id.tv);
             textView5 = itemView.findViewById(R.id.replyNum);
             textView6 = itemView.findViewById(R.id.tv2);
-            like = itemView.findViewById(R.id.like);
+            like = itemView.findViewById(R.id.bt_like);
         }
     }
 }
