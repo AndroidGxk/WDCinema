@@ -3,14 +3,10 @@ package com.bw.movie.activity.second_activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +20,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.activity.thirdly_activity.MovieSeatActivity;
@@ -32,7 +27,6 @@ import com.bw.movie.adapter.CineamScheAdapter;
 import com.bw.movie.adapter.CinemaComListAdapter;
 import com.bw.movie.adapter.CinemaMovieAdapter;
 import com.bw.movie.adapter.MovieScheAdapter;
-import com.bw.movie.adapter.UserTicketRecycleAdapter;
 import com.bw.movie.bean.CineamComListBean;
 import com.bw.movie.bean.CineamScheBean;
 import com.bw.movie.bean.LoginSubBean;
@@ -62,7 +56,6 @@ import butterknife.OnClick;
 
 public class CinemaScheduleActivity extends AppCompatActivity implements ResultInfe, CineamScheAdapter.onItemClick, LoadingListener {
     private CineamScheAdapter adapter;
-    private SharedPreferences sp;
     @BindView(R.id.cinema_detalis_horse)
     RecyclerCoverFlow mList;
     @BindView(R.id.cinemarecycle)

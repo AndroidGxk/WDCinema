@@ -20,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -260,13 +259,11 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
     }
 
     @Override
-    public void clickItem(int id) {
-//        mList.smoothScrollToPosition(pos);
-        Toast.makeText(getActivity(), "" + id, Toast.LENGTH_SHORT).show();
+    public void clickItem(int id, int postion) {
         Intent intent = new Intent(getActivity(), MoviesByIdActivity.class);
         intent.putExtra("id", String.valueOf(id));
         startActivity(intent);
-
+        mList.smoothScrollToPosition(postion);
     }
 
     @Override
