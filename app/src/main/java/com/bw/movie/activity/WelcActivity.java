@@ -27,7 +27,6 @@ import com.bw.movie.activity.fragment.Fragment_Bootpage_one;
 import com.bw.movie.activity.fragment.Fragment_Bootpage_three;
 import com.bw.movie.activity.fragment.Fragment_Bootpage_two;
 import com.bw.movie.core.utils.Constant;
-import com.bw.movie.core.utils.FileUtils;
 
 import java.util.ArrayList;
 import java.util.List;

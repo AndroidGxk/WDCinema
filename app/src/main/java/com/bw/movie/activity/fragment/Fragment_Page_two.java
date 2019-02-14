@@ -1,6 +1,7 @@
 package com.bw.movie.activity.fragment;
 
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -92,6 +93,7 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
         View view = View.inflate(getContext(), R.layout.fragment_page_two, null);
         ButterKnife.bind(this, view);
         recommend.setBackgroundResource(R.drawable.btn_gradient);
+        recommend.setTextColor(0XFFFFFFFF);
         recomMoviePresenter = new RecomMoviePresenter(this);
         nearMoviePresenter = new NearMoviePresenter(this);
         cinemarecycleview.setLoadingListener(this);
@@ -195,8 +197,11 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
         }
     }
 
+    @SuppressLint("ResourceAsColor")
     @OnClick(R.id.recommend)
     public void recommend() {
+        recommend.setTextColor(0XFFFFFFFF);
+        nearby.setTextColor(0xff000000);
         if (recommcheck) {
             return;
         }
@@ -211,8 +216,11 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
         }
     }
 
+    @SuppressLint("ResourceAsColor")
     @OnClick(R.id.nearby)
     public void nearby() {
+        nearby.setTextColor(0XFFFFFFFF);
+        recommend.setTextColor(0xff000000);
         if (nearbycheck) {
             return;
         }

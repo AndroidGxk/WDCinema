@@ -100,12 +100,14 @@ public class FilmShowActivity extends WDActivity implements XRecyclerView.Loadin
         if (select.equals("1")) {
             hotcheck = true;
             hot.setBackgroundResource(R.drawable.btn_gradient);
+            hot.setTextColor(0XFFFFFFFF);
             release.setBackgroundResource(R.drawable.btn_false);
             comingSoon.setBackgroundResource(R.drawable.btn_false);
             filmShowAdapter.remove();
             hotMoviePresenter.request(userId, sessionId, page, 5);
         } else if (select.equals("2")) {
             releasecheck = true;
+            release.setTextColor(0XFFFFFFFF);
             release.setBackgroundResource(R.drawable.btn_gradient);
             hot.setBackgroundResource(R.drawable.btn_false);
             comingSoon.setBackgroundResource(R.drawable.btn_false);
@@ -113,6 +115,7 @@ public class FilmShowActivity extends WDActivity implements XRecyclerView.Loadin
             releaseMoviePresenter.request(userId, sessionId, page, 5);
         } else {
             comingSooncheck = true;
+            comingSoon.setTextColor(0XFFFFFFFF);
             comingSoon.setBackgroundResource(R.drawable.btn_gradient);
             hot.setBackgroundResource(R.drawable.btn_false);
             release.setBackgroundResource(R.drawable.btn_false);
@@ -181,9 +184,12 @@ public class FilmShowActivity extends WDActivity implements XRecyclerView.Loadin
     //点击事件
     @OnClick(R.id.hot_show)
     public void hot() {
+        hot.setTextColor(0XFFFFFFFF);
         if (hotcheck) {
             return;
         }
+        release.setTextColor(0xff000000);
+        comingSoon.setTextColor(0xff000000);
         hotcheck = true;
         page = 1;
         if (hotcheck) {
@@ -199,9 +205,12 @@ public class FilmShowActivity extends WDActivity implements XRecyclerView.Loadin
 
     @OnClick(R.id.release_show)
     public void release() {
+        release.setTextColor(0XFFFFFFFF);
         if (releasecheck) {
             return;
         }
+        hot.setTextColor(0xff000000);
+        comingSoon.setTextColor(0xff000000);
         releasecheck = true;
         page = 1;
         if (releasecheck) {
@@ -217,9 +226,12 @@ public class FilmShowActivity extends WDActivity implements XRecyclerView.Loadin
 
     @OnClick(R.id.comingSoon_show)
     public void comingSoon() {
+        comingSoon.setTextColor(0XFFFFFFFF);
         if (comingSooncheck) {
             return;
         }
+        hot.setTextColor(0xff000000);
+        release.setTextColor(0xff000000);
         comingSooncheck = true;
         page = 1;
         if (comingSooncheck) {
