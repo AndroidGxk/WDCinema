@@ -73,7 +73,7 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
             @Override
             public void onClick(View v) {
                 if (!viewHolder.like.isChecked()) {
-                    Toast.makeText(context, "不能重复点赞哦", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "不能重复点赞", Toast.LENGTH_SHORT).show();
                     viewHolder.like.setChecked(true);
                     return;
                 }

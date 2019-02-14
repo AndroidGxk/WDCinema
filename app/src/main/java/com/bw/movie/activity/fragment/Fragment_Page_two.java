@@ -3,11 +3,13 @@ package com.bw.movie.activity.fragment;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +28,8 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.bw.movie.R;
+import com.bw.movie.activity.LoginActivity;
+import com.bw.movie.activity.MoviesByIdActivity;
 import com.bw.movie.activity.second_activity.CinemaScheduleActivity;
 import com.bw.movie.adapter.TuiMovieRecycleAdapter;
 import com.bw.movie.bean.LoginSubBean;
@@ -125,9 +129,37 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
             public void onclick(int id, ImageView image, int followCinema) {
                 //ID是影院ID
                 if (followCinema == 2) {
-                    cinemaAttListPresenter.request(userid, sessionId, id);
+                    if (lists.size() > 0) {
+                        cinemaAttListPresenter.request(userid, sessionId, id);
+                    } else {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                        alert.setTitle("提示");
+                        alert.setMessage("当前未登录是否去登陆");
+                        alert.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivity(new Intent(getContext(), LoginActivity.class));
+                            }
+                        });
+                        alert.setNegativeButton("取消", null);
+                        alert.show();
+                    }
                 } else {
-                    cinemaCancelListPresenter.request(userid, sessionId, id);
+                    if (lists.size() > 0) {
+                        cinemaCancelListPresenter.request(userid, sessionId, id);
+                    } else {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                        alert.setTitle("提示");
+                        alert.setMessage("当前未登录是否去登陆");
+                        alert.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivity(new Intent(getContext(), LoginActivity.class));
+                            }
+                        });
+                        alert.setNegativeButton("取消", null);
+                        alert.show();
+                    }
                 }
                 mAttImage = image;
             }
@@ -325,6 +357,7 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
             if (result.getStatus().equals("0000")) {
                 mAttImage.setImageResource(R.drawable.com_icon_collection_selected);
             }
+
             Toast.makeText(getContext(), "" + result.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
