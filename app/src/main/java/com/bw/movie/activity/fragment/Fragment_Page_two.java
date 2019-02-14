@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,7 +26,6 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.bw.movie.R;
-import com.bw.movie.activity.FilmShowActivity;
 import com.bw.movie.activity.second_activity.CinemaScheduleActivity;
 import com.bw.movie.adapter.TuiMovieRecycleAdapter;
 import com.bw.movie.bean.LoginSubBean;
@@ -49,8 +47,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.jessyan.autosize.internal.CustomAdapt;
-
-import static android.content.Context.MODE_PRIVATE;
 
 
 public class Fragment_Page_two extends Fragment implements ResultInfe, XRecyclerView.LoadingListener, CustomAdapt {
@@ -92,8 +88,6 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = View.inflate(getContext(), R.layout.fragment_page_two, null);
         ButterKnife.bind(this, view);
-        recommend.setBackgroundResource(R.drawable.btn_gradient);
-        recommend.setTextColor(0XFFFFFFFF);
         recomMoviePresenter = new RecomMoviePresenter(this);
         nearMoviePresenter = new NearMoviePresenter(this);
         cinemarecycleview.setLoadingListener(this);
@@ -372,6 +366,9 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
     }
 
     public void init() {
+        recommend.setBackgroundResource(R.drawable.btn_gradient);
+        recommend.setTextColor(0XFFFFFFFF);
+        nearby.setTextColor(0xff000000);
         page = 1;
         recommcheck = true;
         recommend.setBackgroundResource(R.drawable.btn_gradient);

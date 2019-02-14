@@ -1,6 +1,7 @@
 package com.bw.movie.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bw.movie.R;
 import com.bw.movie.bean.CineamScheBean;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +39,8 @@ public class CineamScheAdapter extends RecyclerView.Adapter<CineamScheAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        Glide.with(mContext).load(list.get(position).getImageUrl())
-                .into(holder.img);
-        holder.tv.setBackgroundColor(0x55000000);
+        holder.img.setImageURI(Uri.parse(list.get(position).getImageUrl()));
+        holder.tv.getBackground().mutate().setAlpha(100);
         holder.tv.setText(list.get(position).getName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +65,7 @@ public class CineamScheAdapter extends RecyclerView.Adapter<CineamScheAdapter.Vi
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView img;
+        SimpleDraweeView img;
         TextView tv;
 
         public ViewHolder(View itemView) {
