@@ -76,7 +76,6 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt, Result
             userId = loginSubBean.getId();
             sessionId = loginSubBean.getSessionId();
         }
-
         AutoSizeConfig.getInstance().setCustomFragment(true);
         userSignInPresenter = new UserSignInPresenter(this);
         userVipInfoPresenter = new UserVipInfoPresenter(new UserInfo());
@@ -97,6 +96,8 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt, Result
                 .build().list();
         if (list.size() > 0) {
             LoginSubBean loginSubBean = list.get(0);
+            userId = loginSubBean.getId();
+            sessionId = loginSubBean.getSessionId();
             String nickName = loginSubBean.getNickName();
             String headPic = loginSubBean.getHeadPic();
             myheader.setImageURI(headPic);
@@ -230,6 +231,16 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt, Result
         return 720;
     }
 
+    @Override
+    public void onHiddenChanged(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            //相当于Fragment的onResume，为true时，Fragment已经可见
+        } else {
+            //相当于Fragment的onPause，为false时，Fragment不可见
+            init();
+        }
+    }
     @OnClick(R.id.usersigin)
     public void usersigin() {
         if (list.size() == 0) {

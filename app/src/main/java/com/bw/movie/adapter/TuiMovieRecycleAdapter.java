@@ -71,8 +71,8 @@ public class TuiMovieRecycleAdapter extends RecyclerView.Adapter<TuiMovieRecycle
     public void onBindViewHolder(@NonNull final Vh vh, int i) {
         final RecommBean recommBean = recommList.get(i);
         vh.cinematextviewone.setText(recommBean.getName());
-        int followCinema = recommBean.getFollowCinema();
-        if (followCinema == 1) {
+        final int followCinema = recommBean.getFollowCinema();
+        if (followCinema == 1||recommBean.isGreate()) {
             vh.cinemasdvstwo.setImageResource(R.drawable.com_icon_collection_selected);
         } else {
             vh.cinemasdvstwo.setImageResource(R.drawable.weiguanzhu);
@@ -103,6 +103,11 @@ public class TuiMovieRecycleAdapter extends RecyclerView.Adapter<TuiMovieRecycle
             @Override
             public void onClick(View v) {
                 onClickListenerAtte.onclick(recommBean.getId(), vh.cinemasdvstwo, recommBean.getFollowCinema());
+                if (followCinema == 1) {
+                    recommBean.setGreate(false);
+                } else {
+                    recommBean.setGreate(true);
+                }
             }
         });
     }

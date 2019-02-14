@@ -24,6 +24,15 @@ public class FilmReviewBean {
     private int hotComment;
     private int isGreat;
     private int replyNum;
+    private boolean isClick;
+
+    public boolean isClick() {
+        return isClick;
+    }
+
+    public void setClick(boolean click) {
+        isClick = click;
+    }
 
     public String getCommentContent() {
         return commentContent;

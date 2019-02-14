@@ -70,7 +70,7 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
     private boolean animatorf = false;
     private RecomMoviePresenter recomMoviePresenter;
     private int page = 1;
-    private final static int count = 5;
+    private final static int count = 100000;
     private TuiMovieRecycleAdapter tuiMovieRecycleAdapter;
     private NearMoviePresenter nearMoviePresenter;
     public LocationClient mLocationClient = null;
@@ -97,7 +97,7 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
         recomMoviePresenter = new RecomMoviePresenter(this);
         nearMoviePresenter = new NearMoviePresenter(this);
         cinemarecycleview.setLoadingListener(this);
-        cinemarecycleview.setLoadingMoreEnabled(true);
+        cinemarecycleview.setLoadingMoreEnabled(false);
         cinemarecycleview.setPullRefreshEnabled(true);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         tuiMovieRecycleAdapter = new TuiMovieRecycleAdapter(getContext());
@@ -228,7 +228,7 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
         page = 1;
         if (nearbycheck) {
             tuiMovieRecycleAdapter.removeAll();
-            nearMoviePresenter.request(userid, sessionId, String.valueOf(longitude), String.valueOf(latitude), page, 5);
+            nearMoviePresenter.request(userid, sessionId, String.valueOf(longitude), String.valueOf(latitude), page, 100000);
             nearby.setBackgroundResource(R.drawable.btn_gradient);
             recommcheck = false;
             recommend.setBackgroundResource(R.drawable.btn_false);
@@ -271,12 +271,12 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
 
     @Override
     public void onLoadMore() {
-        page++;
-        if (recommcheck) {
-            recomMoviePresenter.request(userid, sessionId, page, count);
-        } else {
-            nearMoviePresenter.request(userid, sessionId, String.valueOf(longitude), String.valueOf(latitude), page, count);
-        }
+//        page++;
+//        if (recommcheck) {
+//            recomMoviePresenter.request(userid, sessionId, page, count);
+//        } else {
+//            nearMoviePresenter.request(userid, sessionId, String.valueOf(longitude), String.valueOf(latitude), page, count);
+//        }
     }
 
     /**

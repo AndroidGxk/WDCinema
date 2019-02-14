@@ -60,6 +60,15 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
         viewHolder.textView4.setText(String.valueOf(filmReviewBean.getGreatNum()));
         viewHolder.textView5.setText("共" + filmReviewBean.getReplyNum() + "条评论");
         viewHolder.textView6.setText(String.valueOf(filmReviewBean.getReplyNum()));
+        if (filmReviewBean.getIsGreat() == 1 || filmReviewBean.isClick()) {
+            if (filmReviewBean.isClick()) {
+                int greatNum = filmReviewBean.getGreatNum();
+                viewHolder.textView4.setText(String.valueOf(++greatNum));
+            }
+            viewHolder.like.setChecked(true);
+        } else {
+            viewHolder.like.setChecked(false);
+        }
         viewHolder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,14 +78,15 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
                     return;
                 }
                 onClick.onclick(viewHolder.like, list.get(i).getCommentId(), viewHolder.textView4, list.get(i).getGreatNum());
+                if (filmReviewBean.getIsGreat() == 0) {
+                    filmReviewBean.setClick(true);
+                } else {
+                    filmReviewBean.setClick(false);
+                }
             }
         });
         Log.i("GT", "getIsGreat:" + filmReviewBean.getIsGreat() + filmReviewBean.getCommentUserName());
-        if (filmReviewBean.getIsGreat() == 0) {
-            viewHolder.like.setChecked(false);
-        } else {
-            viewHolder.like.setChecked(true);
-        }
+
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

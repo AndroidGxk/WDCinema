@@ -22,6 +22,15 @@ public class RecommBean {
     private int id;
     private String logo;
     private String name;
+    private boolean isGreate;
+
+    public boolean isGreate() {
+        return isGreate;
+    }
+
+    public void setGreate(boolean greate) {
+        isGreate = greate;
+    }
 
     public String getAddress() {
         return address;

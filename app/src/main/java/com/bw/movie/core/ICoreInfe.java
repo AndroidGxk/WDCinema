@@ -284,7 +284,8 @@ public interface ICoreInfe {
     /**
      * 回复评论的评论
      */
+    @FormUrlEncoded
     @POST("movie/v1/verify/commentReply")
     Observable<Result> commentReply(@Header("userId") int userId, @Header("sessionId") String sessionId,
-                                    @Query("commentId") int commentId, @Query("replyContent") String replyContent);
+                                    @Field("commentId") int commentId, @Field("replyContent") String replyContent);
 }
