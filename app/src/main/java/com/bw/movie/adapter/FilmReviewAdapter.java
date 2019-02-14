@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.bean.FilmReviewBean;
+import com.facebook.drawee.gestures.GestureDetector;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.sackcentury.shinebuttonlib.ShineButton;
 
@@ -59,7 +60,6 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
         viewHolder.textView4.setText(String.valueOf(filmReviewBean.getGreatNum()));
         viewHolder.textView5.setText("共" + filmReviewBean.getReplyNum() + "条评论");
         viewHolder.textView6.setText(String.valueOf(filmReviewBean.getReplyNum()));
-
         viewHolder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,6 +77,13 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
         } else {
             viewHolder.like.setChecked(true);
         }
+        viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickListener != null)
+                    onClickListener.onClickListener(filmReviewBean.getCommentId());
+            }
+        });
     }
 
     @Override
@@ -103,6 +110,7 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
         TextView textView4;
         TextView textView5;
         TextView textView6;
+        ImageView imageView;
         ShineButton like;
 
         public ViewHolder(@NonNull View itemView) {
@@ -115,6 +123,18 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
             textView5 = itemView.findViewById(R.id.replyNum);
             textView6 = itemView.findViewById(R.id.tv2);
             like = itemView.findViewById(R.id.bt_like);
+            imageView = itemView.findViewById(R.id.pl);
         }
     }
+
+    onClickListener onClickListener;
+
+    public void setOnClickListener(FilmReviewAdapter.onClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
+    public interface onClickListener {
+        void onClickListener(int commentId);
+    }
+
 }

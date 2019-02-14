@@ -120,7 +120,6 @@ public class MovieSeatActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         id = intent.getIntExtra("id", 0);
-        int ids = intent.getIntExtra("pid", 0);
         String address = intent.getStringExtra("address");
         String name = intent.getStringExtra("names");
         String date = intent.getStringExtra("date");

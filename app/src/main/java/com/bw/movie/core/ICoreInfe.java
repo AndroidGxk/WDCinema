@@ -159,7 +159,7 @@ public interface ICoreInfe {
      * 影片评论
      */
     @GET("movie/v1/findAllMovieComment")
-    Observable<Result<List<FilmReviewBean>>> filmreview(@Header("userId")int userId,@Header("sessionId")String sessionId,@Query("movieId") int movieId, @Query("page") int page, @Query("count") int count);
+    Observable<Result<List<FilmReviewBean>>> filmreview(@Header("userId") int userId, @Header("sessionId") String sessionId, @Query("movieId") int movieId, @Query("page") int page, @Query("count") int count);
 
     /**
      * 下单
@@ -280,4 +280,11 @@ public interface ICoreInfe {
     Observable<Result<List<CineamComListBean>>> findAllCinemaComment(@Header("userId") int userId, @Header("sessionId") String sessionId,
                                                                      @Query("cinemaId") int cinemaId,
                                                                      @Query("page") int page, @Query("count") int count);
+
+    /**
+     * 回复评论的评论
+     */
+    @POST("movie/v1/verify/commentReply")
+    Observable<Result> commentReply(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                    @Query("commentId") int commentId, @Query("replyContent") String replyContent);
 }
