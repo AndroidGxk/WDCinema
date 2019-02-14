@@ -29,9 +29,11 @@ import com.bw.movie.bean.MoviesByIdBean;
 import com.bw.movie.bean.MoviesDetailBean;
 import com.bw.movie.bean.Result;
 import com.bw.movie.core.ResultInfe;
+import com.bw.movie.core.utils.Constant;
 import com.bw.movie.greendao.DaoMaster;
 import com.bw.movie.greendao.DaoSession;
 import com.bw.movie.greendao.LoginSubBeanDao;
+import com.bw.movie.presenter.CommentReplyPresenter;
 import com.bw.movie.presenter.FilmReviewPresenter;
 import com.bw.movie.presenter.MovieAttListPresenter;
 import com.bw.movie.presenter.MovieCommentGreatPresenter;
@@ -95,6 +97,11 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
     private ShineButton imageView;
     private List<LoginSubBean> list;
     private TextView textview;
+    private View root;
+    private EditText editTexts;
+    private TextView send_text;
+    private CommentReplyPresenter commentReplyPresenter;
+    private int comment;
 
     @Override
     protected int getLayoutId() {
@@ -105,7 +112,6 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
     protected void initView() {
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
-
         DaoSession daoSession = DaoMaster.newDevSession(MoviesByIdActivity.this, LoginSubBeanDao.TABLENAME);
         LoginSubBeanDao loginSubBeanDao = daoSession.getLoginSubBeanDao();
         list = loginSubBeanDao.queryBuilder()
@@ -117,6 +123,9 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
             sessionId = loginSubBean.getSessionId();
         }
 
+        root = View.inflate(this, R.layout.comment_movie, null);
+        editTexts = root.findViewById(R.id.commen_eid);
+        send_text = root.findViewById(R.id.send_text);
         contentView = LayoutInflater.from(this).inflate(R.layout.dialog_content_normal, null);
         contentView2 = LayoutInflater.from(this).inflate(R.layout.item_yg, null);
         contentView3 = LayoutInflater.from(this).inflate(R.layout.item_stagephoto, null);
@@ -137,6 +146,10 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
 
         editText = pl.findViewById(R.id.et_discuss);
         button = pl.findViewById(R.id.tv_confirm);
+
+        //回复评论
+        commentReplyPresenter = new CommentReplyPresenter(new CommentView());
+
 
         simpleDraweeView1 = contentView.findViewById(R.id.popupwindow_detalis_sdvone);
         popupwindow_detalis_daoyan = contentView.findViewById(R.id.popupwindow_detalis_daoyan);
@@ -248,6 +261,22 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
                 } else {
                     Toast.makeText(MoviesByIdActivity.this, "请先登录", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+        //回复评论
+        filmReviewAdapter.setOnClickListener(new FilmReviewAdapter.onClickListener() {
+            @Override
+            public void onClickListener(int commentId) {
+                show1(root);
+                comment = commentId;
+            }
+        });
+        send_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String commContent = editTexts.getText().toString();
+                Toast.makeText(MoviesByIdActivity.this, "" + commContent, Toast.LENGTH_SHORT).show();
+                commentReplyPresenter.request(userId, sessionId, comment, commContent);
             }
         });
     }
@@ -417,6 +446,24 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         super.onPause();
         ygAdapter.getrRelease();
         ygAdapter.getStop();
+    }
+
+    /**
+     * 回复评论
+     */
+
+    private class CommentView implements ResultInfe<Result> {
+
+        @Override
+        public void success(Result data) {
+            Toast.makeText(MoviesByIdActivity.this, "" + data.getMessage(), Toast.LENGTH_SHORT).show();
+            bottomDialog1.dismiss();
+        }
+
+        @Override
+        public void errors(Throwable throwable) {
+
+        }
     }
 
     /**
