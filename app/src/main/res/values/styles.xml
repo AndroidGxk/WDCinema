@@ -45,5 +45,9 @@
         <item name="android:windowSoftInputMode">stateAlwaysVisible</item>
         <!--显示软件盘-->
     </style>
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 
 </resources>

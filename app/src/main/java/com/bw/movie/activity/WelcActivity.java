@@ -66,12 +66,12 @@ public class WelcActivity extends AppCompatActivity implements CustomAdapt {
         boolean judge = sp.getBoolean("judge", false);
         if (judge) {
             setContentView(R.layout.activity_welc);
-            if (ContextCompat.checkSelfPermission(WelcActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // 申请权限
+            if (ContextCompat.checkSelfPermission(WelcActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(WelcActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(WelcActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                    ) {       // 申请权限
                 ActivityCompat.requestPermissions(WelcActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
                         Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE}, Constant.REQ_PERM_CAMERA);
             }
-
             slipToMain();
             if (judge) {
                 new Thread(new Runnable() {
@@ -83,7 +83,9 @@ public class WelcActivity extends AppCompatActivity implements CustomAdapt {
             }
         } else {
             setContentView(R.layout.activity_guidance);
-            if (ContextCompat.checkSelfPermission(WelcActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(WelcActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(WelcActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(WelcActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                    ) {
                 // 申请权限
                 ActivityCompat.requestPermissions(WelcActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
                         Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, Constant.REQ_PERM_CAMERA);
@@ -120,7 +122,6 @@ public class WelcActivity extends AppCompatActivity implements CustomAdapt {
                 @Override
                 public void onPageSelected(int i) {
                     //页面切换后调用这个方法
-
                     currentItem = i;
                     radioGroup.check(radioGroup.getChildAt(i).getId());
                 }
@@ -174,7 +175,6 @@ public class WelcActivity extends AppCompatActivity implements CustomAdapt {
                                            float velocityX, float velocityY) {
                         if (currentItem == 3) {
                             if ((e1.getRawX() - e2.getRawX()) >= flaggingWidth) {
-
                                 Intent intent = new Intent(
                                         WelcActivity.this,
                                         MainActivity.class);
@@ -185,7 +185,6 @@ public class WelcActivity extends AppCompatActivity implements CustomAdapt {
                         }
                         return false;
                     }
-
                 });
     }
 
@@ -199,7 +198,10 @@ public class WelcActivity extends AppCompatActivity implements CustomAdapt {
                 } else {
                     //这里是拒绝给APP摄像头权限，给个提示什么的说明一下都可以
                     // 。
-                    if (ContextCompat.checkSelfPermission(WelcActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(WelcActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                            ContextCompat.checkSelfPermission(WelcActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                            ContextCompat.checkSelfPermission(WelcActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                            ) {
                         // 申请权限
                         ActivityCompat.requestPermissions(WelcActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
                                 Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, Constant.REQ_PERM_CAMERA);

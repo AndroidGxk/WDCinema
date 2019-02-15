@@ -292,9 +292,9 @@ public class SeatTable extends View {
         overview_checked = typedArray.getColor(R.styleable.SeatTableView_overview_checked, Color.parseColor("#5A9E64"));
         overview_sold = typedArray.getColor(R.styleable.SeatTableView_overview_sold, Color.RED);
         txt_color = typedArray.getColor(R.styleable.SeatTableView_txt_color, Color.WHITE);
-        seatCheckedResID = typedArray.getResourceId(R.styleable.SeatTableView_seat_checked, R.drawable.xuanzhong);
-        seatSoldResID = typedArray.getResourceId(R.styleable.SeatTableView_overview_sold, R.drawable.yishou);
-        seatAvailableResID = typedArray.getResourceId(R.styleable.SeatTableView_seat_available, R.drawable.kexuan);
+        seatCheckedResID = typedArray.getResourceId(R.styleable.SeatTableView_seat_checked, R.drawable.xuanzhong1);
+        seatSoldResID = typedArray.getResourceId(R.styleable.SeatTableView_overview_sold, R.drawable.yishouyan);
+        seatAvailableResID = typedArray.getResourceId(R.styleable.SeatTableView_seat_available, R.drawable.kexuan1);
         typedArray.recycle();
     }
 
@@ -709,90 +709,6 @@ public class SeatTable extends View {
             Log.d("drawTime", "drawNumberTime:" + drawTime);
         }
     }
-
-//    /**
-//     * 绘制概览图
-//     */
-//    void drawOverview(Canvas canvas) {
-//
-//        //绘制红色框
-//        int left = (int) -getTranslateX();
-//        if (left < 0) {
-//            left = 0;
-//        }
-//        left /= overviewScale;
-//        left /= getMatrixScaleX();
-//
-//        int currentWidth = (int) (getTranslateX() + (column * seatWidth + spacing * (column - 1)) * getMatrixScaleX());
-//        if (currentWidth > getWidth()) {
-//            currentWidth = currentWidth - getWidth();
-//        } else {
-//            currentWidth = 0;
-//        }
-//        int right = (int) (rectW - currentWidth / overviewScale / getMatrixScaleX());
-//
-//        float top = -getTranslateY() + headHeight;
-//        if (top < 0) {
-//            top = 0;
-//        }
-//        top /= overviewScale;
-//        top /= getMatrixScaleY();
-//        if (top > 0) {
-//            top += overviewVerSpacing;
-//        }
-//
-//        int currentHeight = (int) (getTranslateY() + (row * seatHeight + verSpacing * (row - 1)) * getMatrixScaleY());
-//        if (currentHeight > getHeight()) {
-//            currentHeight = currentHeight - getHeight();
-//        } else {
-//            currentHeight = 0;
-//        }
-//        int bottom = (int) (rectH - currentHeight / overviewScale / getMatrixScaleY());
-//
-//        canvas.drawRect(left, top, right, bottom, redBorderPaint);
-//    }
-
-//    Bitmap drawOverview() {
-//        isDrawOverviewBitmap = false;
-//
-//        int bac = Color.parseColor("#7e000000");
-//        overviewPaint.setColor(bac);
-//        overviewPaint.setAntiAlias(true);
-//        overviewPaint.setStyle(Paint.Style.FILL);
-//        overviewBitmap.eraseColor(Color.TRANSPARENT);
-//        Canvas canvas = new Canvas(overviewBitmap);
-//        //绘制透明灰色背景
-//        canvas.drawRect(0, 0, rectW, rectH, overviewPaint);
-//
-//        overviewPaint.setColor(Color.WHITE);
-//        for (int i = 0; i < row; i++) {
-//            float top = i * rectHeight + i * overviewVerSpacing + overviewVerSpacing;
-//            for (int j = 0; j < column; j++) {
-//
-//                int seatType = getSeatType(i, j);
-//                switch (seatType) {
-//                    case SEAT_TYPE_AVAILABLE:
-//                        overviewPaint.setColor(Color.WHITE);
-//                        break;
-//                    case SEAT_TYPE_NOT_AVAILABLE:
-//                        continue;
-//                    case SEAT_TYPE_SELECTED:
-//                        overviewPaint.setColor(overview_checked);
-//                        break;
-//                    case SEAT_TYPE_SOLD:
-//                        overviewPaint.setColor(overview_sold);
-//                        break;
-//                }
-//
-//                float left;
-//
-//                left = j * rectWidth + j * overviewSpacing + overviewSpacing;
-//                canvas.drawRect(left, top, left + rectWidth, top + rectHeight, overviewPaint);
-//            }
-//        }
-//
-//        return overviewBitmap;
-//    }
 
     /**
      * 自动回弹

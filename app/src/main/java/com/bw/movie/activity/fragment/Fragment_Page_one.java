@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -99,6 +100,7 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
     private MyLocationListener myListener = new MyLocationListener();
     @BindView(R.id.seacrch_linear2)
     LinearLayout seacrch_linear2;
+    private int width;
 
     @Nullable
     @Override
@@ -108,6 +110,10 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
 
         //调用sp，获取userID和sessionid
         sp = getActivity().getSharedPreferences("login", MODE_PRIVATE);
+        WindowManager wm = (WindowManager) getActivity()
+                .getSystemService(Context.WINDOW_SERVICE);
+        width = wm.getDefaultDisplay().getWidth();
+
         ObjectAnimator animator = ObjectAnimator.ofFloat(seacrch_linear2, "translationX", 30f, 530f);
         animator.setDuration(0);
         animator.start();

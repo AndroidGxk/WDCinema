@@ -49,7 +49,7 @@ public class MessageRecycleAdapter extends RecyclerView.Adapter<MessageRecycleAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        MeassageListBean meassageListBean = list.get(i);
+        final MeassageListBean meassageListBean = list.get(i);
         viewHolder.mes_title.setText(meassageListBean.getTitle());
         viewHolder.mes_mes.setText(meassageListBean.getContent());
         Date date = new Date();
@@ -62,17 +62,18 @@ public class MessageRecycleAdapter extends RecyclerView.Adapter<MessageRecycleAd
         } else {
             viewHolder.mes_num.setVisibility(View.GONE);
         }
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (messageStatus != null) {
+                    messageStatus.messageStatus(meassageListBean.getId());
+                    sum();
+                }
+            }
+        });
+        sum();
     }
 
-    public int getCount() {
-        int mCount = 0;
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getStatus() == 0) {
-                mCount++;
-            }
-        }
-        return mCount;
-    }
 
     @Override
     public int getItemCount() {
@@ -95,4 +96,42 @@ public class MessageRecycleAdapter extends RecyclerView.Adapter<MessageRecycleAd
         }
     }
 
+    //接口
+    private TotalPriceListener totalPriceListener;
+
+    public void setTotalPriceListener(TotalPriceListener totalPriceListener) {
+        this.totalPriceListener = totalPriceListener;
+    }
+
+    //未读消息
+    private void sum() {
+        int totalmessage = 0;
+
+        for (int i = 0; i < list.size(); i++) {
+            int status = list.get(i).getStatus();
+            if (status == 0) {
+                ++totalmessage;
+            }
+        }
+        //给未读消息接口设置值
+        if (totalPriceListener != null) {
+            totalPriceListener.totalPrice(totalmessage);
+        }
+    }
+
+    //内部类接口
+    public interface TotalPriceListener {
+        void totalPrice(int totalPrice);
+    }
+
+    messageStatus messageStatus;
+
+    public void setMessageStatus(MessageRecycleAdapter.messageStatus messageStatus) {
+        this.messageStatus = messageStatus;
+    }
+
+    //状态改变接口
+    public interface messageStatus {
+        void messageStatus(int id);
+    }
 }

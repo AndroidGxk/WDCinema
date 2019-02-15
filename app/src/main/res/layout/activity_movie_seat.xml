@@ -168,6 +168,7 @@
             android:id="@+id/seatView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="100dp"
             android:background="#ffffff" />
 
         <ImageView
@@ -183,14 +184,13 @@
         <LinearLayout
             android:id="@+id/monye_linear"
             android:layout_width="match_parent"
-            android:layout_height="73dp"
+            android:layout_height="100dp"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/shadow_shape"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:visibility="gone">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
