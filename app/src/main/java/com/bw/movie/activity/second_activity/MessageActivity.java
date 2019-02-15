@@ -1,14 +1,10 @@
 package com.bw.movie.activity.second_activity;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bw.movie.R;
-import com.bw.movie.activity.FilmShowActivity;
+import com.bw.movie.activity.WDActivity;
 import com.bw.movie.adapter.MessageRecycleAdapter;
 import com.bw.movie.bean.LoginSubBean;
 import com.bw.movie.bean.MeassageListBean;
@@ -23,10 +19,9 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MessageActivity extends AppCompatActivity implements ResultInfe, XRecyclerView.LoadingListener {
+public class MessageActivity extends WDActivity implements ResultInfe, XRecyclerView.LoadingListener {
     @BindView(R.id.meagees_info)
     TextView meagees_info;
     @BindView(R.id.message_recy)
@@ -38,10 +33,12 @@ public class MessageActivity extends AppCompatActivity implements ResultInfe, XR
     private MessageRecycleAdapter adapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_message);
-        ButterKnife.bind(this);
+    protected int getLayoutId() {
+        return R.layout.activity_message;
+    }
+
+    @Override
+    protected void initView() {
         messageListPresenter = new MessageListPresenter(this);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         adapter = new MessageRecycleAdapter();
@@ -55,7 +52,12 @@ public class MessageActivity extends AppCompatActivity implements ResultInfe, XR
     }
 
     @Override
-    protected void onResume() {
+    protected void destoryData() {
+
+    }
+
+    @Override
+    public void onResume() {
         super.onResume();
         DaoSession daoSession = DaoMaster.newDevSession(MessageActivity.this, LoginSubBeanDao.TABLENAME);
         LoginSubBeanDao loginSubBeanDao = daoSession.getLoginSubBeanDao();
@@ -84,6 +86,7 @@ public class MessageActivity extends AppCompatActivity implements ResultInfe, XR
     public void errors(Throwable throwable) {
 
     }
+
     @Override
     public void onRefresh() {
         mPage = 1;
