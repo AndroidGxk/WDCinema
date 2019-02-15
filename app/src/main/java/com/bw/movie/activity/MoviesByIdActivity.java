@@ -91,7 +91,7 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
     private String director;
     private String imageUrl;
     private View pl;
-    private Button button;
+    private TextView button;
     private EditText editText;
     private MovieCommentPresenter movieCommentPresenter;
     private String sessionId;
