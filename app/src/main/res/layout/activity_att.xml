@@ -16,8 +16,8 @@
 
         <Button
             android:id="@+id/movie_btn"
-            android:layout_width="83dp"
-            android:layout_height="25dp"
+            android:layout_width="84dp"
+            android:layout_height="28dp"
             android:layout_marginRight="32dp"
             android:background="@drawable/btn_false"
             android:text="电影"
@@ -26,8 +26,8 @@
 
         <Button
             android:id="@+id/cinema_btn"
-            android:layout_width="83dp"
-            android:layout_height="25dp"
+            android:layout_width="84dp"
+            android:layout_height="28dp"
             android:background="@drawable/btn_false"
             android:text="影院"
             android:textColor="#333333"

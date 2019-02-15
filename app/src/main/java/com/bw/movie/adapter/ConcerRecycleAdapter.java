@@ -58,8 +58,8 @@ public class ConcerRecycleAdapter extends RecyclerView.Adapter<ConcerRecycleAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Vh vh, int i) {
-        final MovieListBean movieListBean = movieList.get(i);
+    public void onBindViewHolder(@NonNull Vh vh, final int i) {
+        MovieListBean movieListBean = movieList.get(i);
         vh.cinemasdvsone.setImageURI(movieListBean.getImageUrl());
         vh.cinematextviewone.setText(movieListBean.getName());
         vh.cinematextviewtwo.setText(movieListBean.getSummary());
@@ -71,7 +71,7 @@ public class ConcerRecycleAdapter extends RecyclerView.Adapter<ConcerRecycleAdap
         vh.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onclick.onClick(movieListBean.getId());
+                onclick.onClick(movieList.get(i).getId());
             }
         });
     }
