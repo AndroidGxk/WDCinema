@@ -86,7 +86,6 @@ public class MessageActivity extends WDActivity implements ResultInfe, XRecycler
     public void errors(Throwable throwable) {
 
     }
-
     @Override
     public void onRefresh() {
         mPage = 1;

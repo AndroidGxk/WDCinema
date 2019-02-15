@@ -20,6 +20,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.activity.fragment.Fragment_Bootpage_four;
@@ -56,6 +57,7 @@ public class WelcActivity extends AppCompatActivity implements CustomAdapt {
     private int currentItem = 0;
     private int flaggingWidth;
     public GestureDetector mGestureDetector;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +86,7 @@ public class WelcActivity extends AppCompatActivity implements CustomAdapt {
             if (ContextCompat.checkSelfPermission(WelcActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // 申请权限
                 ActivityCompat.requestPermissions(WelcActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE}, Constant.REQ_PERM_CAMERA);
+                        Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, Constant.REQ_PERM_CAMERA);
             }
             slipToMain();
             // 获取分辨率
@@ -185,6 +187,29 @@ public class WelcActivity extends AppCompatActivity implements CustomAdapt {
                     }
 
                 });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case Constant.REQ_PERM_CAMERA:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //这里已经获取到了摄像头的权限，想干嘛干嘛了可以
+
+                } else {
+                    //这里是拒绝给APP摄像头权限，给个提示什么的说明一下都可以
+                    // 。
+                    if (ContextCompat.checkSelfPermission(WelcActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        // 申请权限
+                        ActivityCompat.requestPermissions(WelcActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, Constant.REQ_PERM_CAMERA);
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+
     }
 
     @Override

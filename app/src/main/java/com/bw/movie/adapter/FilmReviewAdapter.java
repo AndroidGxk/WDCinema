@@ -2,6 +2,7 @@ package com.bw.movie.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import com.bw.movie.R;
 import com.bw.movie.bean.FilmReviewBean;
 import com.facebook.drawee.gestures.GestureDetector;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.sackcentury.shinebuttonlib.ShineButton;
 
 import java.text.SimpleDateFormat;
@@ -85,8 +87,14 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
                 }
             }
         });
-        Log.i("GT", "getIsGreat:" + filmReviewBean.getIsGreat() + filmReviewBean.getCommentUserName());
-
+        viewHolder.textView5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (lookCommentList != null) {
+                    lookCommentList.LookComment(filmReviewBean.getCommentId());
+                }
+            }
+        });
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,6 +102,8 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
                     onClickListener.onClickListener(filmReviewBean.getCommentId());
             }
         });
+        viewHolder.xRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        viewHolder.xRecyclerView.setAdapter(new TwoCommentRecycleAdapter(context));
     }
 
     @Override
@@ -122,6 +132,7 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
         TextView textView6;
         ImageView imageView;
         ShineButton like;
+        XRecyclerView xRecyclerView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -134,6 +145,7 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
             textView6 = itemView.findViewById(R.id.tv2);
             like = itemView.findViewById(R.id.bt_like);
             imageView = itemView.findViewById(R.id.pl);
+            xRecyclerView = itemView.findViewById(R.id.comment_recy);
         }
     }
 
@@ -147,4 +159,14 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
         void onClickListener(int commentId);
     }
 
+    //查看回复
+    LookCommentList lookCommentList;
+
+    public void setLookCommentList(LookCommentList lookCommentList) {
+        this.lookCommentList = lookCommentList;
+    }
+
+    public interface LookCommentList {
+        void LookComment(int commentId);
+    }
 }
