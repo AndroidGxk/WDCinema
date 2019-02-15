@@ -77,6 +77,8 @@ public class BuyRecordActivity extends WDActivity implements ResultInfe, XRecycl
     @Override
     protected void initView() {
         obli_btn.setBackgroundResource(R.drawable.btn_gradient);
+        obli_btn.setTextColor(0XFFFFFFFF);
+        nearby_btn.setTextColor(0xff000000);
         userBuyTicketPresenter = new UserBuyTicketPresenter(this);
         root = View.inflate(this, R.layout.zhifu_item, null);
         weixin_radio = root.findViewById(R.id.weixin_radio);
@@ -181,6 +183,8 @@ public class BuyRecordActivity extends WDActivity implements ResultInfe, XRecycl
             if (list.size() > 0) {
                 userBuyTicketPresenter.request(loginSubBean.getId(), loginSubBean.getSessionId(), mPage, mCount, 1);
             }
+            obli_btn.setTextColor(0XFFFFFFFF);
+            nearby_btn.setTextColor(0xff000000);
             obli_btn.setBackgroundResource(R.drawable.btn_gradient);
             nearbycheck = false;
             nearby_btn.setBackgroundResource(R.drawable.btn_false);
@@ -198,6 +202,8 @@ public class BuyRecordActivity extends WDActivity implements ResultInfe, XRecycl
             if (list.size() > 0) {
                 userBuyTicketPresenter.request(loginSubBean.getId(), loginSubBean.getSessionId(), mPage, mCount, 2);
             }
+            nearby_btn.setTextColor(0XFFFFFFFF);
+            obli_btn.setTextColor(0xff000000);
             nearby_btn.setBackgroundResource(R.drawable.btn_gradient);
             recommcheck = false;
             obli_btn.setBackgroundResource(R.drawable.btn_false);

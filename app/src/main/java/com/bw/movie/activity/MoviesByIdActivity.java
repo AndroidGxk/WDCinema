@@ -3,7 +3,9 @@ package com.bw.movie.activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -24,6 +26,7 @@ import com.bw.movie.adapter.FilmReviewAdapter;
 import com.bw.movie.adapter.StagePhotoAdapter;
 import com.bw.movie.adapter.YGAdapter;
 import com.bw.movie.bean.FilmReviewBean;
+import com.bw.movie.bean.FindCommentReply;
 import com.bw.movie.bean.LoginSubBean;
 import com.bw.movie.bean.MoviesByIdBean;
 import com.bw.movie.bean.MoviesDetailBean;
@@ -35,6 +38,7 @@ import com.bw.movie.greendao.DaoSession;
 import com.bw.movie.greendao.LoginSubBeanDao;
 import com.bw.movie.presenter.CommentReplyPresenter;
 import com.bw.movie.presenter.FilmReviewPresenter;
+import com.bw.movie.presenter.FindCommentPresenter;
 import com.bw.movie.presenter.MovieAttListPresenter;
 import com.bw.movie.presenter.MovieCommentGreatPresenter;
 import com.bw.movie.presenter.MovieCommentPresenter;
@@ -102,6 +106,7 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
     private TextView send_text;
     private CommentReplyPresenter commentReplyPresenter;
     private int comment;
+    private FindCommentPresenter findCommentPresenter;
 
     @Override
     protected int getLayoutId() {
@@ -122,6 +127,8 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
             userId = loginSubBean.getId();
             sessionId = loginSubBean.getSessionId();
         }
+        //回复列表
+        findCommentPresenter = new FindCommentPresenter(new findComment());
 
         root = View.inflate(this, R.layout.comment_movie, null);
         editTexts = root.findViewById(R.id.commen_eid);
@@ -259,7 +266,17 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
                 if (list.size() > 0) {
                     movieCommentGreatPresenter.request(userId, sessionId, commentId);
                 } else {
-                    Toast.makeText(MoviesByIdActivity.this, "请先登录", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder alert = new AlertDialog.Builder(MoviesByIdActivity.this);
+                    alert.setTitle("提示");
+                    alert.setMessage("当前未登录是否去登陆");
+                    alert.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(new Intent(MoviesByIdActivity.this, LoginActivity.class));
+                        }
+                    });
+                    alert.setNegativeButton("取消", null);
+                    alert.show();
                 }
             }
         });
@@ -269,14 +286,28 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
             public void onClickListener(int commentId) {
                 show1(root);
                 comment = commentId;
+                findCommentPresenter.request(userId, sessionId, comment, page, 10000);
             }
         });
         send_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String commContent = editTexts.getText().toString();
-                Toast.makeText(MoviesByIdActivity.this, "" + commContent, Toast.LENGTH_SHORT).show();
-                commentReplyPresenter.request(userId, sessionId, comment, commContent);
+                if (list.size() > 0) {
+                    commentReplyPresenter.request(userId, sessionId, comment, commContent);
+                } else {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(MoviesByIdActivity.this);
+                    alert.setTitle("提示");
+                    alert.setMessage("当前未登录是否去登陆");
+                    alert.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(new Intent(MoviesByIdActivity.this, LoginActivity.class));
+                        }
+                    });
+                    alert.setNegativeButton("取消", null);
+                    alert.show();
+                }
             }
         });
     }
@@ -341,7 +372,17 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         if (list.size() > 0) {
             movieAttListPresenter.request(userId, sessionId, Integer.parseInt(id));
         } else {
-            Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder alert = new AlertDialog.Builder(MoviesByIdActivity.this);
+            alert.setTitle("提示");
+            alert.setMessage("当前未登录是否去登陆");
+            alert.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startActivity(new Intent(MoviesByIdActivity.this, LoginActivity.class));
+                }
+            });
+            alert.setNegativeButton("取消", null);
+            alert.show();
         }
     }
 
@@ -457,7 +498,10 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         @Override
         public void success(Result data) {
             Toast.makeText(MoviesByIdActivity.this, "" + data.getMessage(), Toast.LENGTH_SHORT).show();
-            bottomDialog1.dismiss();
+            if (data.getStatus().equals("0000")) {
+                bottomDialog1.dismiss();
+                editTexts.setText(null);
+            }
         }
 
         @Override
@@ -531,4 +575,21 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         }
     }
 
+    /**
+     * 回复列表
+     */
+    private class findComment implements ResultInfe {
+
+        @Override
+        public void success(Object data) {
+            Result result = (Result) data;
+            List<FindCommentReply> findCommentReplies = (List<FindCommentReply>) result.getResult();
+            Toast.makeText(MoviesByIdActivity.this, "" + findCommentReplies.get(0).getReplyUserName(), Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void errors(Throwable throwable) {
+
+        }
+    }
 }
