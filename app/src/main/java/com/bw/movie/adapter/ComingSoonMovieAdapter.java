@@ -68,6 +68,7 @@ public class ComingSoonMovieAdapter extends RecyclerView.Adapter<ComingSoonMovie
             imageView = itemView.findViewById(R.id.img);
             textView = itemView.findViewById(R.id.tv);
 
+
         }
     }
 
