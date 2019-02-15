@@ -53,11 +53,17 @@ public class CineamaRecycleAdapter extends RecyclerView.Adapter<CineamaRecycleAd
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Vh vh, int i) {
+    public void onBindViewHolder(@NonNull Vh vh, final int i) {
         CinemaPageList cinemaPageList = movieList.get(i);
         vh.cinemasdvsone.setImageURI(cinemaPageList.getLogo());
         vh.cinematextviewone.setText(cinemaPageList.getName());
         vh.cinematextviewtwo.setText(cinemaPageList.getAddress());
+        vh.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onclick.onClick(movieList.get(i).getId(), movieList.get(i).getLogo(), movieList.get(i).getName(), movieList.get(i).getAddress());
+            }
+        });
     }
 
     @Override
@@ -65,5 +71,14 @@ public class CineamaRecycleAdapter extends RecyclerView.Adapter<CineamaRecycleAd
         return movieList.size();
     }
 
+    public interface Onclick {
+        void onClick(int id, String logo, String name, String address);
+    }
+
+    private Onclick onclick;
+
+    public void setOnclick(Onclick onclick) {
+        this.onclick = onclick;
+    }
 
 }

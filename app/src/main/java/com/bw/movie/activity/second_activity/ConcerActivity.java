@@ -1,5 +1,6 @@
 package com.bw.movie.activity.second_activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import com.bw.movie.R;
+import com.bw.movie.activity.MoviesByIdActivity;
 import com.bw.movie.adapter.CineamaRecycleAdapter;
 import com.bw.movie.adapter.ConcerRecycleAdapter;
 import com.bw.movie.bean.CinemaPageList;
@@ -41,7 +43,7 @@ public class ConcerActivity extends AppCompatActivity implements ResultInfe, Cus
     XRecyclerView concerrecycleview2;
     private ConcerRecycleAdapter concerRecycleAdapter;
     private int page = 1;
-    private static final int count = 5;
+    private static final int count = 1000;
     private GuanMovieListPresenter movieListPresenter;
     private String seesionId;
     private int userId;
@@ -61,6 +63,8 @@ public class ConcerActivity extends AppCompatActivity implements ResultInfe, Cus
         }
         ButterKnife.bind(this);
         movie_btn.setBackgroundResource(R.drawable.btn_gradient);
+        movie_btn.setTextColor(0XFFFFFFFF);
+        cinema_btn.setTextColor(0xff000000);
         sp = getSharedPreferences("login", MODE_PRIVATE);
         seesionId = sp.getString("sessionId", "");
         userId = sp.getInt("userId", 0);
@@ -76,6 +80,25 @@ public class ConcerActivity extends AppCompatActivity implements ResultInfe, Cus
         concerrecycleview.setLoadingMoreEnabled(true);
         concerrecycleview.setLayoutManager(manager);
         concerrecycleview.setAdapter(concerRecycleAdapter);
+        concerRecycleAdapter.setOnclick(new ConcerRecycleAdapter.Onclick() {
+            @Override
+            public void onClick(int id) {
+                Intent intent = new Intent(ConcerActivity.this, MoviesByIdActivity.class);
+                intent.putExtra("id", String.valueOf(id));
+                startActivity(intent);
+            }
+        });
+        cineamaRecycleAdapter.setOnclick(new CineamaRecycleAdapter.Onclick() {
+            @Override
+            public void onClick(int id, String logo, String name, String address) {
+                Intent intent = new Intent(ConcerActivity.this, CinemaScheduleActivity.class);
+                intent.putExtra("id", id);
+                intent.putExtra("image", logo);
+                intent.putExtra("name", name);
+                intent.putExtra("address", address);
+                startActivity(intent);
+            }
+        });
         concerrecycleview2.setLoadingListener(new LoadingListener2());
         concerrecycleview2.setLoadingMoreEnabled(true);
         concerrecycleview2.setPullRefreshEnabled(true);
@@ -123,6 +146,8 @@ public class ConcerActivity extends AppCompatActivity implements ResultInfe, Cus
 
     @OnClick(R.id.movie_btn)
     public void recommend() {
+        movie_btn.setTextColor(0XFFFFFFFF);
+        cinema_btn.setTextColor(0xff000000);
         if (recommcheck) {
             return;
         }
@@ -142,6 +167,8 @@ public class ConcerActivity extends AppCompatActivity implements ResultInfe, Cus
 
     @OnClick(R.id.cinema_btn)
     public void nearby() {
+        cinema_btn.setTextColor(0XFFFFFFFF);
+        movie_btn.setTextColor(0xff000000);
         if (nearbycheck) {
             return;
         }

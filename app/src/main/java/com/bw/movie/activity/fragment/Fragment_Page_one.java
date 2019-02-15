@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -280,29 +281,25 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
         @Override
         public void success(Result data) {
             List<HotMovieBean> result = (List<HotMovieBean>) data.getResult();
+            String s = new Gson().toJson(result);
+            Log.e("QAZQAZ", "-------------------------" + s);
+            FileUtils.saveDataToFile(getContext(), s, "movesoon");
             adapter.addItem(result);
             adapter.notifyDataSetChanged();
             hotMovieAdapter.addItem(result);
             hotMovieAdapter.notifyDataSetChanged();
-            String s = new Gson().toJson(result);
-            Log.e("QAZQAZ", "-------------------------" + s);
-            FileUtils.saveDataToFile(getContext(), s, "movesoon");
-
-            String movesoon = FileUtils.loadDataFromFile(getContext(), "movesoon");
-            Log.e("QQQQQQ", "-----------------------" + movesoon);
-            if (!StringUtils.isEmpty(movesoon)) {
-                Gson gson = new Gson();
-                Type type = new TypeToken<List<HotMovieBean>>() {
-                }.getType();
-                List<HotMovieBean> result1 = gson.fromJson(movesoon, type);
-                hotMovieAdapter.addItem(result1);
-                hotMovieAdapter.notifyDataSetChanged();
-            }
         }
 
         @Override
         public void errors(Throwable throwable) {
-
+            String s = FileUtils.loadDataFromFile(getContext(), "movesoon");
+            Type type = new TypeToken<List<HotMovieBean>>() {
+            }.getType();
+            List<HotMovieBean> moiveBeans = new Gson().fromJson(s, type);
+            hotMovieAdapter.addItem(moiveBeans);
+            hotMovieAdapter.notifyDataSetChanged();
+            adapter.addItem(moiveBeans);
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -310,13 +307,21 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
         @Override
         public void success(Result data) {
             List<HotMovieBean> result = (List<HotMovieBean>) data.getResult();
+            String s = new Gson().toJson(result);
+            FileUtils.saveDataToFile(getContext(), s, "move");
             releaseMovieAdapter.addItem(result);
             releaseMovieAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void errors(Throwable throwable) {
-
+            Toast.makeText(getContext(), "请连接网络！！！", Toast.LENGTH_SHORT).show();
+            String s = FileUtils.loadDataFromFile(getContext(), "move");
+            Type type = new TypeToken<List<HotMovieBean>>() {
+            }.getType();
+            List<HotMovieBean> moiveBeans = new Gson().fromJson(s, type);
+            releaseMovieAdapter.addItem(moiveBeans);
+            releaseMovieAdapter.notifyDataSetChanged();
         }
     }
 
@@ -326,11 +331,18 @@ public class Fragment_Page_one extends Fragment implements Adapter.onItemClick, 
             List<HotMovieBean> result = (List<HotMovieBean>) data.getResult();
             comingSoonMovieAdapter.addItem(result);
             comingSoonMovieAdapter.notifyDataSetChanged();
+            String s = new Gson().toJson(result);
+            FileUtils.saveDataToFile(getContext(), s, "m");
         }
 
         @Override
         public void errors(Throwable throwable) {
-
+            String s = FileUtils.loadDataFromFile(getContext(), "m");
+            Type type = new TypeToken<List<HotMovieBean>>() {
+            }.getType();
+            List<HotMovieBean> moiveBeans = new Gson().fromJson(s, type);
+            comingSoonMovieAdapter.addItem(moiveBeans);
+            comingSoonMovieAdapter.notifyDataSetChanged();
         }
     }
 

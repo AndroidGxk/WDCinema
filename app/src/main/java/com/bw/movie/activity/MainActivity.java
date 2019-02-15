@@ -48,13 +48,13 @@ public class MainActivity extends WDActivity {
     @Override
     protected void initView() {
 
-        if (!Uris.isConn(this)) {
-            imageView.setVisibility(View.VISIBLE);
-            textView.setVisibility(View.VISIBLE);
-            radio.setVisibility(View.GONE);
-            Toast.makeText(this, "请连接网络", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if (!Uris.isConn(this)) {
+//            imageView.setVisibility(View.VISIBLE);
+//            textView.setVisibility(View.VISIBLE);
+//            radio.setVisibility(View.GONE);
+//            Toast.makeText(this, "请连接网络", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
 
         radio.check(radio.getChildAt(0).getId());
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
