@@ -49,8 +49,6 @@ import com.google.gson.Gson;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.sackcentury.shinebuttonlib.ShineButton;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 import butterknife.BindView;
@@ -233,6 +231,7 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
                 bottomDialog.dismiss();
             }
         });
+        //影评
         contentView4.findViewById(R.id.comment).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -280,15 +279,24 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
                 }
             }
         });
+
         //回复评论
         filmReviewAdapter.setOnClickListener(new FilmReviewAdapter.onClickListener() {
             @Override
             public void onClickListener(int commentId) {
                 show1(root);
                 comment = commentId;
-                findCommentPresenter.request(userId, sessionId, comment, page, 10000);
             }
         });
+
+        //查看回复列表
+        filmReviewAdapter.setLookCommentList(new FilmReviewAdapter.LookCommentList() {
+            @Override
+            public void LookComment(int commentId) {
+                findCommentPresenter.request(userId, sessionId, commentId, page, 10000);
+            }
+        });
+
         send_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -517,9 +525,6 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         @Override
         public void success(Result data) {
             List<FilmReviewBean> result = (List<FilmReviewBean>) data.getResult();
-            Gson gson = new Gson();
-            String s = gson.toJson(result);
-            Log.i("GT", "getIsGreat:" + s);
             filmReviewAdapter.addItem(result);
             filmReviewAdapter.notifyDataSetChanged();
             filmreview_recycler.loadMoreComplete();
