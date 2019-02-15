@@ -1,5 +1,6 @@
 package com.bw.movie.activity.second_activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import com.bw.movie.R;
+import com.bw.movie.activity.MoviesByIdActivity;
 import com.bw.movie.adapter.CineamaRecycleAdapter;
 import com.bw.movie.adapter.ConcerRecycleAdapter;
 import com.bw.movie.bean.CinemaPageList;
@@ -76,6 +78,14 @@ public class ConcerActivity extends AppCompatActivity implements ResultInfe, Cus
         concerrecycleview.setLoadingMoreEnabled(true);
         concerrecycleview.setLayoutManager(manager);
         concerrecycleview.setAdapter(concerRecycleAdapter);
+//        concerRecycleAdapter.setOnclick(new ConcerRecycleAdapter.Onclick() {
+//            @Override
+//            public void onClick(int id) {
+//                Intent intent = new Intent(ConcerActivity.this, MoviesByIdActivity.class);
+//                intent.putExtra("id", id);
+//                startActivity(intent);
+//            }
+//        });
         concerrecycleview2.setLoadingListener(new LoadingListener2());
         concerrecycleview2.setLoadingMoreEnabled(true);
         concerrecycleview2.setPullRefreshEnabled(true);

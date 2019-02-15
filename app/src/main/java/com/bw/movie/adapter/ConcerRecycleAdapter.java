@@ -32,6 +32,7 @@ public class ConcerRecycleAdapter extends RecyclerView.Adapter<ConcerRecycleAdap
         this.movieList.clear();
         notifyDataSetChanged();
     }
+
     class Vh extends RecyclerView.ViewHolder {
 
         SimpleDraweeView cinemasdvsone;
@@ -52,13 +53,13 @@ public class ConcerRecycleAdapter extends RecyclerView.Adapter<ConcerRecycleAdap
     @NonNull
     @Override
     public Vh onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_movielist, viewGroup, false);
-            return new Vh(view);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_movielist, viewGroup, false);
+        return new Vh(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Vh vh, int i) {
-        MovieListBean movieListBean = movieList.get(i);
+        final MovieListBean movieListBean = movieList.get(i);
         vh.cinemasdvsone.setImageURI(movieListBean.getImageUrl());
         vh.cinematextviewone.setText(movieListBean.getName());
         vh.cinematextviewtwo.setText(movieListBean.getSummary());
@@ -67,6 +68,12 @@ public class ConcerRecycleAdapter extends RecyclerView.Adapter<ConcerRecycleAdap
         date.setTime(movieListBean.getReleaseTime());
         String Datetime = format.format(date);
         vh.cinematextviewthree.setText(Datetime);
+        vh.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onclick.onClick(movieListBean.getId());
+            }
+        });
     }
 
     @Override
@@ -74,5 +81,13 @@ public class ConcerRecycleAdapter extends RecyclerView.Adapter<ConcerRecycleAdap
         return movieList.size();
     }
 
+    public interface Onclick {
+        void onClick(int id);
+    }
 
+    private Onclick onclick;
+
+    public void setOnclick(Onclick onclick) {
+        this.onclick = onclick;
+    }
 }
