@@ -164,13 +164,6 @@ public interface ICoreInfe {
 
     /**
      * 下单
-     *
-     * @param userId
-     * @param sessionId
-     * @param scheduleId
-     * @param amount
-     * @param sign
-     * @return
      */
     @FormUrlEncoded
     @POST("movie/v1/verify/buyMovieTicket")
@@ -297,4 +290,17 @@ public interface ICoreInfe {
     Observable<Result<List<FindCommentReply>>> findCommentReply(
             @Header("userId") int userId, @Header("sessionId") String sessionId,
             @Query("commentId") int commentId, @Query("page") int page, @Query("count") int count);
+
+    /**
+     * 改变推送消息状态
+     */
+    @GET("tool/v1/verify/changeSysMsgStatus")
+    Observable<Result> changeSysMsgStatus(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                          @Query("id") int id);
+
+    /**
+     * 推送消息未读数量
+     */
+    @GET("tool/v1/verify/findUnreadMessageCount")
+    Observable<Result> findUnreadMessageCount(@Header("userId") int userId, @Header("sessionId") String sessionId);
 }

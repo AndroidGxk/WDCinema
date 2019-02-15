@@ -1,7 +1,9 @@
 package com.bw.movie.activity;
 
 import android.animation.ObjectAnimator;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -74,7 +76,7 @@ public class FilmShowActivity extends WDActivity implements XRecyclerView.Loadin
         animator.start();
         DaoSession daoSession = DaoMaster.newDevSession(FilmShowActivity.this, LoginSubBeanDao.TABLENAME);
         LoginSubBeanDao loginSubBeanDao = daoSession.getLoginSubBeanDao();
-        List<LoginSubBean> list = loginSubBeanDao.queryBuilder()
+        final List<LoginSubBean> list = loginSubBeanDao.queryBuilder()
                 .where(LoginSubBeanDao.Properties.Statu.eq("1"))
                 .build().list();
         if (list.size() > 0) {
@@ -136,7 +138,21 @@ public class FilmShowActivity extends WDActivity implements XRecyclerView.Loadin
             public void onClick(int id, ImageView imag, int followCinema) {
                 imageView = imag;
                 if (followCinema == 2) {
-                    movieAttListPresenter.request(userId, sessionId, id);
+                    if (list.size() > 0) {
+                        movieAttListPresenter.request(userId, sessionId, id);
+                    } else {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(FilmShowActivity.this);
+                        alert.setTitle("提示");
+                        alert.setMessage("当前未登录是否去登陆");
+                        alert.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivity(new Intent(FilmShowActivity.this, LoginActivity.class));
+                            }
+                        });
+                        alert.setNegativeButton("取消", null);
+                        alert.show();
+                    }
                 } else {
                     movieCancelListPresenter.request(userId, sessionId, id);
                 }
