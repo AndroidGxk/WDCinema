@@ -9,8 +9,9 @@ import com.bw.movie.R;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.jessyan.autosize.internal.CustomAdapt;
 
-public class OpinTwoActivity extends AppCompatActivity {
+public class OpinTwoActivity extends AppCompatActivity implements CustomAdapt {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,5 +30,15 @@ public class OpinTwoActivity extends AppCompatActivity {
     @OnClick(R.id.back_btn)
     public void back_btn() {
         finish();
+    }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 720;
     }
 }

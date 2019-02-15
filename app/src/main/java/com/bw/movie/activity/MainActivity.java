@@ -19,8 +19,9 @@ import com.bw.movie.core.utils.Uris;
 import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
+import me.jessyan.autosize.internal.CustomAdapt;
 
-public class MainActivity extends WDActivity {
+public class MainActivity extends WDActivity implements CustomAdapt {
     @BindView(R.id.radio)
     RadioGroup radio;
     @BindView(R.id.ww_iv)
@@ -134,4 +135,13 @@ public class MainActivity extends WDActivity {
         }
     }
 
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 720;
+    }
 }

@@ -54,8 +54,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.jzvd.JZVideoPlayer;
+import me.jessyan.autosize.internal.CustomAdapt;
 
-public class MoviesByIdActivity extends WDActivity implements XRecyclerView.LoadingListener {
+public class MoviesByIdActivity extends WDActivity implements XRecyclerView.LoadingListener ,CustomAdapt {
     private MoviesByIdPresenter moviesByIdPresenter;
     @BindView(R.id.xinxin)
     ImageView xinxin;
@@ -428,6 +429,16 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
     public void onLoadMore() {
         page++;
         filmReviewPresenter.request(userId, sessionId, Integer.parseInt(id), page, 10000000);
+    }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 720;
     }
 
     private class MoviesById implements ResultInfe<Result> {

@@ -40,8 +40,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import me.jessyan.autosize.internal.CustomAdapt;
 
-public class BuyRecordActivity extends WDActivity implements ResultInfe, XRecyclerView.LoadingListener {
+public class BuyRecordActivity extends WDActivity implements ResultInfe, XRecyclerView.LoadingListener ,CustomAdapt {
     private int mType = 1;
     private boolean recommcheck = true;
     private boolean nearbycheck = false;
@@ -251,6 +252,16 @@ public class BuyRecordActivity extends WDActivity implements ResultInfe, XRecycl
         } else {
             userBuyTicketPresenter.request(loginSubBean.getId(), loginSubBean.getSessionId(), mPage, mCount, 2);
         }
+    }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 720;
     }
 
     class PayRequest implements ResultInfe<Result> {

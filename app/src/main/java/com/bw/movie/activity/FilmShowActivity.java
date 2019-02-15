@@ -29,8 +29,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import me.jessyan.autosize.internal.CustomAdapt;
 
-public class FilmShowActivity extends WDActivity implements XRecyclerView.LoadingListener {
+public class FilmShowActivity extends WDActivity implements XRecyclerView.LoadingListener, CustomAdapt {
     private boolean animatort = false;
     private boolean animatorf = false;
     private boolean hotcheck = false;
@@ -269,6 +270,16 @@ public class FilmShowActivity extends WDActivity implements XRecyclerView.Loadin
         } else {
             comingSoonMoviePresenter.request(userId, sessionId, page, 5);
         }
+    }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 720;
     }
 
     private class Hot implements ResultInfe<Result> {

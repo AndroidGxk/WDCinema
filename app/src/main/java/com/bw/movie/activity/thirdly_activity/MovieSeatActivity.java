@@ -45,8 +45,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.jessyan.autosize.internal.CustomAdapt;
 
-public class MovieSeatActivity extends AppCompatActivity {
+public class MovieSeatActivity extends AppCompatActivity implements CustomAdapt {
     public SeatTable seatTableView;
     @BindView(R.id.monye_linear)
     LinearLayout monye_linear;
@@ -236,6 +237,16 @@ public class MovieSeatActivity extends AppCompatActivity {
     @OnClick(R.id.quxiao)
     public void quxiao() {
         finish();
+    }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 720;
     }
 
     private class BuyMovie implements ResultInfe<Result> {

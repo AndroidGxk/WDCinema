@@ -53,8 +53,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.jessyan.autosize.internal.CustomAdapt;
 
-public class CinemaScheduleActivity extends AppCompatActivity implements ResultInfe, CineamScheAdapter.onItemClick, LoadingListener {
+public class CinemaScheduleActivity extends AppCompatActivity implements ResultInfe, CineamScheAdapter.onItemClick, LoadingListener, CustomAdapt {
     private CineamScheAdapter adapter;
     @BindView(R.id.cinema_detalis_horse)
     RecyclerCoverFlow mList;
@@ -290,6 +291,16 @@ public class CinemaScheduleActivity extends AppCompatActivity implements ResultI
     public void onLoadMore() {
         mPage++;
         cineamConListPresenter.request(loginSubBean.getId(), loginSubBean.getSessionId(), ids, mPage, mCount);
+    }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 720;
     }
 
     class movieScheList implements ResultInfe {

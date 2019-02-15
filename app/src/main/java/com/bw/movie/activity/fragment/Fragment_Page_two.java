@@ -50,6 +50,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.internal.CustomAdapt;
 
 
@@ -92,6 +93,10 @@ public class Fragment_Page_two extends Fragment implements ResultInfe, XRecycler
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = View.inflate(getContext(), R.layout.fragment_page_two, null);
         ButterKnife.bind(this, view);
+
+        //屏幕适配
+        AutoSizeConfig.getInstance().setCustomFragment(true);
+
         recomMoviePresenter = new RecomMoviePresenter(this);
         nearMoviePresenter = new NearMoviePresenter(this);
         cinemarecycleview.setLoadingListener(this);

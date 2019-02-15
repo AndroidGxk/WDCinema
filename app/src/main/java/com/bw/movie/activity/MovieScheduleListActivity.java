@@ -19,8 +19,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import me.jessyan.autosize.internal.CustomAdapt;
 
-public class MovieScheduleListActivity extends WDActivity {
+public class MovieScheduleListActivity extends WDActivity implements CustomAdapt {
 
     private MovieScheAdapter movieScheAdapter;
 
@@ -106,6 +107,16 @@ public class MovieScheduleListActivity extends WDActivity {
     @Override
     protected void destoryData() {
 
+    }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 720;
     }
 
     private class MovieSche implements ResultInfe<Result> {

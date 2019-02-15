@@ -17,8 +17,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import me.jessyan.autosize.internal.CustomAdapt;
 
-public class CinemasListByMovieIdActivity extends WDActivity {
+public class CinemasListByMovieIdActivity extends WDActivity implements CustomAdapt {
 
     private CinemasListByMovieIdPresenter cinemasListByMovieIdPresenter;
     @BindView(R.id.movie_recycler)
@@ -87,6 +88,16 @@ public class CinemasListByMovieIdActivity extends WDActivity {
     @Override
     protected void destoryData() {
         cinemasListByMovieIdPresenter.unBind();
+    }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 720;
     }
 
     private class CinemasListByMovieId implements ResultInfe<Result> {

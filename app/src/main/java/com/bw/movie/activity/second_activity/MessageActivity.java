@@ -20,8 +20,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import me.jessyan.autosize.internal.CustomAdapt;
 
-public class MessageActivity extends WDActivity implements ResultInfe, XRecyclerView.LoadingListener {
+public class MessageActivity extends WDActivity implements ResultInfe, XRecyclerView.LoadingListener ,CustomAdapt {
     @BindView(R.id.meagees_info)
     TextView meagees_info;
     @BindView(R.id.message_recy)
@@ -97,5 +98,15 @@ public class MessageActivity extends WDActivity implements ResultInfe, XRecycler
     public void onLoadMore() {
         mPage++;
         messageListPresenter.request(loginSubBean.getId(), loginSubBean.getSessionId(), mPage, mCount);
+    }
+
+    @Override
+    public boolean isBaseOnWidth() {
+        return false;
+    }
+
+    @Override
+    public float getSizeInDp() {
+        return 720;
     }
 }
