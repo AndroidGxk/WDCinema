@@ -38,7 +38,6 @@ import com.bw.movie.bean.HotMovieBean;
 import com.bw.movie.bean.Result;
 import com.bw.movie.core.ResultInfe;
 import com.bw.movie.core.utils.FileUtils;
-import com.bw.movie.core.utils.StringUtils;
 import com.bw.movie.presenter.ComingSoonMoviePresenter;
 import com.bw.movie.presenter.HotMoviePresenter;
 import com.bw.movie.presenter.ReleaseMoviePresenter;
