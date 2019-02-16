@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.adapter.CinemasListByMovieIdAdapter;
@@ -52,7 +51,6 @@ public class CinemasListByMovieIdActivity extends WDActivity implements CustomAd
         imageUrl = intent.getStringExtra("imageUrl");
 
         moview_name.setText(names);
-        Toast.makeText(this, "" + id, Toast.LENGTH_SHORT).show();
         cinemasListByMovieIdPresenter = new CinemasListByMovieIdPresenter(new CinemasListByMovieId());
         cinemasListByMovieIdPresenter.request(Integer.parseInt(id));
 
