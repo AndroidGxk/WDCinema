@@ -99,7 +99,7 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
             @Override
             public void onClick(View v) {
                 if (onClickListener != null)
-                    onClickListener.onClickListener(filmReviewBean.getCommentId());
+                    onClickListener.onClickListener(filmReviewBean.getCommentId(),filmReviewBean.getCommentUserName());
             }
         });
         viewHolder.xRecyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -156,7 +156,7 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Vi
     }
 
     public interface onClickListener {
-        void onClickListener(int commentId);
+        void onClickListener(int commentId, String commentUserName);
     }
 
     //查看回复

@@ -6,7 +6,7 @@ android {
         config {
             keyAlias 'bw_movie'
             keyPassword '123456'
-            storeFile file('C:/Users/admin/Desktop/movie.keystore')
+            storeFile file('C:/Users/Lee辉/Desktop/movie.keystore')
             storePassword '123456'
         }
     }
@@ -15,8 +15,8 @@ android {
         applicationId "com.bw.movie"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.config
         flavorDimensions "versionCode"

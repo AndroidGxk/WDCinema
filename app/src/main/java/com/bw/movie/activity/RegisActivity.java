@@ -22,6 +22,8 @@ import com.bw.movie.presenter.RegisPresenter;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -140,6 +142,14 @@ public class RegisActivity extends AppCompatActivity implements CustomAdapt, Res
         String phone = my_regis_phone.getText().toString();
         String mail = my_regis_mail.getText().toString();
         String pwd = my_regis_pwd.getText().toString();
+
+        Pattern compile1 = Pattern.compile("(?!^\\\\d+$)(?!^[a-zA-Z]+$)(?!^[_#@]+$).{8,}");
+        Matcher matcher11 = compile1.matcher(pwd);
+        if (!matcher11.matches()) {
+            Toast.makeText(this, "密码长度必须大于8位", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String pwds = EncryptUtil.encrypt(pwd);
         if (sex.equals("男")) {
             sexint = 1;
@@ -147,6 +157,29 @@ public class RegisActivity extends AppCompatActivity implements CustomAdapt, Res
             sexint = 2;
         }
         String data = my_regis_date.getText().toString();
+
+        String RULE = "([\u4e00-\u9fa5]+|[a-zA-Z]+)";
+        Pattern pattern = Pattern.compile(RULE);
+        Matcher matcher = pattern.matcher(name);
+        if (!matcher.matches()) {
+            Toast.makeText(this, "昵称不能包含特殊字符", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Pattern p = Pattern.compile("^1(3|5|7|8|4)\\d{9}");
+        Matcher m = p.matcher(phone);
+        if (!m.matches()) {
+            Toast.makeText(this, "输入正确的手机号", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Pattern compile = Pattern.compile("^[A-Za-z\\d]+([-_.][A-Za-z\\d]+)*@([A-Za-z\\d]+[-.])+[A-Za-z\\d]{2,4}$");
+        Matcher matcher1 = compile.matcher(mail);
+        if (!matcher1.matches()) {
+            Toast.makeText(this, "输入正确的邮箱", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         regisPresenter.request(name, phone, pwds, pwds, sexint, data, "123456"
                 , "小米", "5.0", "android", mail);
     }

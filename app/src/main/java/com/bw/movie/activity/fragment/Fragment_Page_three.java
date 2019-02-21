@@ -1,8 +1,11 @@
 package com.bw.movie.activity.fragment;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,11 +31,13 @@ import com.bw.movie.bean.LoginSubBean;
 import com.bw.movie.bean.Result;
 import com.bw.movie.bean.UserVipInfoBean;
 import com.bw.movie.core.ResultInfe;
+import com.bw.movie.core.utils.DownLoadService;
 import com.bw.movie.greendao.DaoMaster;
 import com.bw.movie.greendao.DaoSession;
 import com.bw.movie.greendao.LoginSubBeanDao;
 import com.bw.movie.presenter.UserSignInPresenter;
 import com.bw.movie.presenter.UserVipInfoPresenter;
+import com.bw.movie.presenter.VersionsPresenter;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -60,6 +65,7 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt, Result
     private UserVipInfoPresenter userVipInfoPresenter;
     private String sessionId;
     private int userId;
+    private VersionsPresenter versionsPresenter;
 
     @Nullable
     @Override
@@ -79,6 +85,7 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt, Result
         AutoSizeConfig.getInstance().setCustomFragment(true);
         userSignInPresenter = new UserSignInPresenter(this);
         userVipInfoPresenter = new UserVipInfoPresenter(new UserInfo());
+        versionsPresenter = new VersionsPresenter(new VersionsCall());
         return view;
     }
 
@@ -254,6 +261,38 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt, Result
     }
 
     /**
+     * 版本更新
+     * @param
+     */
+    @OnClick(R.id.mylinear_four)
+    public void mylinear_four(){
+        if (list.size() == 0) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            return;
+        }
+        try {
+            String versionName = getVersionName(getContext());
+            versionsPresenter.request(userId, sessionId, versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取版本号
+     *
+     * @throws PackageManager.NameNotFoundException
+     */
+    public static String getVersionName(Context context) throws PackageManager.NameNotFoundException {
+        // 获取packagemanager的实例
+        PackageManager packageManager = context.getPackageManager();
+        // getPackageName()是你当前类的包名，0代表是获取版本信息
+        PackageInfo packInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+        String version = packInfo.versionName;
+        return version;
+    }
+
+    /**
      * 签到
      *
      * @param data
@@ -282,6 +321,43 @@ public class Fragment_Page_three extends Fragment implements CustomAdapt, Result
                 usersigin.setText("签到");
             } else {
                 usersigin.setText("已签到");
+            }
+        }
+
+        @Override
+        public void errors(Throwable throwable) {
+
+        }
+    }
+
+    private class VersionsCall implements ResultInfe<Result> {
+        @Override
+        public void success(final Result data) {
+            if (data.getFlag() == 2) {
+                Toast.makeText(getActivity(), "当前已是最新版本!", Toast.LENGTH_SHORT).show();
+            } else if (data.getFlag() == 1) {
+                AlertDialog.Builder builer = new AlertDialog.Builder(getContext());
+                builer.setTitle("版本升级");
+                builer.setMessage("发现新版本");
+                //当点确定按钮时从服务器上下载 新的apk 然后安装
+                builer.setPositiveButton("立即更新", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(getContext(), DownLoadService.class);
+                        intent.putExtra("download_url", data.getDownloadUrl());
+                        getActivity().startService(intent);
+                    }
+                });
+                //当点取消按钮时进行登录
+                builer.setNegativeButton("稍后下载", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+                        //LoginMain();
+                    }
+                });
+                AlertDialog dialog = builer.create();
+                dialog.show();
             }
         }
 

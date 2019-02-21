@@ -303,4 +303,11 @@ public interface ICoreInfe {
      */
     @GET("tool/v1/verify/findUnreadMessageCount")
     Observable<Result> findUnreadMessageCount(@Header("userId") int userId, @Header("sessionId") String sessionId);
+
+    /**
+     * 查询新版本
+     */
+    @GET("tool/v1/findNewVersion")
+    Observable<Result> findNewVersion(@Header("userId") int userId, @Header("sessionId") String sessionId,
+                                      @Header("ak") String ak);
 }

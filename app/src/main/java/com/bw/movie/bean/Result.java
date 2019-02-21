@@ -12,6 +12,24 @@ public class Result<T> {
     private String headPath;
     private String orderId;
     private int count;
+    private String downloadUrl;
+    private int flag;
+
+    public String getDownloadUrl() {
+        return downloadUrl;
+    }
+
+    public void setDownloadUrl(String downloadUrl) {
+        this.downloadUrl = downloadUrl;
+    }
+
+    public int getFlag() {
+        return flag;
+    }
+
+    public void setFlag(int flag) {
+        this.flag = flag;
+    }
 
     public int getCount() {
         return count;

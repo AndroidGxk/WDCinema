@@ -56,7 +56,7 @@ import butterknife.OnClick;
 import cn.jzvd.JZVideoPlayer;
 import me.jessyan.autosize.internal.CustomAdapt;
 
-public class MoviesByIdActivity extends WDActivity implements XRecyclerView.LoadingListener ,CustomAdapt {
+public class MoviesByIdActivity extends WDActivity implements XRecyclerView.LoadingListener, CustomAdapt {
     private MoviesByIdPresenter moviesByIdPresenter;
     @BindView(R.id.xinxin)
     ImageView xinxin;
@@ -106,6 +106,7 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
     private CommentReplyPresenter commentReplyPresenter;
     private int comment;
     private FindCommentPresenter findCommentPresenter;
+    private String s;
 
     @Override
     protected int getLayoutId() {
@@ -284,8 +285,10 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         //回复评论
         filmReviewAdapter.setOnClickListener(new FilmReviewAdapter.onClickListener() {
             @Override
-            public void onClickListener(int commentId) {
+            public void onClickListener(int commentId, String commentUserName) {
                 show1(root);
+                s = commentUserName;
+                editTexts.setHint("回复" + commentUserName);
                 comment = commentId;
             }
         });
@@ -302,8 +305,10 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
             @Override
             public void onClick(View v) {
                 String commContent = editTexts.getText().toString();
+                String a = "回复：@" + s + " " + commContent;
                 if (list.size() > 0) {
-                    commentReplyPresenter.request(userId, sessionId, comment, commContent);
+                    movieCommentPresenter.request(userId, sessionId, Integer.parseInt(id), a);
+//                    commentReplyPresenter.request(userId, sessionId, comment, commContent);
                 } else {
                     AlertDialog.Builder alert = new AlertDialog.Builder(MoviesByIdActivity.this);
                     alert.setTitle("提示");
