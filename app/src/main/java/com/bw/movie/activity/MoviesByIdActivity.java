@@ -558,6 +558,7 @@ public class MoviesByIdActivity extends WDActivity implements XRecyclerView.Load
         @Override
         public void success(Result data) {
             Toast.makeText(MoviesByIdActivity.this, "" + data.getMessage(), Toast.LENGTH_SHORT).show();
+            editTexts.setText(null);
             bottomDialog1.dismiss();
             filmReviewAdapter.remove();
             filmReviewPresenter.request(userId, sessionId, Integer.parseInt(id), 1, 10000000);
